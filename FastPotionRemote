@@ -1,0 +1,5 @@
+local args = {
+    [1] = randomFood
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(unpack(args))
