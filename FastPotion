@@ -2,7 +2,7 @@ if CodeCheck == "legendary" then
     for i = 1, 10 do
         print("Running potion for legendary:", i)
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/FastPotionRemote"))()
-        wait(0.5)
+        wait(0.25)
     end
 elseif CodeCheck == "ultra rare" then
     for i = 1, 6 do
