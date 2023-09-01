@@ -1,0 +1,5 @@
+local args = {
+    [1] = randomPet
+}
+game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+wait(1)
