@@ -20,7 +20,7 @@ elseif CodeCheck == "uncommon" then
     for i = 1, 3 do
         print("Running potion for uncommon:", i)
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/FastPotionRemote"))()
-        wait(1)
+        wait(0.5)
     end
 elseif CodeCheck == "common" then
     for i = 1, 2 do
