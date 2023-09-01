@@ -1,3 +1,7 @@
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
+
 local args = {
     [1] = game:GetService("Players"):WaitForChild("BeastOcean45")
 }
