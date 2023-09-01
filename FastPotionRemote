@@ -1,3 +1,43 @@
+local Foods = {}
+local Pets = {}
+local Player = game:GetService("Players").LocalPlayer
+
+local function getRandomPet(petTable)
+    local petKeys = {}
+    for key, _ in pairs(petTable) do
+        table.insert(petKeys, key)
+    end
+    local randomKey = petKeys[math.random(1, #petKeys)]
+    return petTable[randomKey]
+end
+
+
+for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+    local Olds = v.id
+    if string.find(Olds, v.id) and v.properties.age == 6 then
+        
+        table.insert(Pets, v.unique)
+    
+    end
+end
+
+for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food) do
+    local Old = v.id
+    if string.find(Old, v.id) and v.properties.name == pet_aging_potion then
+        
+        table.insert(Foods, v.unique)
+    
+    end
+end
+
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
+
+local randomPet = getRandomPet(Pets)
+local randomFood = getRandomPet(Foods)
+
+
 local args = {
     [1] = randomFood
 }
