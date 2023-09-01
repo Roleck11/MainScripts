@@ -1,0 +1,36 @@
+if CodeCheck == "legendary" then
+    for i = 1, 10 do
+        print("Running potion for legendary:", i)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/FastPotionRemote"))()
+        wait(1)
+    end
+elseif CodeCheck == "ultra rare" then
+    for i = 1, 6 do
+        print("Running potion for ultra rare:", i)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/FastPotionRemote"))()
+        wait(1)
+    end
+elseif CodeCheck == "rare" then
+    for i = 1, 4 do
+        print("Running potion for rare:", i)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/FastPotionRemote"))()
+        wait(1)
+    end
+elseif CodeCheck == "uncommon" then
+    for i = 1, 3 do
+        print("Running potion for uncommon:", i)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/FastPotionRemote"))()
+        wait(1)
+    end
+elseif CodeCheck == "common" then
+    for i = 1, 2 do
+        print("Running potion for common:", i)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/FastPotionRemote"))()
+        wait(1)
+    end
+elseif CodeCheck == "single" then
+    print("Running potion for single")
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/FastPotionRemote"))()
+else
+    print("CodeCheck is not recognized.")
+end
