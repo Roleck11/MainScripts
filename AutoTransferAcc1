@@ -2,11 +2,12 @@ for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").
     v.Name = i
 end
 
-local args = {
-    [1] = game:GetService("Players"):WaitForChild("BeastOcean45")
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/SendTradeRequest"):FireServer(unpack(args))
+for i, players in ipairs(game:GetService("Players"):GetPlayers()) do
+    local args = {
+        [1] = players
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/SendTradeRequest"):FireServer(unpack(args))
+end
 
 wait(2)
 -- Add Item
