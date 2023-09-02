@@ -23,3 +23,5 @@ for i = 1, 10 do
 wait(0.25)
 game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
 end
+
+wait(15)
