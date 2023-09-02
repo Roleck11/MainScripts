@@ -25,4 +25,4 @@ wait(0.25)
 game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
 end
 
-wait(15)
+wait(3)
