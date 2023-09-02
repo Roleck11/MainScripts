@@ -1,0 +1,21 @@
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
+
+wait(0.5)
+
+for i, players in ipairs(game:GetService("Players"):GetPlayers()) do
+    local args = {
+        [1] = players,
+        [2] = true
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptOrDeclineTradeRequest"):InvokeServer(unpack(args))
+end
+
+-- Accept Trade
+wait(0.5)
+game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptNegotiation"):FireServer()
+
+-- Confirm Trade
+wait(0.5)
+game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
