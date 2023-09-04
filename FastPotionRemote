@@ -1,5 +1,4 @@
 local Foods = {}
-local Pets = {}
 local Player = game:GetService("Players").LocalPlayer
 
 local function getRandomPet(petTable)
@@ -11,15 +10,6 @@ local function getRandomPet(petTable)
     return petTable[randomKey]
 end
 
-
-for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-    local Olds = v.id
-    if string.find(Olds, v.id) and v.properties.age == 6 then
-        
-        table.insert(Pets, v.unique)
-    
-    end
-end
 
 for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food) do
     local Old = v.id
@@ -34,7 +24,6 @@ for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").
     v.Name = i
 end
 
-local randomPet = getRandomPet(Pets)
 local randomFood = getRandomPet(Foods)
 
 
