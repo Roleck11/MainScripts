@@ -1,0 +1,191 @@
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
+
+-- Create a ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "MyScreenGui"
+screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+
+-- Create a Frame as the background with a black background color
+local background = Instance.new("Frame")
+background.Size = UDim2.new(0, 200, 0, 250)  -- Size of the frame
+background.Position = UDim2.new(0.5, -600, 0.5, -300)  -- Centered in the screen
+background.BackgroundColor3 = Color3.new(0, 0, 0)  -- Black background color
+background.BorderColor3 = Color3.new(0, 0, 0)  -- Black border color
+background.BorderSizePixel = 3  -- Set to 2 for a slightly thicker border
+background.Parent = screenGui
+
+-- Variables to track the drag
+local isDragging = false
+local dragStartPos = nil
+local frameStartPos = nil
+
+-- Function to start dragging
+local function startDrag(input)
+    isDragging = true
+    dragStartPos = input.Position
+    frameStartPos = background.Position
+end
+
+-- Function to stop dragging
+local function stopDrag()
+    isDragging = false
+end
+
+-- Function to update the frame's position during dragging
+local function updateDrag(input)
+    if isDragging then
+        local delta = input.Position - dragStartPos
+        background.Position = UDim2.new(
+            frameStartPos.X.Scale, frameStartPos.X.Offset + delta.X,
+            frameStartPos.Y.Scale, frameStartPos.Y.Offset + delta.Y
+        )
+    end
+end
+
+-- Connect input events
+local userInputService = game:GetService("UserInputService")
+
+background.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        startDrag(input)
+    end
+end)
+
+background.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        stopDrag()
+    end
+end)
+
+userInputService.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        updateDrag(input)
+    end
+end)
+
+-- Create three white buttons
+local button1 = Instance.new("TextButton")
+button1.Name = "Button1"
+button1.Text = "Get Ingredients"
+button1.Size = UDim2.new(1, 0, 0, 50)  -- Button height and full width
+button1.Position = UDim2.new(0, 0, 0, 0)  -- Position at the top
+button1.BackgroundColor3 = Color3.new(1, 1, 1)  -- White button color
+button1.BorderSizePixel = 0
+button1.Parent = background
+button1.TextWrapped = true  -- Wrap text within the button
+button1.Font = Enum.Font.SourceSansBold  -- Set the font to Gotham (you can change this to any built-in font)
+button1.TextSize = 18  -- Set the custom text size (adjust as needed)
+
+local button2 = button1:Clone()  -- Clone Button1
+button2.Name = "Button2"
+button2.Text = "Get Campfire Cookies"
+button2.Position = UDim2.new(0, 0, 0, 60)  -- Position below Button1
+button2.Parent = background
+button2.TextWrapped = true  -- Wrap text within the button
+
+local button3 = button1:Clone()  -- Clone Button1
+button3.Name = "Button3"
+button3.Text = "Open Campfire Cookies"
+button3.Position = UDim2.new(0, 0, 0, 120)  -- Position below Button2
+button3.Parent = background
+button3.TextWrapped = true  -- Wrap text within the button
+
+local button4 = button1:Clone()  -- Clone Button1
+button4.Name = "Button4"
+button4.Text = "Convert Magma Melons to          Flame Zebra Bait"
+button4.Position = UDim2.new(0, 0, 0, 180)  -- Position below Button2
+button4.Parent = background
+button4.TextWrapped = true  -- Wrap text within the button
+
+-- Function for GetIngredients
+local function GetIngredients()
+    while true do
+        local args = {
+            [1] = "pear",
+            [2] = 2
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("FireDimensionAPI/PickFruit"):InvokeServer(unpack(args))
+        wait(0.01)
+        local args = {
+            [1] = "berry",
+            [2] = 2
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("FireDimensionAPI/PickFruit"):InvokeServer(unpack(args))
+        wait(0.01)
+        local args = {
+            [1] = "mango",
+            [2] = 2
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("FireDimensionAPI/PickFruit"):InvokeServer(unpack(args))
+        wait(0.01)
+    end
+end
+
+-- Function for Get Cookies
+local function GetCookies()
+    while true do
+        local args = {
+            [1] = "daily_recipe"
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("FireDimensionAPI/CookRecipe"):InvokeServer(unpack(args))
+    end
+end
+
+-- Function for Open Cookies
+local function OpenCookies()
+    -- Define a function that contains the code you want to execute
+    local function myScript()
+        loadstring(game:HttpGet("https://pastebin.com/raw/Sh9fN8Rh"))()
+    end
+    -- Loop indefinitely
+    while true do
+        local success, errorMessage = pcall(myScript)
+        
+        if not success then
+            -- Error occurred, but no action is taken here
+        end
+        wait(0.0001)
+    end
+end
+
+-- Function to Convert Magma Melons to Flame Baits
+local function ConvertMelons()
+    while true do
+        local args = {
+            [1] = "super_recipe"
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("FireDimensionAPI/CookRecipe"):InvokeServer(unpack(args))
+    end
+end
+
+-- Function to handle button clicks
+local function buttonClick(buttonNumber)
+    return function()
+        if buttonNumber == 1 then
+            spawn(GetIngredients)
+            print("Script for Get Ingredients")
+        elseif buttonNumber == 2 then
+            spawn(GetCookies)
+            print("Script for Get Campfire Cookies")
+        elseif buttonNumber == 3 then
+            spawn(OpenCookies)
+            print("Script for Open Cookies")
+        elseif buttonNumber == 4 then
+            spawn(ConvertMelons)
+            print("Script for Convert Melons to Flame Baits")
+        end
+    end
+end
+
+-- Connect button click events
+button1.MouseButton1Click:Connect(buttonClick(1))
+button2.MouseButton1Click:Connect(buttonClick(2))
+button3.MouseButton1Click:Connect(buttonClick(3))
+button4.MouseButton1Click:Connect(buttonClick(4))
