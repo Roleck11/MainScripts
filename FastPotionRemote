@@ -12,10 +12,8 @@ end
 
 
 for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food) do
-    local Old = v.id
-    if string.find(Old, v.id) and v.properties.name == pet_aging_potion then
-        
-        table.insert(Foods, v.unique)
+    if v.id == "pet_age_potion" then        
+        table.insert(Foods, i)
     
     end
 end
