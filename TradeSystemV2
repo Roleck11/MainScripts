@@ -1,0 +1,130 @@
+while _G.Switch do
+
+    local PLName = game.Players.LocalPlayer.Name
+
+    -- Define a function to disable Trade Popup GUIs
+    function DisableTradePopups()
+        for _, gui in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
+            -- Check if the GUI meets your condition to be removed
+            if gui:IsA("ScreenGui") and gui.Name == "DialogApp" then
+                gui.Enabled = true
+            end
+        end
+    end
+
+    if PLName == RobloxUser1 then
+        DisableTradePopups()
+        while true do
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AutoTransferAcc2"))()
+        end
+    end
+
+    if PLName == RobloxUser2 then
+        DisableTradePopups()
+        while true do
+            local PetsInv = {}
+            local Player = game:GetService("Players").LocalPlayer
+
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                local OldsInv = v.id
+                if string.find(OldsInv, v.id) then       
+                    table.insert(PetsInv, v.unique)
+                end
+            end
+
+            if #PetsInv == 1 then
+                print("Inventory Empty!")
+            end
+
+            if #PetsInv > 1 then        
+                for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+                    v.Name = i
+                end
+
+                print("Entering PetsInv Loop")
+                while not game:GetService("Players").LocalPlayer.PlayerGui.TradeApp.Frame.Visible do
+                    local args = {
+                        [1] = game:GetService("Players"):WaitForChild(RobloxUser1)
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/SendTradeRequest"):FireServer(unpack(args))
+                    wait(1)
+                end
+                print("Trade Sent")
+
+                wait(1)
+                -- Add Items
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AutoAddItemsInTrade"))()
+
+                -- Accept Trade
+                wait(5)
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptNegotiation"):FireServer()
+
+                -- Confirm Trade
+                for i = 1, 10 do
+                wait(0.25)
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
+                end
+
+                wait(3)
+            else
+                break
+            end
+            wait(1)
+        end
+    end
+
+    -- Account 2 Starting
+    if PLName == RobloxUser3 then
+        DisableTradePopups()
+        while true do
+            local PetsInv = {}
+            local Player = game:GetService("Players").LocalPlayer
+
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                local OldsInv = v.id
+                if string.find(OldsInv, v.id) then       
+                    table.insert(PetsInv, v.unique)
+                end
+            end
+
+            if #PetsInv == 1 then
+                print("Inventory Empty!")
+            end
+
+            if #PetsInv > 1 then        
+                for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+                    v.Name = i
+                end
+
+                print("Entering PetsInv Loop")
+                while not game:GetService("Players").LocalPlayer.PlayerGui.TradeApp.Frame.Visible do
+                    local args = {
+                        [1] = game:GetService("Players"):WaitForChild(RobloxUser1)
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/SendTradeRequest"):FireServer(unpack(args))
+                    wait(1)
+                end
+                print("Trade Sent")
+
+                wait(1)
+                -- Add Items
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AutoAddItemsInTrade"))()
+
+                -- Accept Trade
+                wait(5)
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptNegotiation"):FireServer()
+
+                -- Confirm Trade
+                for i = 1, 10 do
+                wait(0.25)
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
+                end
+
+                wait(3)
+            else
+                break
+            end
+            wait(1)
+        end
+    end
+end
