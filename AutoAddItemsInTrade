@@ -1,0 +1,231 @@
+local playerName = game.Players.LocalPlayer.Name
+
+if playerName == "BeastOcean46" then
+    print("Operation MaxmiseABC")
+    local Pets1 = {}
+    local Player = game:GetService("Players").LocalPlayer
+
+    function RoT(t)
+    return t[math.random(1, #t)]
+    end
+
+    local function RemoveString(originalTable, stringToRemove)
+        local newTable = {}
+        
+        for _, value in ipairs(originalTable) do
+            if value ~= stringToRemove then
+                table.insert(newTable, value)
+            end
+        end
+        
+        return newTable
+    end
+
+
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        local Olds = v.id
+        if string.find(Olds, v.id) and v.properties.name == Hi then
+            
+            table.insert(Pets1, v.unique)
+        
+        end
+    end
+
+    PetToAdd1 = RoT(Pets1)
+
+    local Pets2 = RemoveString(Pets1, PetToAdd1)
+    PetToAdd2 = RoT(Pets2)
+
+    local Pets3 = RemoveString(Pets2, PetToAdd2)
+    PetToAdd3 = RoT(Pets3)
+
+    local Pets4 = RemoveString(Pets3, PetToAdd3)
+    PetToAdd4 = RoT(Pets4)
+
+    local Pets5 = RemoveString(Pets4, PetToAdd4)
+    PetToAdd5 = RoT(Pets5)
+
+    local Pets6 = RemoveString(Pets5, PetToAdd5)
+    PetToAdd6 = RoT(Pets6)
+
+    local Pets7 = RemoveString(Pets6, PetToAdd6)
+    PetToAdd7 = RoT(Pets7)
+
+    local Pets8 = RemoveString(Pets7, PetToAdd7)
+    PetToAdd8 = RoT(Pets8)
+
+    local Pets9 = RemoveString(Pets8, PetToAdd8)
+    PetToAdd9 = RoT(Pets9)
+
+    local Pets10 = RemoveString(Pets9, PetToAdd9)
+    PetToAdd10 = RoT(Pets10)
+
+    local Pets11 = RemoveString(Pets10, PetToAdd10)
+    PetToAdd11 = RoT(Pets11)
+
+    local Pets12 = RemoveString(Pets11, PetToAdd11)
+    PetToAdd12 = RoT(Pets12)
+
+    local Pets13 = RemoveString(Pets12, PetToAdd12)
+    PetToAdd13 = RoT(Pets13)
+
+    local Pets14 = RemoveString(Pets13, PetToAdd13)
+    PetToAdd14 = RoT(Pets14)
+
+    local Pets15 = RemoveString(Pets14, PetToAdd14)
+    PetToAdd15 = RoT(Pets15)
+
+    local Pets16 = RemoveString(Pets15, PetToAdd15)
+    PetToAdd16 = RoT(Pets16)
+
+    local Pets17 = RemoveString(Pets16, PetToAdd16)
+    PetToAdd17 = RoT(Pets17)
+
+    local Pets18 = RemoveString(Pets17, PetToAdd17)
+    PetToAdd18 = RoT(Pets18)
+
+    local Pets19 = RemoveString(Pets18, PetToAdd18)
+    PetToAdd19 = RoT(Pets19)
+
+    local Pets20 = RemoveString(Pets19, PetToAdd19)
+    PetToAdd20 = RoT(Pets20)
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd1
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd2
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd3
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd4
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd5
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd6
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd7
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd8
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd9
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd10
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd11
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd12
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd13
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd14
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd15
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd16
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd17
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd18
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd19
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+
+    -- Trade Add Item Remotes --
+    local args = {
+        [1] = PetToAdd20
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AddItemToOffer"):FireServer(unpack(args))
+    wait(0.1)
+end
