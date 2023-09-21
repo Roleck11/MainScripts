@@ -1,3 +1,7 @@
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+  v:Disable()
+end
+
 while _G.Switch do
 
     local PLName = game.Players.LocalPlayer.Name
