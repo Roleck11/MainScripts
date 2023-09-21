@@ -11,7 +11,7 @@ while _G.Switch do
         for _, gui in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
             -- Check if the GUI meets your condition to be removed
             if gui:IsA("ScreenGui") and gui.Name == "DialogApp" then
-                gui.Enabled = true
+                gui.Enabled = false
             end
         end
     end
