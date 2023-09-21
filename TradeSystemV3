@@ -1,0 +1,246 @@
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+  v:Disable()
+end
+
+while _G.Switch do
+
+    local PLName = game.Players.LocalPlayer.Name
+
+    -- Define a function to disable Trade Popup GUIs
+    function DisableTradePopups()
+        for _, gui in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
+            -- Check if the GUI meets your condition to be removed
+            if gui:IsA("ScreenGui") and gui.Name == "DialogApp" then
+                gui.Enabled = false
+            end
+        end
+    end
+
+    if PLName == RobloxUser1 then
+        DisableTradePopups()
+        while true do
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AutoTransferAcc2"))()
+        end
+    end
+
+    if PLName == RobloxUser2 then
+        DisableTradePopups()
+        while true do
+            local PetsInv = {}
+            local Player = game:GetService("Players").LocalPlayer
+
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                local OldsInv = v.id
+                if string.find(OldsInv, v.id) then       
+                    table.insert(PetsInv, v.unique)
+                end
+            end
+
+            if #PetsInv == 1 then
+                print("Inventory Empty!")
+            end
+
+            if #PetsInv > 1 then        
+                for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+                    v.Name = i
+                end
+
+                print("Entering PetsInv Loop")
+                while not game:GetService("Players").LocalPlayer.PlayerGui.TradeApp.Frame.Visible do
+                    local args = {
+                        [1] = game:GetService("Players"):WaitForChild(RobloxUser1)
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/SendTradeRequest"):FireServer(unpack(args))
+                    wait(1)
+                end
+                print("Trading")
+
+                wait(0.5)
+                if #PetsInv == 20 or #PetsInv > 20 then
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AutoAddItemsInTrade"))()
+                    wait(0.5)
+                elseif #PetsInv == 19 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/322n03YY"))()
+                    wait(0.5)
+                elseif #PetsInv == 18 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/v531Lipg"))()
+                    wait(0.5)
+                elseif #PetsInv == 17 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/R9QXJEnx"))()
+                    wait(0.5)
+                elseif #PetsInv == 16 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/UeTVrkV2"))()
+                    wait(0.5)
+                elseif #PetsInv == 15 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/1XxX6Fzy"))()
+                    wait(0.5)
+                elseif #PetsInv == 14 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/FzZGtGN3"))()
+                    wait(0.5)
+                elseif #PetsInv == 13 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/mvG1Auar"))()
+                    wait(0.5)
+                elseif #PetsInv == 12 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/Af5fHYzV"))()
+                    wait(0.5)
+                elseif #PetsInv == 11 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/xPkvaSec"))()
+                    wait(0.5)
+                elseif #PetsInv == 10 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/aqucXi47"))()
+                    wait(0.5)
+                elseif #PetsInv == 9 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/8wqjhZ6Q"))()
+                    wait(0.5)
+                elseif #PetsInv == 8 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/w3WtBKbr"))()
+                    wait(0.5)
+                elseif #PetsInv == 7 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/Gv99wkvb"))()
+                    wait(0.5)
+                elseif #PetsInv == 6 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/KL1VvEpx"))()
+                    wait(0.5)
+                elseif #PetsInv == 5 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/GuYbqG1N"))()
+                    wait(0.5)
+                elseif #PetsInv == 4 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/wB0ZuB6v"))()
+                    wait(0.5)
+                elseif #PetsInv == 3 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/6V6Zm8a0"))()
+                    wait(0.5)
+                elseif #PetsInv == 2 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/iJb9T149"))()
+                    wait(0.5)
+                end
+
+                -- Accept Trade
+                wait(5)
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptNegotiation"):FireServer()
+
+                -- Confirm Trade
+                for i = 1, 10 do
+                wait(0.25)
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
+                end
+
+                wait(3)
+            else
+                break
+            end
+            wait(1)
+        end
+    end
+
+    -- Next Account
+    if PLName == RobloxUser3 then
+        DisableTradePopups()
+        while true do
+            local PetsInv = {}
+            local Player = game:GetService("Players").LocalPlayer
+
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                local OldsInv = v.id
+                if string.find(OldsInv, v.id) then       
+                    table.insert(PetsInv, v.unique)
+                end
+            end
+
+            if #PetsInv == 1 then
+                print("Inventory Empty!")
+            end
+
+            if #PetsInv > 1 then        
+                for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+                    v.Name = i
+                end
+
+                print("Entering PetsInv Loop")
+                while not game:GetService("Players").LocalPlayer.PlayerGui.TradeApp.Frame.Visible do
+                    local args = {
+                        [1] = game:GetService("Players"):WaitForChild(RobloxUser1)
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/SendTradeRequest"):FireServer(unpack(args))
+                    wait(1)
+                end
+                print("Trading")
+
+                wait(0.5)
+                if #PetsInv == 20 or #PetsInv > 20 then
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AutoAddItemsInTrade"))()
+                    wait(0.5)
+                elseif #PetsInv == 19 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/322n03YY"))()
+                    wait(0.5)
+                elseif #PetsInv == 18 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/v531Lipg"))()
+                    wait(0.5)
+                elseif #PetsInv == 17 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/R9QXJEnx"))()
+                    wait(0.5)
+                elseif #PetsInv == 16 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/UeTVrkV2"))()
+                    wait(0.5)
+                elseif #PetsInv == 15 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/1XxX6Fzy"))()
+                    wait(0.5)
+                elseif #PetsInv == 14 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/FzZGtGN3"))()
+                    wait(0.5)
+                elseif #PetsInv == 13 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/mvG1Auar"))()
+                    wait(0.5)
+                elseif #PetsInv == 12 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/Af5fHYzV"))()
+                    wait(0.5)
+                elseif #PetsInv == 11 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/xPkvaSec"))()
+                    wait(0.5)
+                elseif #PetsInv == 10 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/aqucXi47"))()
+                    wait(0.5)
+                elseif #PetsInv == 9 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/8wqjhZ6Q"))()
+                    wait(0.5)
+                elseif #PetsInv == 8 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/w3WtBKbr"))()
+                    wait(0.5)
+                elseif #PetsInv == 7 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/Gv99wkvb"))()
+                    wait(0.5)
+                elseif #PetsInv == 6 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/KL1VvEpx"))()
+                    wait(0.5)
+                elseif #PetsInv == 5 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/GuYbqG1N"))()
+                    wait(0.5)
+                elseif #PetsInv == 4 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/wB0ZuB6v"))()
+                    wait(0.5)
+                elseif #PetsInv == 3 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/6V6Zm8a0"))()
+                    wait(0.5)
+                elseif #PetsInv == 2 then
+                    loadstring(game:HttpGet("https://pastebin.com/raw/iJb9T149"))()
+                    wait(0.5)
+                end
+
+                -- Accept Trade
+                wait(5)
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptNegotiation"):FireServer()
+
+                -- Confirm Trade
+                for i = 1, 10 do
+                wait(0.25)
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
+                end
+
+                wait(3)
+            else
+                break
+            end
+            wait(1)
+        end
+    end
+end
