@@ -1,0 +1,73 @@
+local Player = game:GetService("Players").LocalPlayer
+
+for i = 1, 50 do
+    local playerName = AccountName .. i
+    if Player.Name == playerName then
+
+      WEBHOOK = "https://discord.com/api/webhooks/1157505264279371816/k10F4xQONx8ysLOF475V1ZXJbTFqdxr2cxPrA-CKxlMQurQdntUAvdy28Km4M3jJiD_G"
+      
+      PlayerName = game:GetService("Players").LocalPlayer
+      PNFast = tostring(PlayerName)
+      
+      local Pets = {}
+      local PetSpecific = {}
+      local Player = game:GetService("Players").LocalPlayer
+      
+      for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+          if string.find(v.id, PetName) then        
+              table.insert(Pets, i)
+          table.insert(PetSpecific, v.id)
+          end
+      end
+      
+      function RoT(t)
+      return t[math.random(1, #t)]
+      end
+      
+      PetName = RoT(PetSpecific) 
+      
+      QuantityOfPets = #Pets
+      
+      HttpService = game:GetService("HttpService")
+      function WH()
+        request({
+          Url = WEBHOOK,
+              Method = "POST",
+              Headers = {
+                  ["Content-Type"] = "application/json"
+              },
+              Body = HttpService:JSONEncode{
+                  ["content"] = "",
+                  ["embeds"] = {
+                {
+                  ["title"] = "Pet Found",
+                  ["color"] = 5814783,
+                  ["fields"] = {
+                    {
+                      ["name"] = "Account Username:",
+                      ["value"] = PNFast
+                    },
+                    {
+                      ["name"] = "Pet:",
+                      ["value"] = PetName
+                    },
+                    {
+                      ["name"] = "Quantity:",
+                      ["value"] = QuantityOfPets
+                    }
+                  },
+                  ["author"] = {
+                    ["name"] = "Roleck"
+                  }
+                }
+              }
+              }
+        })
+      end
+      
+      if #Pets == 1 or #Pets > 1 then
+          WH()
+      end
+    end
+    wait(1)
+end
