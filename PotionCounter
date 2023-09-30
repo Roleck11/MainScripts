@@ -1,0 +1,57 @@
+local Player = game:GetService("Players").LocalPlayer
+
+for i = 1, 50 do
+    local playerName = AccountName .. i
+    if Player.Name == playerName then
+        WEBHOOK = "https://discord.com/api/webhooks/1157693255681572884/K-IzVIwUGPJ8SMlkf3oWLlbLXVWFvoAx3MVkVevazXEkNp9DLrmsDV2wF7VGsl24Q1A1"
+
+        PlayerName = game:GetService("Players").LocalPlayer
+        PNUser = tostring(PlayerName)
+        
+        local Potions = {}
+        local Player = game:GetService("Players").LocalPlayer
+        
+        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food) do
+            if v.id == "pet_age_potion" then        
+                table.insert(Potions, i)
+            end
+        end
+        
+        function RoT(t)
+        return t[math.random(1, #t)]
+        end
+        
+        QuantityOfPotions = #Potions
+        
+        HttpService = game:GetService("HttpService")
+        function WH()
+            request({
+                Url = WEBHOOK,
+                Method = "POST",
+                Headers = {
+                    ["Content-Type"] = "application/json"
+                },
+                Body = HttpService:JSONEncode{
+                    ["content"] = "",
+                    ["embeds"] = {
+                        {
+                          ["title"] = PNUser,
+                          ["color"] = 5814783,
+                          ["fields"] = {
+                            {
+                              ["name"] = "Aging Potions: ",
+                              ["value"] = QuantityOfPotions
+                            }
+                          },
+                          ["author"] = {
+                            ["name"] = "Roleck"
+                          }
+                        }
+                      }
+                      }
+            })
+        end
+        WH()
+    end
+    wait(1)
+end
