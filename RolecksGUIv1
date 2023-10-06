@@ -403,7 +403,7 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
 end)
 
 -- Buy Pets Tab Script
-BuyItemSection:NewDropdown("Pet Name:", "DropdownInf", {"Eel"}, function(PetName)
+BuyItemSection:NewDropdown("Pet Name:", "DropdownInf", {"Eel", "Raccoon", "Chipmunk"}, function(PetName)
     PetCalled = string.lower(PetName)
 end)
 
@@ -422,6 +422,28 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
     
             game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
             wait(0.1)
+        end
+    elseif PetCalled == "chipmunk" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "chiprac_2023_chipmunk",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))            
+            wait(0.1)            
+        end
+    elseif PetCalled == "raccoon" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "chiprac_2023_raccoon",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
+            wait(0.1)            
         end
     end
 end)
