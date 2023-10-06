@@ -20,6 +20,10 @@ local UpdatePetListSection = PotionTab:NewSection("Update Pet List")
 local AutoFusionSection = PotionTab:NewSection("Auto Fuse Neon / Mega")
 local PotionSection = PotionTab:NewSection("Apply Potions")
 
+local TradeTab = Window:NewTab("Trade Tab")
+local TradeSection = TradeTab:NewSection("Trade System")
+local AddItemSection = TradeTab:NewSection("Add Items")
+
 local BuyItemTab = Window:NewTab("Buy Tab")
 local BuyItemSection = BuyItemTab:NewSection("Buy Items")
 
@@ -403,6 +407,65 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
     elseif TypeOfPet == "Both" then
         local success, errorMsg = pcall(APTP_Both)
     end
+end)
+
+-- Trade Tab Script
+local dropdownForPlayersInServer
+local function RefreshDropdownForPlayersInServer()
+    local PlayersInServer = {}
+    local Players = game:GetService("Players")
+    local playersList = Players:GetPlayers()
+    local RobloxUserOfAcc = game.Players.LocalPlayer.Name
+
+    for _, player in pairs(playersList) do
+        table.insert(PlayersInServer, player.Name)
+    end
+    for i, value in ipairs(PlayersInServer) do
+        if value == RobloxUserOfAcc then
+            table.remove(PlayersInServer, i)
+            break
+        end
+    end
+    dropdownForPlayersInServer:Refresh(PlayersInServer)
+end
+ 
+function RefreshTradeDropdownWithLoop()
+    while true do
+        RefreshDropdownForPlayersInServer()
+        wait(2)
+    end
+end
+
+dropdownForPlayersInServer = TradeSection:NewDropdown("Select Player:", "DropdownInf", PlayersInServer, function(PlayerToTrade)
+    PlayerToTradeA = PlayerToTrade
+end)
+
+spawn(RefreshTradeDropdownWithLoop)
+
+TradeSection:NewButton("Send Trade", "ButtonInfo", function()
+    local args = {
+        [1] = game:GetService("Players"):WaitForChild(PlayerToTradeA)
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/SendTradeRequest"):FireServer(unpack(args))
+end)
+
+TradeSection:NewButton("Accept/Confirm Trade", "ButtonInfo", function()
+    while game:GetService("Players").LocalPlayer.PlayerGui.TradeApp.Frame.Visible do
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptNegotiation"):FireServer()
+        wait(0.1)
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
+        wait(0.1)
+    end
+end)
+
+AddItemSection:NewButton("Add Halloween Pets Into Trade", "ButtonInfo", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/ZyeAqrqA"))()
+    AddHalloweenPetsToTrade()
+end)
+
+AddItemSection:NewButton("Add Halloween Toys Into Trade", "ButtonInfo", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/wx33Htiu"))()
+    AddHalloweenToysToTrade()
 end)
 
 -- Buy Pets Tab Script
