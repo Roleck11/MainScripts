@@ -23,6 +23,9 @@ local PotionSection = PotionTab:NewSection("Apply Potions")
 local BuyItemTab = Window:NewTab("Buy Tab")
 local BuyItemSection = BuyItemTab:NewSection("Buy Items")
 
+local EventItemTab = Window:NewTab("Event Tab")
+local EventItemSection = EventItemTab:NewSection("Buy Halloween Items")
+
 local Player = game:GetService("Players").LocalPlayer
 
 -- Remove Duplications
@@ -439,6 +442,52 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
             local args = {
                 [1] = "pets",
                 [2] = "chiprac_2023_raccoon",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
+            wait(0.1)            
+        end
+    end
+end)
+
+-- Halloween Event Buy Pets Tab Script
+EventItemSection:NewDropdown("Halloween Pet Name:", "DropdownInf", {"Ghost", "Undead Elk", "Nightmare Owl"}, function(PetName)
+    PetCalled = string.lower(PetName)
+end)
+
+EventItemSection:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100"}, function(Quantity)
+    QuantityN = tonumber(Quantity)
+end)
+
+EventItemSection:NewButton("Submit", "ButtonInfo", function()
+    if PetCalled == "ghost" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "halloween_2023_ghost",
+                [3] = {}
+            }
+    
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
+            wait(0.1)
+        end
+    elseif PetCalled == "undead elk" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "halloween_2023_undead_elk",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))            
+            wait(0.1)            
+        end
+    elseif PetCalled == "nightmare owl" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "halloween_2023_nightmare_owl",
                 [3] = {}
             }
             
