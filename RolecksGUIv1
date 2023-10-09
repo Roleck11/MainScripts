@@ -1,6 +1,3 @@
-DisableGUI = false
-
-
 -- Code For GitHub
 if not game:IsLoaded() then
     while not game:IsLoaded() do wait(1) end
