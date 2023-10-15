@@ -677,7 +677,7 @@ EventItemSection:NewButton("Submit", "ButtonInfo", function()
         for i = 1, QuantityN do
             local args = {
                 [1] = "pets",
-                [2] = "halloween_2023_cute_a_cabra",
+                [2] = "halloween_2023_cuteacabra",
                 [3] = {}
             }
             
