@@ -1,3 +1,5 @@
+DisableGUI = true
+
 -- Code For GitHub
 if not game:IsLoaded() then
     while not game:IsLoaded() do wait(1) end
@@ -629,7 +631,7 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
 end)
 
 -- Halloween Event Buy Pets Tab Script
-EventItemSection:NewDropdown("Halloween Pet Name:", "DropdownInf", {"Ghost", "Undead Elk", "Nightmare Owl"}, function(PetName)
+EventItemSection:NewDropdown("Halloween Pet Name:", "DropdownInf", {"Ghost", "Undead Elk", "Nightmare Owl", "Cute A Cabra", "Ghost Dog", "Dire Stag"}, function(PetName)
     PetCalled = string.lower(PetName)
 end)
 
@@ -665,6 +667,39 @@ EventItemSection:NewButton("Submit", "ButtonInfo", function()
             local args = {
                 [1] = "pets",
                 [2] = "halloween_2023_nightmare_owl",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
+            wait(0.1)            
+        end
+    elseif PetCalled == "cute a cabra" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "halloween_2023_cute_a_cabra",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
+            wait(0.1)            
+        end
+    elseif PetCalled == "ghost dog" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "halloween_2023_ghost_dog",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
+            wait(0.1)            
+        end
+    elseif PetCalled == "dire stag" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "halloween_2023_dire_stag",
                 [3] = {}
             }
             
