@@ -1,4 +1,4 @@
-DisableGUI = true
+DisableGUI = false
 
 -- Code For GitHub
 if not game:IsLoaded() then
@@ -47,6 +47,7 @@ local BuyItemSection = BuyItemTab:NewSection("Buy Items")
 
 local EventItemTab = Window:NewTab("Event Tab")
 local EventItemSection = EventItemTab:NewSection("Buy Halloween Items")
+local OpenBoxSection = EventItemTab:NewSection("Open ALL Scarecrow Boxes")
 
 local Player = game:GetService("Players").LocalPlayer
 
@@ -631,7 +632,7 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
 end)
 
 -- Halloween Event Buy Pets Tab Script
-EventItemSection:NewDropdown("Halloween Pet Name:", "DropdownInf", {"Ghost", "Undead Elk", "Nightmare Owl", "Cute A Cabra", "Ghost Dog", "Dire Stag"}, function(PetName)
+EventItemSection:NewDropdown("Halloween Pet Name:", "DropdownInf", {"Scarecrow Box", "Scarecrow", "Ghost", "Undead Elk", "Nightmare Owl", "Cute A Cabra", "Ghost Dog", "Dire Stag"}, function(PetName)
     PetCalled = string.lower(PetName)
 end)
 
@@ -706,7 +707,58 @@ EventItemSection:NewButton("Submit", "ButtonInfo", function()
             game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
             wait(0.1)            
         end
+    elseif PetCalled == "scarecrow box" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "gifts",
+                [2] = "halloween_2023_scarecrow_box",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
+            wait(0.1)            
+        end
+    elseif PetCalled == "scarecrow" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "halloween_2023_scarecrow",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
+            wait(0.1)            
+        end
     end
+end)
+
+--------------- OPEN ALL SCARECROW BOXES ------------------
+OpenBoxSection:NewButton("Open ALL Boxes", "ButtonInfo", function()
+    pcall(function() 
+        while true do
+            local ScareBoxes = {}
+            local Player = game:GetService("Players").LocalPlayer
+    
+            function RoT(t)
+            return t[math.random(1, #t)]
+            end
+    
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+                if string.find(v.id, "halloween_2023_scarecrow_box") then        
+                    table.insert(ScareBoxes, i)
+                end
+            end
+    
+            local randomBox = RoT(ScareBoxes)
+    
+            local args = {
+                [1] = "halloween_2023_scarecrow_box",
+                [2] = randomBox
+            }
+    
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(unpack(args))
+        end
+    end)
 end)
 
 if DisableGUI then
