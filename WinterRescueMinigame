@@ -1,0 +1,126 @@
+if not game:IsLoaded() then
+    while not game:IsLoaded() do wait(1) end
+end
+
+wait(1)
+
+local playerGui = game.Players.LocalPlayer.PlayerGui
+local guiName = "NewsApp"
+local isGuiEnabled = false
+
+while true do
+    for _, gui in pairs(playerGui:GetChildren()) do
+        if gui.Name == guiName and gui.Enabled then
+            isGuiEnabled = true
+            print("Executed GUI, Click Button when Ready.")
+            break  -- Break out of the for loop
+        end
+    end
+    
+    if isGuiEnabled then
+        break  -- Break out of the while loop
+    end   
+    wait(1)
+end
+
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+    v:Disable()
+end
+  
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
+
+local player = game.Players.LocalPlayer
+
+local function createGUI()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Parent = player:WaitForChild("PlayerGui")
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 200, 0, 100)
+    frame.Position = UDim2.new(0.5, -100, 0.5, -50)
+    frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    frame.Parent = screenGui
+
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, 0, 1, 0)
+    button.BackgroundColor3 = Color3.fromRGB(100, 200, 255)
+    button.Text = "Click me!"
+    button.Parent = frame
+
+    function onClick()
+        screenGui:Destroy()
+        ------------------------------------------------
+        ------------------------------------------------
+        local Player = game.Players.LocalPlayer
+        local player = game.Players.LocalPlayer
+    
+        function DisableWalkAndCollision()
+            while true and wait() do
+                game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = 0
+                local args = {
+                    [1] = false
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("AvatarAPI/SetPlayerOnPlayerCollision"):FireServer(unpack(args))
+                wait(1)
+            end
+        end
+        task.spawn(DisableWalkAndCollision)
+    
+        function Mine()
+            while true and wait() do
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("WinterEventAPI/PetRescueTryUsePickaxe"):InvokeServer()
+            end
+        end
+        task.spawn(Mine)
+    
+        wait(1)
+        while true do
+            function TPtoRescueGame()
+                wait(2)
+                local Player = game.Players.LocalPlayer
+                local player = game.Players.LocalPlayer
+                local character = player.Character
+                local get_thread_context = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
+                local get_thread_identity = get_thread_context
+                local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
+                local set_thread_identity = set_thread_context
+                
+                local Location = nil
+                for i, v in pairs(getgc()) do
+                    if type(v) == "function" then
+                        if getfenv(v).script == game.ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
+                            if table.find(getconstants(v), "LocationAPI/SetLocation") then
+                                Location = v
+                                break
+                            end
+                        end
+                    end
+                end
+                
+                local SetLocation = function(A, B, C)
+                    local O = get_thread_identity()
+                    set_thread_identity(2)
+                    Location(A, B, C)
+                    set_thread_identity(O)
+                end
+                
+                local GoToHome = function()
+                    SetLocation("Winter2023Shop", "MainDoor")
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Interiors.Winter2023Shop.PetRescue.JoinZone.WorldPivot
+                
+                end
+                GoToHome()
+                wait(1)
+            end
+            pcall(TPtoRescueGame)
+        end
+        ------------------------------------------------
+        ------------------------------------------------
+    end
+    
+    button.MouseButton1Click:Connect(onClick)
+end
+
+createGUI()
