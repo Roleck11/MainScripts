@@ -111,6 +111,8 @@ local function createGUI()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Interiors.Winter2023Shop.PetRescue.JoinZone.WorldPivot        
         end
         GoToHome()
+        wait(10)
+        GoToHome()
         ------------------------------------------------
         ------------------------------------------------
     end
