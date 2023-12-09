@@ -1,3 +1,5 @@
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/WinterRescueMinigame"))()
+
 if not game:IsLoaded() then
     while not game:IsLoaded() do wait(1) end
 end
@@ -76,46 +78,39 @@ local function createGUI()
         task.spawn(Mine)
     
         wait(1)
-        while true do
-            function TPtoRescueGame()
-                wait(2)
-                local Player = game.Players.LocalPlayer
-                local player = game.Players.LocalPlayer
-                local character = player.Character
-                local get_thread_context = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
-                local get_thread_identity = get_thread_context
-                local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
-                local set_thread_identity = set_thread_context
-                
-                local Location = nil
-                for i, v in pairs(getgc()) do
-                    if type(v) == "function" then
-                        if getfenv(v).script == game.ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
-                            if table.find(getconstants(v), "LocationAPI/SetLocation") then
-                                Location = v
-                                break
-                            end
-                        end
+
+        local Player = game.Players.LocalPlayer
+        local player = game.Players.LocalPlayer
+        local character = player.Character
+        local get_thread_context = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
+        local get_thread_identity = get_thread_context
+        local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
+        local set_thread_identity = set_thread_context
+        
+        local Location = nil
+        for i, v in pairs(getgc()) do
+            if type(v) == "function" then
+                if getfenv(v).script == game.ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
+                    if table.find(getconstants(v), "LocationAPI/SetLocation") then
+                        Location = v
+                        break
                     end
                 end
-                
-                local SetLocation = function(A, B, C)
-                    local O = get_thread_identity()
-                    set_thread_identity(2)
-                    Location(A, B, C)
-                    set_thread_identity(O)
-                end
-                
-                local GoToHome = function()
-                    SetLocation("Winter2023Shop", "MainDoor")
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Interiors.Winter2023Shop.PetRescue.JoinZone.WorldPivot
-                
-                end
-                GoToHome()
-                wait(1)
             end
-            pcall(TPtoRescueGame)
         end
+        
+        local SetLocation = function(A, B, C)
+            local O = get_thread_identity()
+            set_thread_identity(2)
+            Location(A, B, C)
+            set_thread_identity(O)
+        end
+        
+        local GoToHome = function()
+            SetLocation("Winter2023Shop", "MainDoor")
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Interiors.Winter2023Shop.PetRescue.JoinZone.WorldPivot        
+        end
+        GoToHome()
         ------------------------------------------------
         ------------------------------------------------
     end
