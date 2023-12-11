@@ -1,469 +1,420 @@
-while not game:IsLoaded() do wait(1) end
-wait(4)
+if not game:IsLoaded() then
+    while not game:IsLoaded() do wait(1) end
+end
+wait(1)
+local playerGui = game.Players.LocalPlayer.PlayerGui
+local guiName = "NewsApp"
+local isGuiEnabled = false
 
--- //Roleck TP to Diamond Mine
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/TPDiamondMine"))()
-
-settingsconfig = {
-	targetmulti = 3,
-	breakgiantchest = true,
-	breakbigchests = true,
-	breakpresents = true,
-	breakvaults = true,
-	ignorepresents = false,
-	autotripledamage = false,
-	autoserverdamage = false,
-	safetyrange = 500, -- If you are within this much studs as another player it will server hop (set to 0 if you dont want it to do this)
-	webhook = "https://discord.com/api/webhooks/1109224283361779883/Xn4cGZUenLPEh6y4vly_CyIjx6CriIQBHxdxCtqgriCVf9KkcA-xg6lj6NCuWh9A3c3S"
-}
-
-local SettingsJson = game:GetService("HttpService"):JSONEncode(settingsconfig)
-writefile("settings.txt", SettingsJson)
-
-local file = readfile("settings.txt")
-local settings = game:GetService("HttpService"):JSONDecode(file)
-
-local targetmulti = tonumber(settings.targetmulti) or 5
-local breakgiantchest = settings.breakgiantchest or true
-local breakbigchests = settings.breakbigchests or true
-local breakpresents = settings.breakpresents or false
-local breakvaults = settings.breakvaults or false
-local ignorepresents = settings.ignorepresents or false
-local WEBHOOK = settings.webhook or ""
-local AutoTripleDamage = settings.autotripledamage or true
-local AutoServerDamage = settings.autoserverdamage or false
-
-local oldJob = game.JobId
-
-local v1 = require(game.ReplicatedStorage:WaitForChild("Framework"):WaitForChild("Library"));
-while not v1.Loaded do
-    game:GetService("RunService").Heartbeat:Wait();
-end;
-
-local Network = require(game:GetService("ReplicatedStorage").Library.Client.Network)
-local Fire, Invoke = Network.Fire, Network.Invoke
-
-local old
-old = hookfunction(getupvalue(Fire, 1), function(...)
-   return true
-end)
-
-Lib = require(game:GetService("ReplicatedStorage").Library)
-
-wait(2)
-
-local player = game.Players.LocalPlayer
-local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-local detectionRange = settings.safetyrange or 500
-
-local function isPlayerInRange(player)
-    if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
-        local playerRootPart = player.Character:FindFirstChild("HumanoidRootPart")
-        local playerPosition = playerRootPart and playerRootPart.Position
-        if playerPosition then
-            local playerDistance = (playerPosition - humanoid.RootPart.Position).Magnitude
-            return playerDistance <= detectionRange
+while true do
+    for _, gui in pairs(playerGui:GetChildren()) do
+        if gui.Name == guiName and gui.Enabled then
+            isGuiEnabled = true
+            if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("NewsApp",true).Enabled then
+                for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("PlayButton",true).MouseButton1Click)) do
+                    v:Fire()
+                end
+            end
+            if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("ChooseParent",true) then
+                for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("ChooseParent",true).MouseButton1Click)) do
+                    v:Fire()
+                end
+            end
+            if Workspace:FindFirstChild("ServerSidedMapSeats") then
+                Workspace.ServerSidedMapSeats:Destroy()
+            end
+            wait(1)
+            break  -- Break out of the for loop
         end
     end
+    
+    if isGuiEnabled then
+        break  -- Break out of the while loop
+    end   
+    wait(1)
+end
+
+wait(1)
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+  v:Disable()
+end
+
+wait(5)
+game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = 0
+-- Button to Close Robux Product Popup Thing
+for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
+    v.Function()
+    v:Fire()
+end
+wait(1)
+-- Button to Close Daily Login App Thing
+function WorkOPls()
+    for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Body.Buttons.ClaimButton.MouseButton1Click)) do
+    v.Function()
+    v:Fire()
+    end
+end
+
+spawn(WorkOPls)
+
+wait(4)
+
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
+
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+  v:Disable()
+end
+
+local args = {
+    [1] = false
+}
+game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("AvatarAPI/SetPlayerOnPlayerCollision"):FireServer(unpack(args))
+
+---------------- Equip Pet ----------------------
+
+Pets = {}
+local Player = game:GetService("Players").LocalPlayer
+
+function RoT(t)
+return t[math.random(1, #t)]
+end
+
+for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+    if v.properties.age == 6 then        
+        table.insert(Pets, i)
+    end
+end
+
+if #Pets == 0 then
+    Pets = {}
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do    
+        table.insert(Pets, i)
+    end
+end
+
+spawn(function()
+    local randomPet = RoT(Pets)
+    local args = {
+        [1] = randomPet
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ToolAPI/Equip"):InvokeServer(unpack(args))
+end)
+---------------------------------------------------------------
+
+-- Main --
+local PetFolder = workspace:WaitForChild("Pets")
+local PetChildren = PetFolder:GetChildren()
+
+PetName = "A"
+for i, v in pairs(PetChildren) do
+    PetName = v
+end
+
+local Player = game.Players.LocalPlayer
+local player = game.Players.LocalPlayer
+local character = player.Character
+local get_thread_context = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
+local get_thread_identity = get_thread_context
+local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
+local set_thread_identity = set_thread_context
+
+local Baths = {
+    "StylishShower",
+    "CheapBathtub",
+    "ModernShower",
+    "Bathtub",
+    "GingerbreadShower",
+    "HotTub"
+}
+
+local Beds = {
+    "FancyPetBed",
+    "ModernPetBed",
+    "CircularPetBed",
+    "RectangularPetBed",
+    "NormalCrib",
+    "BasicCrib",
+    "RoyalCrib",
+    "PoshCrib",
+}
+
+local Location = nil
+for i, v in pairs(getgc()) do
+    if type(v) == "function" then
+        if getfenv(v).script == game.ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
+            if table.find(getconstants(v), "LocationAPI/SetLocation") then
+                Location = v
+                break
+            end
+        end
+    end
+end
+
+local SetLocation = function(A, B, C)
+    local O = get_thread_identity()
+    set_thread_identity(2)
+    Location(A, B, C)
+    set_thread_identity(O)
+end
+
+local GoToMainMap = function()
+    SetLocation("MainMap", "Neighborhood/MainDoor")
     return false
 end
 
--- Function to handle checking for nearby players
-local function checkNearbyPlayers()
-    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
-        if otherPlayer ~= player then
-            if isPlayerInRange(otherPlayer) then
-                function sHopper()
-				    local endpoint = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/6284583030/servers/Public?sortOrder=Asc&limit=100'))
-				    bestserver = {
-				        p = 0
-				    }
-				    function shuffleTable(tbl)
-				        local size = #tbl
-				        for i = size, 1, -1 do
-				            local rand = math.random(size)
-				            tbl[i], tbl[rand] = tbl[rand], tbl[i]
-				        end
-				        return tbl
-				    end
-				    randomdata = shuffleTable(endpoint.data)
-				    for i, v in pairs(randomdata) do
-				        if v.playing > bestserver['p'] and v.playing <= 2 then
-				            bestserver['id'] = v.id
-				            bestserver['p'] = v.playing
-				        end
-				    end
-				    game:GetService("TeleportService"):TeleportToPlaceInstance(6284583030, bestserver.id, game.Players.LocalPlayer)
-				end
-					while 1 do
-					    oldid = game.JobId
-					    sHopper()
-					    task.wait(1)
-					    if oldid ~= game.JobId then
-					        break
-					    end
-					end
+local GoToHome = function()
+    SetLocation("housing", "MainDoor", {["house_owner"] = Player})
+    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -8))
+    return false
+end
+
+local GoToPlace = function(Name)
+    SetLocation(Name, "MainDoor", {})
+end
+
+---------------- Function Tasks ------------------
+
+-- Food / Hungry Task
+function HungryTask()
+    local Player = game.Players.LocalPlayer
+    game.ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'pizza', {})
+    game.ReplicatedStorage:FindFirstChild("ToolAPI/BakeItem",true):InvokeServer()
+    while Player.Character:FindFirstChild('PizzaTool') do wait() end
+    while not Player.Character:FindFirstChild('PizzaTool') do wait() end
+    local Foods = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food or {}
+    local Pizza
+    for i,v in pairs(Foods) do
+        if v.id == 'pizza' then
+            Pizza = v.unique
+            break
+        end
+    end
+    if not Pizza then
+        return
+    end
+    wait(2)
+    game.ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = Pizza})
+    wait(1)
+    game.ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Pizza)
+end
+
+-- Dirty / Shower Task
+
+function DirtyTask()
+    GoToHome()
+    wait(2)
+
+    local Showers = function(Name)
+        Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+        for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
+            if v:FindFirstChildWhichIsA("Model") and (table.find(Baths, v:FindFirstChildWhichIsA("Model").Name)) then
+                local String = string.split(v.Name,"true/")[2]
+                return String
             end
         end
     end
-end
-
-coi = coroutine.create(function()
-	while true do
-	    checkNearbyPlayers()
-	    wait(1) -- Adjust the interval as needed
-	end
-end)
-coroutine.resume(coi)
-local TimeElapsed = 0
-local GemsEarned = 0
-local TotalGemsEarned = 0
-local Library = require(game:GetService("ReplicatedStorage").Library)
-local StartingGems = Library.Save.Get().Diamonds
-
-local timer = coroutine.create(function()
-    while 1 do
-        TimeElapsed = TimeElapsed + 1
-        wait(1)
-    end
-end)
-coroutine.resume(timer)
-
-
--- ///// Add NEW Chest Miner Below
-
--- Player Variables 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Character = LocalPlayer.Character
-local HumanoidRootPart = Character.HumanoidRootPart
-local Humanoid = Character.Humanoid
-
--- // Game Services
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
---// Pet Sim X Variables
-local Library = require(ReplicatedStorage:WaitForChild("Library"))
-local Client = require(ReplicatedStorage:WaitForChild("Library"):WaitForChild("Client"))
-
-local Network = Client.Network
-local WorldCmds = Client.WorldCmds
-local PetCmds = Client.PetCmds
-local Audio = Library.Audio
-local Save = Client.Save
-
-repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild("__INTRO")
-
-
--- // Disables Idled so that you do not get disconnected for being afk
-for _,v in pairs(getconnections(LocalPlayer.Idled)) do
-    v:Disable()
-end
-
--- // Patching and Hooking so that the entirety of the script functions as intended.
-local success, errorMsg = pcall(function()
-    hookfunction(debug.getupvalue(Network.Fire, 1) , function(...) return true end)
-    hookfunction(debug.getupvalue(Network.Invoke, 1) , function(...) return true end)
-    
-    hookfunction(Audio.Play, function(...)
-        return {
-            Play = function() end,
-            Stop = function() end,
-            IsPlaying = function() return false end
-        }
-    end)
-end)
-
--- // Prints out whether the hooking was successful
-if not success then print("Error While Hooking!: " .. errorMsg) else print("Hooked") end
-
-repeat task.wait() until WorldCmds.HasLoaded()
-
-if WorldCmds.Get() ~= "Diamond Mine" then
-    WorldCmds.Load("Diamond Mine")
-end
-
-repeat wait() until WorldCmds.HasLoaded()
-
-HumanoidRootPart.CFrame = CFrame.new(9041.01, -14.57, 2144.11)
-
-
-
-function GetCoinsCustom(area)
-    local coins = {}
-    for i, v in pairs(Network.Invoke("Get Coins")) do
-        if v.a == area and WorldCmds.HasArea(v.a) and v.n:find("Giant") then
-            v.coinId = i
-            table.insert(coins, v)
-        end
-    end
-    return coins
-end
-
-function farm(area)
-    local Coins = GetCoinsCustom(area)
-    local equippedPets = PetCmds.GetEquipped()
-    for _, pet in pairs(equippedPets) do
-        local selectedCoin = Coins[1]
-        task.spawn(function()
-            pcall(function()
-                if Coins[1] ~= nil and Coins[1].coinId ~= nil then  
-                    Network.Invoke("Join Coin", selectedCoin.coinId, {pet.uid})
-                    Network.Fire("Farm Coin", selectedCoin.coinId, pet.uid)
-                end
-            end)
-        end)
-        task.wait()
-    end
-    task.wait()
-end
-
-
-spawn(function()
-    while wait () do
-        for i,v in pairs(game.Workspace["__THINGS"].Orbs:GetChildren()) do
-            if v:IsA("Part") then
-                v.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-            end
-        end
-    end
-end)
-spawn(function()
-    while wait () do
-        for i,v in pairs(game.Workspace["__THINGS"].Lootbags:GetChildren()) do
-            if v:IsA("MeshPart") then
-                v.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-            end
-        end
-    end
-end)
-
-repeat farm("Mystic Mine") task.wait() until #GetCoinsCustom("Mystic Mine") == 0
-
--- //// Chest Miner DONE
-wait(1)
-
-AREATOCHECK = "Mystic Mine"
-function add_suffix(inte)
-    local gems = inte
-    local gems_formatted
-
-    if gems >= 1000000000000 then  -- if gems are greater than or equal to 1 trillion
-        gems_formatted = string.format("%.1ft", gems / 1000000000000)  -- display gems in trillions with one decimal point
-    elseif gems >= 1000000000 then  -- if gems are greater than or equal to 1 billion
-        gems_formatted = string.format("%.1fb", gems / 1000000000)  -- display gems in billions with one decimal point
-    elseif gems >= 1000000 then  -- if gems are greater than or equal to 1 million
-        gems_formatted = string.format("%.1fm", gems / 1000000)  -- display gems in millions with one decimal point
-    elseif gems >= 1000 then  -- if gems are greater than or equal to 1 thousand
-        gems_formatted = string.format("%.1fk", gems / 1000)  -- display gems in thousands with one decimal point
-    else  -- if gems are less than 1 thousand
-        gems_formatted = tostring(gems)  -- display gems as is
-    end
-
-    return gems_formatted
-end
-HttpService = game:GetService("HttpService")
-function WH()
-	request({
-		Url = WEBHOOK,
-        Method = "POST",
-        Headers = {
-            ["Content-Type"] = "application/json"
+    print("Shower Remote Firing")
+    print(PetName)
+    local args = {
+        [1] = game:GetService("Players").LocalPlayer,
+        [2] = Showers(),
+        [3] = "UseBlock",
+        [4] = {
+            ["cframe"] = Player.Character.HumanoidRootPart.CFrame
         },
-        Body = HttpService:JSONEncode{
-            ["content"] = "",
-            ["embeds"] = {
-			    {
-			      ["title"] = "Server Hop Stat Update",
-			      ["description"] = "Successfully Broke Everything In Server. Hopping To New Server!",
-			      ["color"] = 5814783,
-			      ["fields"] = {
-			        {
-			          ["name"] = "Stats",
-			          ["value"] = ":clock1: **Time Taken:** ``"..TimeElapsed.."s``\n:gem: **Gems Earned:** ``"..add_suffix(GemsEarned).."``\n:map: **Farming:** ``"..AREATOCHECK.."``"
-			        }
-			      },
-			      ["author"] = {
-			        ["name"] = "Mystic Farmer - Stats"
-			      }
-			    }
-			  }
-			  }
-	})
-end
-
-function GetMulti(B)
-		if not B then return 0 end
-		local totalMultiplier = 0	
-		if B.l then
-			for _, v in pairs(B.l) do
-				pcall(function() 
-					if v.m and tonumber(v.m) then
-						totalMultiplier = totalMultiplier + v.m
-					end
-				end)
-			end
-			
-		end
-		return totalMultiplier
-	end
-	
-	
-AllC = Invoke("Get Coins")
-AllNeededCoins = {}
-for i, v in pairs(AllC) do
-	if v.a == "Mystic Mine" then
-		M = GetMulti(v.b)
-		if breakgiantchest then
-			if string.find(v.n, "Giant") then
-				AllNeededCoins[i] = v
-			end
-		end
-		if breakbigchests then
-			if string.find(tostring(v.mh), "320") then
-				AllNeededCoins[i] = v
-			end
-		end
-		if breakpresents then
-			if string.find(v.n, "Present") then
-				AllNeededCoins[i] = v
-			end
-		end
-		if breakvaults then
-			if string.find(v.n, "Vault") or string.find(v.n, "Safe") then
-				AllNeededCoins[i] = v
-			end
-		end
-		if ignorepresents then
-			if M >= targetmulti and not string.find(v.n, "Present") then
-				AllNeededCoins[i] = v
-			end
-		else
-			if M >= targetmulti then
-				AllNeededCoins[i] = v
-			end
-		end
-	end
-end
-if game.Workspace:FindFirstChild("plat") then game.Workspace.plat:Destroy() end
-local p = Instance.new("Part") 
-p.Anchored = true
-p.Name = "plat"
-p.Position = Vector3.new(9043.19140625, -38.66098690032959, 2424.636474609375)
-p.Size = Vector3.new(100, 1, 100)
-p.Parent = game.Workspace
-local gui = Instance.new("SurfaceGui")
-gui.Parent = p
-gui.Face = Enum.NormalId.Top
-local textLabel = Instance.new("TextLabel")
-textLabel.Text = "Gem Farmer Made By henrymistert#3888 (.gg/henrymistert)"
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-textLabel.TextColor3 = Color3.new(0, 0, 0)
-textLabel.FontSize = Enum.FontSize.Size14
-textLabel.Parent = gui
-textLabel.TextScaled = true
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(9043.19141, -34.3321552, 2424.63647, -0.938255966, 7.68024719e-08, 0.345941782, 8.24376656e-08, 1, 1.57588176e-09, -0.345941782, 2.99972136e-08, -0.938255966)
-
-Fire("Performed Teleport")
-wait(0.2)
-PETS = Lib.Save.Get().PetsEquipped
-newP = {}
-for i,v in pairs(PETS) do table.insert(newP, i) end
-game.Workspace['__THINGS'].Orbs.ChildAdded:Connect(function(v)
-	Fire("Claim Orbs", {v.Name})
-end)
-game.Workspace['__THINGS'].Lootbags.ChildAdded:Connect(function(v)
-	Fire("Collect Lootbag", v.Name, v.Position)
-end)
-boostco = coroutine.create(function()
-    while 1 do
-        wait(2)
-	  if AutoTripleDamage then
-        boostName = "Triple Damage"
-        local Library = require(game.ReplicatedStorage.Framework.Library)
-        local save = Library.Save.Get()
-        found = false
-        for i, v in pairs(save.Boosts) do
-            if i == boostName then
-                found = true
-            end
-        end
-        if not found then
-            Fire("Activate Boost", boostName)
-        end
-	  end
-	  if AutoServerDamage then
-            boostName = "Triple Damage"
-            local Library = require(game.ReplicatedStorage.Library)
-            Library.Load()
-            found = false
-            for i, v in pairs(Library.ServerBoosts.GetActiveBoosts()) do
-                if i == boostName then
-                    found = true
-                end
-            end
-            if not found then
-                Fire("Activate Server Boost", boostName)
-            end
-        end
-    end
-end)
-coroutine.resume(boostco)
-for i, v in pairs(AllNeededCoins) do
-	local v86 = Invoke("Join Coin", i, newP)
-	for v88, v89 in pairs(v86) do
-    	Fire("Farm Coin", i, v88);
-	end
-	while 1 do
-		wait(0.01)
-		AllC = debug.getupvalue(getsenv(game.Players.LocalPlayer.PlayerScripts.Scripts.Game:WaitForChild("Coins", 10)).DestroyAllCoins, 1)
-		f = false
-		for i2,v2 in pairs(AllC) do
-			if i2 == i then f = true end
-		end
-		if not f then break end
-	end
-end
-wait(5)
-local EndingGems = Library.Save.Get().Diamonds
-GemsEarned = EndingGems - StartingGems
-pcall(WH)
-wait(1)
-
-
-
--- //////// Server Hopper
-
-
-
-function sHopper()
-    local endpoint = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/6284583030/servers/Public?sortOrder=Asc&limit=100'))
-    bestserver = {
-        p = 0
+        [5] = PetName
     }
-    function shuffleTable(tbl)
-        local size = #tbl
-        for i = size, 1, -1 do
-            local rand = math.random(size)
-            tbl[i], tbl[rand] = tbl[rand], tbl[i]
-        end
-        return tbl
-    end
-    randomdata = shuffleTable(endpoint.data)
-    for i, v in pairs(randomdata) do
-        if v.playing > bestserver['p'] and v.playing <= 2 then
-            bestserver['id'] = v.id
-            bestserver['p'] = v.playing
-        end
-    end
-    game:GetService("TeleportService"):TeleportToPlaceInstance(6284583030, bestserver.id, game.Players.LocalPlayer)
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("HousingAPI/ActivateFurniture"):InvokeServer(unpack(args))
+    print("Shower Remote Fired")
 end
-while 1 do
-    oldid = game.JobId
-    sHopper()
-    task.wait(1)
-    if oldid ~= game.JobId then
-        break
+
+-- Sleeping Task
+
+function SleepyTask()
+    GoToHome()
+    wait(2)
+
+    local Bed = function(Name)
+        Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+        for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
+            if v:FindFirstChildWhichIsA("Model") and (table.find(Beds, v:FindFirstChildWhichIsA("Model").Name)) then
+                local String = string.split(v.Name,"/f")[2]
+                return "f".. String
+            end
+        end
+    end
+
+    print("Sleeping Remote Firing")
+    print(PetName)
+    local args = {
+        [1] = game:GetService("Players").LocalPlayer,
+        [2] = Bed(),
+        [3] = "UseBlock",
+        [4] = {
+            ["cframe"] = Player.Character.HumanoidRootPart.CFrame
+        },
+        [5] = PetName
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("HousingAPI/ActivateFurniture"):InvokeServer(unpack(args))
+    print("Sleeping Remote Fired")
+end
+
+-- Thirsty Task
+
+function ThirstyTask()
+    game.ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'tea', {})
+    local Foods = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
+    local Tea
+    for i, v in pairs(Foods) do
+        if v.id == 'tea' then
+            Tea = v.unique
+            break
+        end
+    end
+    if not Tea then
+        return
+    end
+    wait(2)
+    game.ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = Tea})
+    game.ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Tea)
+end
+
+-- School Task
+function SchoolTask()
+    GoToPlace('School')
+    wait(1)
+    School = workspace.Interiors:FindFirstChild("School")
+    if School then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Interiors.School.WorldPivot.Position + Vector3.new(0, 0, -50))
+    end
+end
+
+-- Sick / Hospital Task
+function SickTask()
+    game.ReplicatedStorage:FindFirstChild("MonitorAPI/HealWithDoctor",true):FireServer()
+end
+
+-- Pizza Party Task
+function PizzaPartyTask()
+    GoToPlace("PizzaShop")
+    wait(1)
+    PizzaShop = workspace.Interiors:FindFirstChild("PizzaShop")
+    if PizzaShop then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Interiors.PizzaShop.WorldPivot.Position + Vector3.new(0, 0, -50))
+    end
+end
+
+-- Bored / Playground Task
+function BoredTask()
+    GoToMainMap()
+    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.StaticMap.Park.AilmentTarget.Position + Vector3.new(0, 5, 0))
+end
+
+-- Camping Task
+function CampingTask()
+    GoToMainMap()
+    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.StaticMap.Campsite.CampsiteOrigin.Position + Vector3.new(0, 5, 0))
+end
+
+-- Pool Party Task
+function PoolPartyTask()
+    GoToMainMap()
+    Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace.StaticMap.Pool.PoolOrigin.Position + Vector3.new(0, 5, 0))
+end
+
+-- Salon Task
+function SalonTask()
+    GoToPlace("Salon")
+    wait(1)
+    Salon = workspace.Interiors:FindFirstChild("Salon")
+    if Salon then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Interiors.Salon.WorldPivot.Position + Vector3.new(0, 0, -10))
+    end
+end
+
+-- Adoption Party Task
+function AdoptionPartyTask()
+    GoToStore('Nursery')
+    wait(1)
+    Nursery = workspace.Interiors:FindFirstChild("Nursery")
+    if Nursery then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Interiors.Nursery.WorldPivot.Position + Vector3.new(0, 0, -10))
+    end
+end
+
+--------------- Main Tasks ---------------
+local player = game.Players.LocalPlayer
+local taskNames = {
+    "hungry",
+    "thirsty",
+    "sleepy",
+    "bored",
+    "dirty",
+    "camping",
+    "sick",
+    "school",
+    "pool_party",
+    "salon",
+    "pizza_party"
+}
+
+local ailmentMonitor = player.PlayerGui.AilmentsMonitorApp.Ailments
+
+while true do
+    wait(1)  -- Adjust the interval as needed
+
+    for _, taskName in pairs(taskNames) do
+        if ailmentMonitor:FindFirstChild(taskName) then
+            -- Execute corresponding code based on the task name
+            local success, errorMessage = pcall(function()
+                if taskName == "hungry" then
+                    print("Hungry task appeared.")
+                    HungryTask()
+                elseif taskName == "thirsty" then
+                    print("Thirsty task appeared.")
+                    ThirstyTask()
+                elseif taskName == "sleepy" then
+                    print("Sleepy task appeared.")
+                    SleepyTask()
+                elseif taskName == "bored" then
+                    print("Bored task appeared.")
+                    BoredTask()
+                elseif taskName == "dirty" then
+                    print("Dirty task appeared.")
+                    DirtyTask()
+                elseif taskName == "camping" then
+                    print("Camping task appeared.")
+                    CampingTask()
+                elseif taskName == "sick" then
+                    print("Sick task appeared.")
+                    SickTask()
+                elseif taskName == "school" then
+                    print("School task appeared.")
+                    SchoolTask()
+                elseif taskName == "pool_party" then
+                    print("Pool party task appeared.")
+                    PoolPartyTask()
+                elseif taskName == "salon" then
+                    print("Salon task appeared.")
+                    SalonTask()
+                elseif taskName == "pizza_party" then
+                    print("Pizza Party task appeared.")
+                    PizzaPartyTask()
+                end
+
+                -- Wait until the task is removed from the Ailments Monitor or timeout after 30 seconds
+                local timeout = 60
+                repeat
+                    wait(1)
+                    timeout = timeout - 1
+                until not ailmentMonitor:FindFirstChild(taskName) or timeout <= 0
+            end)
+
+            if not success then
+                warn("An error occurred while executing the task: " .. errorMessage)
+            end
+        end
     end
 end
