@@ -52,7 +52,7 @@ local EventItemTab = Window:NewTab("Event Tab")
 local EventItemSection = EventItemTab:NewSection("Winter Event Items")
 
 local UtilsTab = Window:NewTab("Utils Tab")
-local UtilsSection = EventItemTab:NewSection("Utilities")
+local UtilsSection = UtilsTab:NewSection("Utilities")
 
 local Player = game:GetService("Players").LocalPlayer
 
@@ -567,6 +567,16 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
             wait(0.1)            
         end
     end
+end)
+
+------------      Utilities Tab          ------------------
+
+UtilsSection:NewButton("Remote Spy", "ButtonInfo", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpySource.lua"))()
+end)
+
+UtilsSection:NewButton("Infinite Yield", "ButtonInfo", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 end)
 
 ---------------------------------------------------------------------
