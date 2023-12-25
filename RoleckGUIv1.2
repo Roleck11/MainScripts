@@ -482,7 +482,7 @@ dropdownForPlayersInServer = TradeSection:NewDropdown("Select Player:", "Dropdow
 end)
 
 TradeSection:NewButton("Refresh Trade List", "ButtonInfo", function()
-    RefreshDropdownForPlayersInServer
+    RefreshDropdownForPlayersInServer()
 end)
 
 TradeSection:NewButton("Send Trade", "ButtonInfo", function()
