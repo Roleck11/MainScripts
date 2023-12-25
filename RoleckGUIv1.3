@@ -50,6 +50,7 @@ local BuyItemSection = BuyItemTab:NewSection("Buy Items")
 
 local EventItemTab = Window:NewTab("Event Tab")
 local EventItemSection = EventItemTab:NewSection("Winter Event Items")
+local EventToolSection = EventItemTab:NewSection("Winter Event Items")
 
 local UtilsTab = Window:NewTab("Utils Tab")
 local UtilsSection = UtilsTab:NewSection("Utilities")
@@ -646,6 +647,30 @@ EventItemSection:NewButton("Submit", "ButtonInfo", function()
             wait(0.1)            
         end
     end
+end)
+
+EventToolSection:NewButton("Open All Hare Boxes", "ButtonInfo", function()
+    spawn(function()
+        while true and wait() do
+            local Boxes = {}
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+                if v.id == "winter_2023_hare_box" then        
+                    local args = {
+                        [1] = "winter_2023_hare_box",
+                        [2] = i
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(unpack(args))
+                end
+            end
+        end
+    end)
+end)
+
+EventToolSection:NewButton("Get Gingerbread Mouse", "ButtonInfo", function()
+    local args = {
+        [1] = 25
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("WinterEventAPI/AdventCalendarTryTakeReward"):InvokeServer(unpack(args))    
 end)
 
 ------------      Utilities Tab          ------------------
