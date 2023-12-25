@@ -43,7 +43,7 @@ local NewPotionSection = NewPotionTab:NewSection("New Potion")
 
 local TradeTab = Window:NewTab("Trade Tab")
 local TradeSection = TradeTab:NewSection("Trade System")
-local AddItemSection = TradeTab:NewSection("Add Items")
+local TradeLicenseSection = TradeTab:NewSection("Trade License")
 
 local BuyItemTab = Window:NewTab("Buy Tab")
 local BuyItemSection = BuyItemTab:NewSection("Buy Items")
@@ -485,6 +485,8 @@ TradeSection:NewButton("Refresh Trade List", "ButtonInfo", function()
     RefreshDropdownForPlayersInServer()
 end)
 
+spawn(RefreshDropdownForPlayersInServer)
+
 TradeSection:NewButton("Send Trade", "ButtonInfo", function()
     local args = {
         [1] = game:GetService("Players"):WaitForChild(PlayerToTradeA)
@@ -516,6 +518,17 @@ TradeSection:NewToggle("Accept Trades from EVERYONE", "ToggleInfo", function(sta
         end 
     else
         getgenv().AcceptTradesFromEveryone = false
+    end
+end)
+
+TradeLicenseSection:NewButton("Get Trade License", "ButtonInfo", function()
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/BeginQuiz"):FireServer()
+    for i,v in pairs(getgc(true)) do
+        if type(v) == "table" and rawget(v,"question_index") then
+            for i,v in pairs(v.quiz) do
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AnswerQuizQuestion"):FireServer(v.answer)
+            end 
+        end 
     end
 end)
 
