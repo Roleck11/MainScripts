@@ -475,19 +475,15 @@ local function RefreshDropdownForPlayersInServer()
     end
     dropdownForPlayersInServer:Refresh(PlayersInServer)
 end
- 
-function RefreshTradeDropdownWithLoop()
-    while true do
-        RefreshDropdownForPlayersInServer()
-        wait(2)
-    end
-end
+
 
 dropdownForPlayersInServer = TradeSection:NewDropdown("Select Player:", "DropdownInf", PlayersInServer, function(PlayerToTrade)
     PlayerToTradeA = PlayerToTrade
 end)
 
-spawn(RefreshTradeDropdownWithLoop)
+TradeSection:NewButton("Send Trade", "ButtonInfo", function()
+    RefreshDropdownForPlayersInServer
+end)
 
 TradeSection:NewButton("Send Trade", "ButtonInfo", function()
     local args = {
