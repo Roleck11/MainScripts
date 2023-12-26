@@ -43,6 +43,7 @@ local NewPotionSection = NewPotionTab:NewSection("New Potion")
 
 local TradeTab = Window:NewTab("Trade Tab")
 local TradeSection = TradeTab:NewSection("Trade System")
+local TradeFeatureSection = TradeTab:NewSection("Trade Features")
 local TradeLicenseSection = TradeTab:NewSection("Trade License")
 
 local BuyItemTab = Window:NewTab("Buy Tab")
@@ -482,10 +483,6 @@ dropdownForPlayersInServer = TradeSection:NewDropdown("Select Player:", "Dropdow
     PlayerToTradeA = PlayerToTrade
 end)
 
-TradeSection:NewButton("Refresh Trade List", "ButtonInfo", function()
-    RefreshDropdownForPlayersInServer()
-end)
-
 spawn(RefreshDropdownForPlayersInServer)
 
 TradeSection:NewButton("Send Trade", "ButtonInfo", function()
@@ -504,23 +501,19 @@ TradeSection:NewButton("Accept/Confirm Trade", "ButtonInfo", function()
     end
 end)
 
-getgenv().AcceptTradesFromEveryone = false
-TradeSection:NewToggle("Accept Trades from EVERYONE", "ToggleInfo", function(state)
-    if state then
-        getgenv().AcceptTradesFromEveryone = true
-        while getgenv().AcceptTradesFromEveryone do
-            for i, players in ipairs(game:GetService("Players"):GetPlayers()) do
-                local args = {
-                    [1] = players,
-                    [2] = true
-                }
-                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptOrDeclineTradeRequest"):InvokeServer(unpack(args))
-            end
-        end 
-    else
-        getgenv().AcceptTradesFromEveryone = false
+TradeFeatureSection:NewButton("Add Winter Pets To Trade", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if string.find(v.id, "winter")then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
     end
 end)
+
+
+TradeFeatureSection:NewButton("Update Player List", "ButtonInfo", function()
+    RefreshDropdownForPlayersInServer()
+end)
+
 
 TradeLicenseSection:NewButton("Get Trade License", "ButtonInfo", function()
     game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/BeginQuiz"):FireServer()
