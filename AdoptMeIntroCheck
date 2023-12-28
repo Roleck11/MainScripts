@@ -8,7 +8,7 @@ function clickUiButton(button, state)
     game:GetService("VirtualInputManager"):SendMouseButtonEvent(buttonPosX, buttonPosY, 0, state, game, 1)
 end
 
-wait(1)
+wait(3)
 
 if not playerGui.BucksIndicatorApp.Enabled then
     while true and wait() do
