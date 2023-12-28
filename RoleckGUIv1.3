@@ -7,8 +7,6 @@ if not game:IsLoaded() then
     while not game:IsLoaded() do wait(1) end
 end
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AdoptMeIntroCheck"))();
-
 for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
     v.Name = i
 end
