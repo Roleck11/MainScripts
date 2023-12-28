@@ -579,7 +579,7 @@ end)
 
 -------------------- Event ---------------
 
-EventItemSection:NewDropdown("Winter Pet Name:", "DropdownInf", {"Harp Seal", "Hare Box", "Fleur De Ice", "Nutcracker Squirrel", "Beluga Whale"}, function(PetName)
+EventItemSection:NewDropdown("Winter Pet Name:", "DropdownInf", {"Snow Monkey", "Harp Seal", "Hare Box", "Fleur De Ice", "Nutcracker Squirrel", "Beluga Whale"}, function(PetName)
     PetCalled = string.lower(PetName)
 end)
 
@@ -637,6 +637,17 @@ EventItemSection:NewButton("Submit", "ButtonInfo", function()
             local args = {
                 [1] = "pets",
                 [2] = "winter_2023_beluga_whale",
+                [3] = {}
+            }
+            
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
+            wait(0.1)            
+        end
+    elseif PetCalled == "snow monkey" then
+        for i = 1, QuantityN do
+            local args = {
+                [1] = "pets",
+                [2] = "winter_2023_snow_monkey",
                 [3] = {}
             }
             
