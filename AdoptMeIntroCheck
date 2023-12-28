@@ -1,0 +1,52 @@
+local playerGui = game.Players.LocalPlayer.PlayerGui
+local guiName = "NewsApp"
+local isGuiEnabled = false
+
+function clickUiButton(button, state)
+    local buttonPosX = button.AbsolutePosition.X + button.AbsoluteSize.X / 2
+    local buttonPosY = button.AbsolutePosition.Y + 66
+    game:GetService("VirtualInputManager"):SendMouseButtonEvent(buttonPosX, buttonPosY, 0, state, game, 1)
+end
+
+wait(1)
+
+if not playerGui.BucksIndicatorApp.Enabled then
+    while true and wait() do
+        for _, gui in pairs(playerGui:GetChildren()) do
+            if gui.Name == guiName and gui.Enabled then
+                isGuiEnabled = true
+                break
+            end
+        end
+        if isGuiEnabled then
+            break
+        end   
+    end
+
+    for i = 1, 2 do
+        clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.ExperimentalNewsApp.EnclosingFrame.MainFrame.Contents.PlayButton,true)
+        task.wait()
+        clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.ExperimentalNewsApp.EnclosingFrame.MainFrame.Contents.PlayButton,false)
+        task.wait()
+        clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RoleChooserDialog.Baby, true)
+        task.wait()
+        clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RoleChooserDialog.Baby, false)
+        task.wait()
+        clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Buttons.ButtonTemplate,true)
+        task.wait()
+        clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Buttons.ButtonTemplate,false)
+        task.wait()
+        clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Body.Buttons.ClaimButton,true)
+        task.wait()
+        clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Body.Buttons.ClaimButton,false)
+        wait()
+    end
+    wait(2)
+    clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Buttons.ButtonTemplate,true)
+    task.wait()
+    clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Buttons.ButtonTemplate,false)
+    task.wait()
+    clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Body.Buttons.ClaimButton,true)
+    task.wait()
+    clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Body.Buttons.ClaimButton,false)
+end
