@@ -41,7 +41,7 @@ if not playerGui.BucksIndicatorApp.Enabled then
         clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Body.Buttons.ClaimButton,false)
         wait()
     end
-    wait(2)
+    wait(3)
     clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Buttons.ButtonTemplate,true)
     task.wait()
     clickUiButton(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Buttons.ButtonTemplate,false)
