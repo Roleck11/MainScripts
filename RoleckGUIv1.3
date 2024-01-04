@@ -505,7 +505,7 @@ TradeSection:NewButton("Accept/Confirm Trade", "ButtonInfo", function()
     end
 end)
 
-TradeFeatureSection:NewButton("Add Winter Pets To Trade", "ButtonInfo", function()
+TradeFeatureSection:NewButton("Add Winter Items To Trade", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
         if string.find(v.id, "winter")then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
@@ -598,109 +598,7 @@ end)
 
 
 -------------------- Event ---------------
-
-EventItemSection:NewDropdown("Winter Pet Name:", "DropdownInf", {"Snow Monkey", "Harp Seal", "Hare Box", "Fleur De Ice", "Nutcracker Squirrel", "Beluga Whale"}, function(PetName)
-    PetCalled = string.lower(PetName)
-end)
-
-EventItemSection:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100"}, function(Quantity)
-    QuantityN = tonumber(Quantity)
-end)
-
-EventItemSection:NewButton("Submit", "ButtonInfo", function()
-    if PetCalled == "harp seal" then
-        for i = 1, QuantityN do
-            local args = {
-                [1] = "pets",
-                [2] = "winter_2023_harp_seal",
-                [3] = {}
-            }
-    
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
-            wait(0.1)
-        end
-    elseif PetCalled == "hare box" then
-        for i = 1, QuantityN do
-            local args = {
-                [1] = "gifts",
-                [2] = "winter_2023_hare_box",
-                [3] = {}
-            }
-            
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))            
-            wait(0.1)            
-        end
-    elseif PetCalled == "fleur de ice" then
-        for i = 1, QuantityN do
-            local args = {
-                [1] = "pets",
-                [2] = "winter_2023_fleur_de_ice",
-                [3] = {}
-            }
-            
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
-            wait(0.1)            
-        end
-    elseif PetCalled == "nutcracker squirrel" then
-        for i = 1, QuantityN do
-            local args = {
-                [1] = "pets",
-                [2] = "winter_2023_nutcracker_squirrel",
-                [3] = {}
-            }
-            
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
-            wait(0.1)            
-        end
-    elseif PetCalled == "beluga whale" then
-        for i = 1, QuantityN do
-            local args = {
-                [1] = "pets",
-                [2] = "winter_2023_beluga_whale",
-                [3] = {}
-            }
-            
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
-            wait(0.1)            
-        end
-    elseif PetCalled == "snow monkey" then
-        for i = 1, QuantityN do
-            local args = {
-                [1] = "pets",
-                [2] = "winter_2023_snow_monkey",
-                [3] = {}
-            }
-            
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
-            wait(0.1)            
-        end
-    end
-end)
-
-EventToolSection:NewButton("Open All Hare Boxes", "ButtonInfo", function()
-    spawn(function()
-        while true and wait() do
-            local Boxes = {}
-            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-                if v.id == "winter_2023_hare_box" then        
-                    local args = {
-                        [1] = "winter_2023_hare_box",
-                        [2] = i
-                    }
-                    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(unpack(args))
-                end
-            end
-        end
-    end)
-end)
-
-EventToolSection:NewButton("Get Gingerbread Mouse", "ButtonInfo", function()
-    local args = {
-        [1] = 25
-    }
-    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("WinterEventAPI/AdventCalendarTryTakeReward"):InvokeServer(unpack(args))    
-end)
-
+-- No Event
 ------------      Utilities Tab          ------------------
 
 UtilsSection:NewButton("Remote Spy", "ButtonInfo", function()
