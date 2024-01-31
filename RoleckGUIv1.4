@@ -52,7 +52,6 @@ local NewAccountSection = NewAccount:NewSection("Account Setup")
 local TradeTab = Window:NewTab("Trade Tab")
 local TradeSection = TradeTab:NewSection("Trade System")
 local TradeFeatureSection = TradeTab:NewSection("Trade Features")
-local TradeLicenseSection = TradeTab:NewSection("Trade License")
 
 local BuyItemTab = Window:NewTab("Buy Tab")
 local BuyItemSection = BuyItemTab:NewSection("Buy Items")
@@ -284,13 +283,25 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
     -- IF determine type
     if TypeOfPet == "Normal" then
         local success, errorMsg = pcall(APTP_Normal)
-        print(errorMsg)
+        if errorMsg then
+            print(errorMsg)
+        else
+            print(success)
+        end
     elseif TypeOfPet == "Neon" then
         local success, errorMsg = pcall(APTP_Neon)
-        print(errorMsg)
+        if errorMsg then
+            print(errorMsg)
+        else
+            print(success)
+        end
     elseif TypeOfPet == "Both" then
         local success, errorMsg = pcall(APTP_Both)
-        print(errorMsg)
+        if errorMsg then
+            print(errorMsg)
+        else
+            print(success)
+        end
     end
 end)
 
@@ -345,7 +356,7 @@ AutoFusionSection:NewButton("Auto Mega", "ButtonInfo", function()
             local Neons = {}
             for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
                 local Old = v.id
-                if string.find(Old,v.id) and v.properties.age == 6 and v.properties.neon not v.properties.mega_neon then
+                if string.find(Old,v.id) and v.properties.age == 6 and v.properties.neon and not v.properties.mega_neon then
                     N = N + 1
                     table.insert(Neons, v.unique)
                     if N == 4 then
