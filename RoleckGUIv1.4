@@ -48,7 +48,6 @@ local NewPotionSection = NewPotionTab:NewSection("New Potion")
 local NewAccount = Window:NewTab("Account Setup Tab")
 local NewAccountSection = NewAccount:NewSection("Account Setup")
 
-
 local TradeTab = Window:NewTab("Trade Tab")
 local TradeSection = TradeTab:NewSection("Trade System")
 local TradeFeatureSection = TradeTab:NewSection("Trade Features")
@@ -329,46 +328,193 @@ end)
 ---------------------- NEW POTION TAB
 
 AutoFusionSection:NewButton("Auto Neon", "ButtonInfo", function()
-    pcall(function()
-        for i = 1, 10 do
-            local N = 0
-            local Neons = {}
-            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
-                local Old = v.id
-                if string.find(Old,v.id) and v.properties.age == 6 then
-                    N = N + 1
-                    table.insert(Neons, v.unique)
-                    if N == 4 then
-                        game.ReplicatedStorage.API:FindFirstChild("PetAPI/DoNeonFusion"):InvokeServer({unpack(Neons)})
-                        table.clear(Neons)
-                        N = 0
-                    end
+    function AutoNeonFusion()
+        while true do
+            wait(0.5)
+            local petNames = {}
+            local Player = game:GetService("Players").LocalPlayer
+    
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do  
+                if v.properties.age == 6 and not v.properties.mega_neon and not v.properties.neon then        
+                    table.insert(petNames, v.id)
                 end
             end
+    
+            function RoT(t)
+            return t[math.random(1, #t)]
+            end
+    
+            -- Function to create a new table with a string removed
+            local function RemoveString(originalTable, stringToRemove)
+                local newTable = {}
+                
+                for _, value in ipairs(originalTable) do
+                    if value ~= stringToRemove then
+                        table.insert(newTable, value)
+                    end
+                end
+                
+                return newTable
+            end
+    
+            -- Create a table to store the frequency count of each pet name
+            local frequencyCount = {}
+    
+            -- Count the occurrences of each pet name
+            for _, name in ipairs(petNames) do
+                if frequencyCount[name] then
+                    frequencyCount[name] = frequencyCount[name] + 1
+                else
+                    frequencyCount[name] = 1
+                end
+            end
+    
+            -- Find pet names that are repeated 4 or more times
+            local repeatedPets = {}
+    
+            for name, count in pairs(frequencyCount) do
+                if count >= 4 then
+                    table.insert(repeatedPets, name)
+                end
+            end
+    
+            CorePet = RoT(repeatedPets)
+            FGPets1 = {}
+    
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                if string.find(v.id, CorePet) and v.properties.age == 6 and not v.properties.mega_neon and not v.properties.neon then        
+                    table.insert(FGPets1, i)
+                end
+            end
+    
+            randomFG1 = RoT(FGPets1)
+    
+            local FGPets2 = RemoveString(FGPets1, randomFG1)
+            randomFG2 = RoT(FGPets2)
+    
+            local FGPets3 = RemoveString(FGPets2, randomFG2)
+            randomFG3 = RoT(FGPets3)
+    
+            local FGPets4 = RemoveString(FGPets3, randomFG3)
+            randomFG4 = RoT(FGPets4)
+    
+            local args = {
+                [1] = {
+                    [1] = randomFG1,
+                    [2] = randomFG2,
+                    [3] = randomFG3,
+                    [4] = randomFG4
+                }
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/DoNeonFusion"):InvokeServer(unpack(args))
+           
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do  
+                if v.properties.age == 6 and not v.properties.mega_neon and not v.properties.neon then        
+                    table.insert(petNames, v.id)
+                end
+            end        
+            if #petNames < 4 then
+                break
+            end        
         end
-    end)
+    end
+    local success, errorMsg = pcall(AutoNeonFusion)
 end)
 
 AutoFusionSection:NewButton("Auto Mega", "ButtonInfo", function()
-    pcall(function()
-        for i = 1, 10 do
-            local N = 0
-            local Neons = {}
-            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
-                local Old = v.id
-                if string.find(Old,v.id) and v.properties.age == 6 and v.properties.neon and not v.properties.mega_neon then
-                    N = N + 1
-                    table.insert(Neons, v.unique)
-                    if N == 4 then
-                        game.ReplicatedStorage.API:FindFirstChild("PetAPI/DoNeonFusion"):InvokeServer({unpack(Neons)})
-                        table.clear(Neons)
-                        N = 0
-                    end
+    function AutoMegaFusion()
+        while true do
+            wait(0.5)
+            local petNames = {}
+            local Player = game:GetService("Players").LocalPlayer
+    
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do  
+                if v.properties.age == 6 and v.properties.neon then        
+                    table.insert(petNames, v.id)
                 end
             end
+    
+            function RoT(t)
+            return t[math.random(1, #t)]
+            end
+    
+            -- Function to create a new table with a string removed
+            local function RemoveString(originalTable, stringToRemove)
+                local newTable = {}
+                
+                for _, value in ipairs(originalTable) do
+                    if value ~= stringToRemove then
+                        table.insert(newTable, value)
+                    end
+                end
+                
+                return newTable
+            end
+    
+            -- Create a table to store the frequency count of each pet name
+            local frequencyCount = {}
+    
+            -- Count the occurrences of each pet name
+            for _, name in ipairs(petNames) do
+                if frequencyCount[name] then
+                    frequencyCount[name] = frequencyCount[name] + 1
+                else
+                    frequencyCount[name] = 1
+                end
+            end
+    
+            -- Find pet names that are repeated 4 or more times
+            local repeatedPets = {}
+    
+            for name, count in pairs(frequencyCount) do
+                if count >= 4 then
+                    table.insert(repeatedPets, name)
+                end
+            end
+    
+            CorePet = RoT(repeatedPets)
+            FGPets1 = {}
+    
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                if string.find(v.id, CorePet) and v.properties.age == 6 and v.properties.neon then        
+                    table.insert(FGPets1, i)
+                end
+            end
+    
+            randomFG1 = RoT(FGPets1)
+    
+            local FGPets2 = RemoveString(FGPets1, randomFG1)
+            randomFG2 = RoT(FGPets2)
+    
+            local FGPets3 = RemoveString(FGPets2, randomFG2)
+            randomFG3 = RoT(FGPets3)
+    
+            local FGPets4 = RemoveString(FGPets3, randomFG3)
+            randomFG4 = RoT(FGPets4)
+    
+            local args = {
+                [1] = {
+                    [1] = randomFG1,
+                    [2] = randomFG2,
+                    [3] = randomFG3,
+                    [4] = randomFG4
+                }
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/DoNeonFusion"):InvokeServer(unpack(args))
+        
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do  
+                if v.properties.age == 6 and v.properties.neon then        
+                    table.insert(petNames, v.id)
+                end
+            end
+            if #petNames < 4 then
+                break
+            end        
         end
-    end)
+    end
+    local success, errorMsg = pcall(AutoMegaFusion)
 end)
+
 
 UpdatePetListSection:NewButton("Update Pet List", "ButtonInfo", function()
     RefreshDropdown()
