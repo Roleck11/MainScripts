@@ -70,6 +70,24 @@ local Main_Menu = require(RS.ClientModules.Core.UIManager.Apps.MainMenuApp)
 
 local Player = game:GetService("Players").LocalPlayer
 
+function RarityLookUp(PetName)
+    for i, v in pairs(require(game.ReplicatedStorage.ClientDB.Inventory.InventoryPetsSubDB.InventoryPetsSubDB).entries) do
+        if i == PetName then
+            if v.rarity == "common" then
+                return "Common"
+            elseif v.rarity == "uncommon" then 
+                return "Uncommon"
+            elseif v.rarity == "rare" then 
+                return "Rare"
+            elseif v.rarity == "ultra_rare" then 
+                return "Ultra-Rare"
+            elseif v.rarity == "legendary" then 
+                return "Legendary"
+            end
+        end
+    end
+end
+
 -- Remove Duplications
 local function RemoveDuplicates(tbl)
     local uniqueValues = {}
@@ -428,7 +446,15 @@ TradeSection:NewButton("Accept/Confirm Trade", "ButtonInfo", function()
     end
 end)
 
-TradeFeatureSection:NewButton("Add Desert Pets To Trade", "ButtonInfo", function()
+TradeFeatureSection:NewButton("Add [LEGENDARY] Desert Pets", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if v.id:match("desert") and not v.id:match("egg") and RarityLookUp(v.id) == "Legendary" then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+end)
+
+TradeFeatureSection:NewButton("Add [ALL] Desert Pets", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
         if v.id:match("desert") and not v.id:match("egg") then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
