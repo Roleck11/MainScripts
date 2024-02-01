@@ -2,6 +2,12 @@ if not game:IsLoaded() then
     while not game:IsLoaded() do task.wait(1) end
 end
 
+local Player = game:GetService("Players").LocalPlayer
+
+function RoT(t)
+    return t[math.random(1, #t)]
+end
+
 -- Remove Duplications
 local function RemoveDuplicates(tbl)
     local uniqueValues = {}
@@ -59,16 +65,23 @@ local PetDropdown = Tab:AddDropdown({
 	Options = GetPetsDropdown(),
 	Callback = function(PetName)
         _G.SelectedPet = PetName
+	end    
+})
 
+Tab:AddButton({
+	Name = "Refresh Pet Dropdown!",
+	Callback = function()
+        PetDropdown:Refresh(GetPetsDropdown(), true)
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Submit!",
+	Callback = function()
         function APTP_Normal()
             while true do
                 local Pets = {}
-                local Player = game:GetService("Players").LocalPlayer
-            
-                function RoT(t)
-                return t[math.random(1, #t)]
-                end
-            
+                       
                 for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
                     if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 and not v.properties.neon and not v.properties.mega_neon then        
                         table.insert(Pets, i)
@@ -105,12 +118,7 @@ local PetDropdown = Tab:AddDropdown({
         function APTP_Neon()
             while true do
                 local Pets = {}
-                local Player = game:GetService("Players").LocalPlayer
-            
-                function RoT(t)
-                return t[math.random(1, #t)]
-                end
-            
+                       
                 for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
                     if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 and v.properties.neon then        
                         table.insert(Pets, i)
@@ -147,11 +155,6 @@ local PetDropdown = Tab:AddDropdown({
         function APTP_Both()
             while true do
                 local Pets = {}
-                local Player = game:GetService("Players").LocalPlayer
-            
-                function RoT(t)
-                return t[math.random(1, #t)]
-                end
             
                 for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
                     if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 then        
@@ -192,13 +195,6 @@ local PetDropdown = Tab:AddDropdown({
         elseif TypeOfPet == "Both" then
             pcall(APTP_Both)
         end
-	end    
-})
-
-Tab:AddButton({
-	Name = "Refresh Pet Dropdown!",
-	Callback = function()
-        PetDropdown:Refresh(GetPetsDropdown(), true)
   	end    
 })
 
