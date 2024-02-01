@@ -59,7 +59,7 @@ function GetPetsDropdown()
     end
 end
 
-local Section = Tab:AddSection({
+local Section = PotionTab:AddSection({
 	Name = "Potion System"
 })
 
