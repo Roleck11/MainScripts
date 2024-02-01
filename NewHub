@@ -2,6 +2,7 @@ if not game:IsLoaded() then
     while not game:IsLoaded() do task.wait(1) end
 end
 
+local Fsys = require(RS:WaitForChild("Fsys")).load
 local Player = game:GetService("Players").LocalPlayer
 
 function RoT(t)
@@ -34,8 +35,8 @@ end
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
-local Tab = Window:MakeTab({
-	Name = "Tab 1",
+local PotionTab = Window:MakeTab({
+	Name = "Potion Tab",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
@@ -58,7 +59,7 @@ function GetPetsDropdown()
     end
 end
 
-Tab:AddDropdown({
+PotionTab:AddDropdown({
 	Name = "Type Dropdown",
 	Default = "Both",
 	Options = {"Normal", "Neon", "Both"},
@@ -67,7 +68,7 @@ Tab:AddDropdown({
 	end    
 })
 
-local PetDropdown = Tab:AddDropdown({
+local PetDropdown = PotionTab:AddDropdown({
 	Name = "Pet Dropdown",
 	Default = "None",
 	Options = GetPetsDropdown(),
@@ -76,24 +77,38 @@ local PetDropdown = Tab:AddDropdown({
 	end    
 })
 
-Tab:AddButton({
+PotionTab:AddButton({
 	Name = "Refresh Pet Dropdown!",
 	Callback = function()
         PetDropdown:Refresh(GetPetsDropdown(), true)
   	end    
 })
 
-Tab:AddButton({
+PotionTab:AddButton({
 	Name = "Submit!",
 	Callback = function()
-        function APTP_Normal()
+        function ApplyPotionsToPet()
             while true do
                 local Pets = {}
-                print(_G.SelectedPet)       
-                for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-                    if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 and not v.properties.neon and not v.properties.mega_neon then        
-                        print("----- Inserting to Table To Equip", v.id, ":", i)
-                        table.insert(Pets, i)
+        
+                if _G.SelectedPetType == "Normal" then
+                    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                        if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 and not v.properties.neon and not v.properties.mega_neon then        
+                            print("----- Inserting to Table To Equip", v.id, ":", i)
+                            table.insert(Pets, i)
+                        end
+                    end
+                elseif _G.SelectedPetType == "Neon" then
+                    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                        if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 and v.properties.neon then        
+                            table.insert(Pets, i)
+                        end
+                    end
+                elseif _G.SelectedPetType == "Both" then
+                    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                        if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 then        
+                            table.insert(Pets, i)
+                        end
                     end
                 end
             
@@ -110,46 +125,11 @@ Tab:AddButton({
                                     table.insert(Foods, i)
                                 end
                             end
-                        
+        
                             local randomFood = RoT(Foods)
-                            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(randomFood)
-                            wait(0.5)
-                        elseif i == randomPet and v.properties.age == 6 then
-                            BreakKing = false
-                            break
-                        end
-                    end
-                end
-                wait(1)
-            end
-        end
-        -- Neon
-        function APTP_Neon()
-            while true do
-                local Pets = {}
-                       
-                for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-                    if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 and v.properties.neon then        
-                        table.insert(Pets, i)
-                    end
-                end
-            
-                local randomPet = RoT(Pets)
-                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ToolAPI/Equip"):InvokeServer(randomPet)
-            
-                BreakKing = true
-                while BreakKing do
-                    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-                        if i == randomPet and v.properties.age < 6 then   
-                            local Foods = {}
-                            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food) do
-                                if v.id == "pet_age_potion" then        
-                                    table.insert(Foods, i)
-                                end
+                            if Fsys("ClientData").get("pet_char_wrapper") and Fsys("ClientData").get("pet_char_wrapper")["char"] and Fsys("ClientData").get("pet_char_wrapper")["char"] ~= nil then 
+                                game.ReplicatedStorage.API:FindFirstChild("PetAPI/ConsumeFoodItem"):FireServer(randomFood)
                             end
-                        
-                            local randomFood = RoT(Foods)
-                            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(randomFood)
                             wait(0.5)
                         elseif i == randomPet and v.properties.age == 6 then
                             BreakKing = false
@@ -160,51 +140,7 @@ Tab:AddButton({
                 wait(1)
             end
         end
-        -- Both
-        function APTP_Both()
-            while true do
-                local Pets = {}
-            
-                for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-                    if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 then        
-                        table.insert(Pets, i)
-                    end
-                end
-            
-                local randomPet = RoT(Pets)
-                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ToolAPI/Equip"):InvokeServer(randomPet)
-            
-                BreakKing = true
-                while BreakKing do
-                    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-                        if i == randomPet and v.properties.age < 6 then   
-                            local Foods = {}
-                            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food) do
-                                if v.id == "pet_age_potion" then        
-                                    table.insert(Foods, i)
-                                end
-                            end
-                        
-                            local randomFood = RoT(Foods)
-                            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(randomFood)
-                            wait(0.5)
-                        elseif i == randomPet and v.properties.age == 6 then
-                            BreakKing = false
-                            break
-                        end
-                    end
-                end
-                wait(1)
-            end
-        end
-        print(_G.SelectedPetType)
-        if _G.SelectedPetType == "Normal" then
-            APTP_Normal()
-        elseif TypeOfPet == "Neon" then
-            APTP_Neon()
-        elseif TypeOfPet == "Both" then
-            APTP_Both()
-        end
+        pcall(ApplyPotionsToPet)
   	end    
 })
 
