@@ -81,9 +81,10 @@ Tab:AddButton({
         function APTP_Normal()
             while true do
                 local Pets = {}
-                       
+                print(_G.SelectedPet)       
                 for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
                     if string.find(v.id, _G.SelectedPet) and v.properties.age < 6 and not v.properties.neon and not v.properties.mega_neon then        
+                        print("----- Inserting to Table To Equip", v.id, ":", i)
                         table.insert(Pets, i)
                     end
                 end
