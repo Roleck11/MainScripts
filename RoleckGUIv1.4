@@ -137,7 +137,13 @@ end)
 PotionSection:NewButton("Submit", "ButtonInfo", function()
     --Normal
     function APTP_Normal()
-        while true do
+        _G.NumberOfPets = {}
+        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+            if string.find(v.id, PetNameA) and v.properties.age < 6 and not v.properties.neon and not v.properties.mega_neon then        
+                table.insert(_G.NumberOfPets, i)
+            end
+        end
+        while not #_G.NumberOfPets == 0 do
             local Pets = {}
             local Player = game:GetService("Players").LocalPlayer
         
@@ -181,6 +187,12 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                 end
             end
             wait(1)
+            _G.NumberOfPets = {}
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                if string.find(v.id, PetNameA) and v.properties.age < 6 and not v.properties.neon and not v.properties.mega_neon then        
+                    table.insert(_G.NumberOfPets, i)
+                end
+            end
         end
     end
     -- Neon
@@ -330,6 +342,7 @@ end)
 AutoFusionSection:NewButton("Auto Neon", "ButtonInfo", function()
     function AutoNeonFusion()
         while true do
+            print("me fusing normals > neons")
             wait(0.5)
             local petNames = {}
             local Player = game:GetService("Players").LocalPlayer
@@ -414,6 +427,7 @@ AutoFusionSection:NewButton("Auto Neon", "ButtonInfo", function()
                 end
             end        
             if #petNames < 4 then
+                print("i broke auto neon")
                 break
             end        
         end
@@ -601,6 +615,7 @@ TradeSection:NewButton("Accept/Confirm Trade", "ButtonInfo", function()
         game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
         wait(0.1)
     end
+    print("i broke accept/confirm while loop YAYYY")
 end)
 
 TradeFeatureSection:NewButton("Add [LEGENDARY] Desert Pets", "ButtonInfo", function()
