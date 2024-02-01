@@ -29,11 +29,14 @@ local Tab = Window:MakeTab({
 function GetPetsDropdown()
     local Pets = {}
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.properties.age < 6 and not v.id == "egg" and not v.id:match("practice_dog") then        
+        print("Pet In Acc:", v.id)
+        if v.properties.age < 6 and not v.id:match("egg") and not v.id:match("practice_dog") then  
+            print("Inserting into table:", v.id)      
             table.insert(Pets, v.id)
         end
     end
     Pets = RemoveDuplicates(Pets)
+    print("Number of Pets:", #Pets)
     if #Pets == 0 then
         return {"No Available Pets"}
     else
