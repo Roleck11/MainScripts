@@ -34,7 +34,10 @@ function GetPetsDropdown()
         end
     end
     Pets = RemoveDuplicates(Pets)
-    return Pets
+    if #Pets == 0 then
+        return {"No Available Pets"}
+    else
+        return Pets
 end
 
 Tab:AddDropdown({
@@ -46,7 +49,7 @@ Tab:AddDropdown({
 	end    
 })
 
-Tab:AddDropdown({
+local PetDropdown = Tab:AddDropdown({
 	Name = "Pet Dropdown",
 	Default = "None",
 	Options = GetPetsDropdown(),
@@ -186,6 +189,13 @@ Tab:AddDropdown({
             pcall(APTP_Both)
         end
 	end    
+})
+
+Tab:AddButton({
+	Name = "Refresh Pet Dropdown!",
+	Callback = function()
+        PetDropdown:Refresh(GetPetsDropdown(), true)
+  	end    
 })
 
 OrionLib:Init()
