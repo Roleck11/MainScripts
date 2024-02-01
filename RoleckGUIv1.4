@@ -143,7 +143,9 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                 table.insert(_G.NumberOfPets, i)
             end
         end
-        while not #_G.NumberOfPets == 0 do
+
+        while #_G.NumberOfPets > 0 do
+            print("me potionsssss --- aaa")
             local Pets = {}
             local Player = game:GetService("Players").LocalPlayer
         
