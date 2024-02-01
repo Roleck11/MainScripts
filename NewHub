@@ -38,11 +38,12 @@ function GetPetsDropdown()
         return {"No Available Pets"}
     else
         return Pets
+    end
 end
 
 Tab:AddDropdown({
 	Name = "Type Dropdown",
-	Default = "None",
+	Default = "Both",
 	Options = {"Normal", "Neon", "Both"},
 	Callback = function(PetType)
 		_G.SelectedPetType = PetType
