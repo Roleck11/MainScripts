@@ -188,12 +188,13 @@ Tab:AddButton({
                 wait(1)
             end
         end
+        print(_G.SelectedPetType)
         if _G.SelectedPetType == "Normal" then
-            pcall(APTP_Normal)
+            APTP_Normal()
         elseif TypeOfPet == "Neon" then
-            pcall(APTP_Neon)
+            APTP_Neon()
         elseif TypeOfPet == "Both" then
-            pcall(APTP_Both)
+            APTP_Both()
         end
   	end    
 })
