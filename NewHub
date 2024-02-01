@@ -8,6 +8,14 @@ function RoT(t)
     return t[math.random(1, #t)]
 end
 
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
+
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+  v:Disable()
+end
+
 -- Remove Duplications
 local function RemoveDuplicates(tbl)
     local uniqueValues = {}
