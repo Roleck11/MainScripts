@@ -4,7 +4,7 @@ DisableGUI = false
 
 -- Code For GitHub
 if not game:IsLoaded() then
-    while not game:IsLoaded() do wait(1) end
+    while not game:IsLoaded() do task.wait(1) end
 end
 
 --loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AdoptMeIntroCheck"))();
@@ -181,14 +181,14 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                             [1] = randomFood
                         }
                         game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(unpack(args))
-                        wait(0.5)
+                        task.wait(0.5)
                     elseif i == randomPet and v.properties.age == 6 then
                         BreakKing = false
                         break
                     end
                 end
             end
-            wait(1)
+            task.wait(1)
             _G.NumberOfPets = {}
             for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
                 if string.find(v.id, PetNameA) and v.properties.age < 6 and not v.properties.neon and not v.properties.mega_neon then        
@@ -235,14 +235,14 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                             [1] = randomFood
                         }
                         game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(unpack(args))
-                        wait(0.5)
+                        task.wait(0.5)
                     elseif i == randomPet and v.properties.age == 6 then
                         BreakKing = false
                         break
                     end
                 end
             end
-            wait(1)
+            task.wait(1)
         end
     end
     -- Both
@@ -283,14 +283,14 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                             [1] = randomFood
                         }
                         game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(unpack(args))
-                        wait(0.5)
+                        task.wait(0.5)
                     elseif i == randomPet and v.properties.age == 6 then
                         BreakKing = false
                         break
                     end
                 end
             end
-            wait(1)
+            task.wait(1)
         end
     end
     -- IF determine type
@@ -345,7 +345,7 @@ AutoFusionSection:NewButton("Auto Neon", "ButtonInfo", function()
     function AutoNeonFusion()
         while true do
             print("me fusing normals > neons")
-            wait(0.5)
+            task.wait(0.5)
             local petNames = {}
             local Player = game:GetService("Players").LocalPlayer
     
@@ -440,7 +440,7 @@ end)
 AutoFusionSection:NewButton("Auto Mega", "ButtonInfo", function()
     function AutoMegaFusion()
         while true do
-            wait(0.5)
+            task.wait(0.5)
             local petNames = {}
             local Player = game:GetService("Players").LocalPlayer
     
@@ -546,7 +546,7 @@ NewAccountSection:NewButton("Get Trade License", "ButtonInfo", function()
             end 
         end 
     end
-    wait(0.5)
+    task.wait(0.5)
     game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/BeginQuiz"):FireServer()
     for i,v in pairs(getgc(true)) do
         if type(v) == "table" and rawget(v,"question_index") then
@@ -601,7 +601,7 @@ dropdownForPlayersInServer = TradeSection:NewDropdown("Select Player:", "Dropdow
     PlayerToTradeA = PlayerToTrade
 end)
 
-spawn(RefreshDropdownForPlayersInServer)
+task.spawn(RefreshDropdownForPlayersInServer)
 
 TradeSection:NewButton("Send Trade", "ButtonInfo", function()
     local args = {
@@ -613,9 +613,9 @@ end)
 TradeSection:NewButton("Accept/Confirm Trade", "ButtonInfo", function()
     while game:GetService("Players").LocalPlayer.PlayerGui.TradeApp.Frame.Visible do
         game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptNegotiation"):FireServer()
-        wait(0.1)
+        task.wait(0.1)
         game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
-        wait(0.1)
+        task.wait(0.1)
     end
     print("i broke accept/confirm while loop YAYYY")
 end)
@@ -660,7 +660,7 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
             }
     
             game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
-            wait(0.1)
+            task.wait(0.1)
         end
     elseif PetCalled == "chipmunk" then
         for i = 1, QuantityN do
@@ -671,7 +671,7 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
             }
             
             game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))            
-            wait(0.1)            
+            task.wait(0.1)            
         end
     elseif PetCalled == "raccoon" then
         for i = 1, QuantityN do
@@ -682,7 +682,7 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
             }
             
             game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))
-            wait(0.1)            
+            task.wait(0.1)            
         end
     end
 end)
