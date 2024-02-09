@@ -1,0 +1,82 @@
+local get_thread_identity = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
+local set_thread_identity = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
+local Location = nil
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
+
+local Player = game.Players.LocalPlayer
+bowls = workspace.Interiors.Lunar2024Shop.Arena.Throwables:GetChildren()
+_G.BowlCounter = 0
+
+function CollectDropOff()
+    bowls = workspace.Interiors.Lunar2024Shop.Arena.Throwables:GetChildren()
+    for i, v in pairs(bowls) do
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(v.WorldPivot.Position)
+        game.ReplicatedStorage.API["MinigameAPI/MessageServer"]:FireServer("red_light_green_light", "attempt_drop_off", 1)
+        print("Collected")
+        _G.BowlCounter = _G.BowlCounter + 1
+        if _G.BowlCounter > 25 then
+            break
+        end
+        wait(0.25)
+    end
+end
+
+function GameStatus()
+    return workspace.StaticMap.red_light_green_light_minigame_state["is_game_active"].Value
+end
+
+for i, v in pairs(getgc()) do
+    if type(v) == "function" then
+        if getfenv(v).script == game.ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
+            if table.find(getconstants(v), "LocationAPI/SetLocation") then
+                Location = v
+                break
+            end
+        end
+    end
+end
+local SetLocation = function(A, B, C)
+    local O = get_thread_identity()
+    set_thread_identity(2)
+    Location(A, B, C)
+    set_thread_identity(O)
+end
+local GoToMinigameLunar = function()
+    SetLocation("Lunar2024Shop", "MainDoor", {})
+    wait(2)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Interiors.Lunar2024Shop.RedLightGreenLight.JoinZone.WorldPivot.Position)
+end
+function GetLobby()
+    for i, v in pairs(workspace.Interiors:GetChildren()) do
+        if tostring(v) == "Lunar2024Shop" then
+            return true
+        else
+            print(v)
+            return false
+        end
+    end
+end
+_G.LLLaffan = true
+while _G.LLLaffan == true do
+    if GetLobby() == true then
+        print("Inside Lobby")
+        if (workspace.Interiors.Lunar2024Shop.RedLightGreenLight.JoinZone.WorldPivot.Position and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - workspace.Interiors.Lunar2024Shop.RedLightGreenLight.JoinZone.WorldPivot.Position).magnitude < 23) then
+            print("Inside Join Zone")
+        elseif GameStatus() == true then
+            print("Inside Minigame")
+            CollectDropOff()
+        else
+            if GetLobby() == true then
+                print("In Lobby, But Not in Join Zone / Minigame")
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(workspace.Interiors.Lunar2024Shop.RedLightGreenLight.JoinZone.WorldPivot.Position)
+            else
+                GoToMinigameLunar()
+            end
+        end
+    else
+        GoToMinigameLunar()
+    end
+    wait(5)
+end
