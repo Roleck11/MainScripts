@@ -1,3 +1,212 @@
+----- INTRO SCRIPT ----------
+if not game:IsLoaded() then
+    while not game:IsLoaded() do wait(1) end
+end
+repeat task.wait() until game:IsLoaded() and game:GetService("ReplicatedStorage"):FindFirstChild("ClientModules") and game:GetService("ReplicatedStorage").ClientModules:FindFirstChild("Core") and game:GetService("ReplicatedStorage").ClientModules.Core:FindFirstChild("UIManager") and game:GetService("ReplicatedStorage").ClientModules.Core:FindFirstChild("UIManager").Apps:FindFirstChild("TransitionsApp") and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("TransitionsApp") and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("TransitionsApp"):FindFirstChild("Whiteout")
+
+if game:GetService("Players").LocalPlayer.PlayerGui.TransitionsApp:FindFirstChild("Whiteout").Visible then 
+    game:GetService("Players").LocalPlayer.PlayerGui.TransitionsApp:FindFirstChild("Whiteout").Visible = false 
+end
+
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+  v:Disable()
+end
+
+
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
+    v.Name = i
+end
+
+print("Executed Roleck Minigame Script - Earning Yakgwa")
+---------------- Warn Control ---------------------------------
+local old;old = hookfunction(warn,function(data)
+    if data == "Tested pet entity pathfinding for a path that is too far away from its target!" then 
+       return 
+   end
+   if data == "Tested pet entity pathfinding for a path that is too far away from its target!" or
+      data == "[Pathfinder] Pathfinder Failed:" or
+      data:match("AccurateTime sync inaccuracy, varianc") or
+      data == "[AvatarEditorFocusSwitcher] Player's Character is nil" or
+      data:match("[CharacterHider]") or
+      data:match("Player:Move") or
+      data:match("Notch") then
+       return
+   end
+   return old(data)
+end)
+---------------------------------------------------------------
+
+getgenv().firesignal = function(signal, ...)
+	local connections = getconnections(signal)
+	for _, connection in ipairs(connections) do
+		connection:Fire(...)
+	end
+end
+
+function clickUiButton(button, state)
+    local buttonPosX = button.AbsolutePosition.X + button.AbsoluteSize.X / 2
+    local buttonPosY = button.AbsolutePosition.Y + 66
+    game:GetService("VirtualInputManager"):SendMouseButtonEvent(buttonPosX, buttonPosY, 0, state, game, 1)
+end
+
+repeat
+    if game:GetService("Players").LocalPlayer.PlayerGui.NewsApp.EnclosingFrame.MainFrame.Contents.PlayButton.Visible then
+        firesignal(game:GetService("Players").LocalPlayer.PlayerGui.NewsApp.EnclosingFrame.MainFrame.Contents.PlayButton.MouseButton1Click)
+        firesignal(game:GetService("Players").LocalPlayer.PlayerGui.NewsApp.EnclosingFrame.MainFrame.Contents.PlayButton.MouseButton1Down)
+        firesignal(game:GetService("Players").LocalPlayer.PlayerGui.NewsApp.EnclosingFrame.MainFrame.Contents.PlayButton.Activated)
+    end
+    if game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RoleChooserDialog.ChooseParent.Visible then
+        firesignal(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RoleChooserDialog.ChooseParent.MouseButton1Click)
+        firesignal(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RoleChooserDialog.ChooseParent.MouseButton1Down)
+        firesignal(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RoleChooserDialog.ChooseParent.Activated)
+    end
+    task.wait(1.1)
+    -- After Choose Parent
+    game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog:WaitForChild("RobuxProductDialog")
+    if game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Visible then 
+        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Buttons:GetChildren()) do 
+            if v.ClassName == "ImageButton" then 
+                clickUiButton(v,true)
+                task.wait()
+                clickUiButton(v,false)
+            end
+        end
+    end
+    game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("DailyLoginApp")
+    if game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Enabled and game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Visible then 
+        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Body.Buttons:GetChildren()) do 
+            if v.Name == "ClaimButton" then
+                clickUiButton(v,true)
+                task.wait()
+                clickUiButton(v,false)
+            end 
+        end
+    end
+    game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog:WaitForChild("UpdatesDialog")
+    if game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.UpdatesDialog.Visible then 
+        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.UpdatesDialog.Buttons:GetChildren()) do 
+            if v.ClassName == "ImageButton" then 
+                clickUiButton(v,true)
+                task.wait()
+                clickUiButton(v,false)
+            end
+        end
+    end
+until game:GetService("Players").LocalPlayer.Character and workspace.Camera.CameraSubject == game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid")
+
+task.spawn(function()
+    repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    task.wait(4)
+    game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog:WaitForChild("RobuxProductDialog")
+    if game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Visible then 
+        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.RobuxProductDialog.Buttons:GetChildren()) do 
+            if v.ClassName == "ImageButton" then 
+                clickUiButton(v,true)
+                task.wait()
+                clickUiButton(v,false)
+            end
+        end
+    end
+    wait(0.5)
+    game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("DailyLoginApp")
+    if game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Enabled and game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Visible then 
+        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.DailyLoginApp.Frame.Body.Buttons:GetChildren()) do 
+            if v.Name == "ClaimButton" then
+                clickUiButton(v,true)
+                task.wait()
+                clickUiButton(v,false)
+                wait(0.5)
+                clickUiButton(v,true)
+                task.wait()
+                clickUiButton(v,false)
+            end 
+        end
+    end
+    wait(0.5)
+    game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog:WaitForChild("UpdatesDialog")
+    if game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.UpdatesDialog.Visible then 
+        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Dialog.UpdatesDialog.Buttons:GetChildren()) do 
+            if v.ClassName == "ImageButton" then 
+                clickUiButton(v,true)
+                task.wait()
+                clickUiButton(v,false)
+            end
+        end
+    end
+end)
+
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+  v:Disable()
+end
+---------- Extra GUI Control and Buttons and IMAGES blah blah -------------
+game:GetService("Players").LocalPlayer.PlayerGui.DialogApp.Enabled = false
+game:GetService("Players").LocalPlayer.PlayerGui.InteractionsApp.Enabled = false
+game:GetService("Players").LocalPlayer.PlayerGui.NavigatorApp.Enabled = false
+
+------- Transition App Disabled (whatever it is) --------
+require(game.ReplicatedStorage.ClientModules.Core.UIManager.Apps.TransitionsApp).transition = function() return end 
+require(game.ReplicatedStorage.ClientModules.Core.UIManager.Apps.TransitionsApp).sudden_fill = function() return end
+if game:GetService("Players").LocalPlayer.PlayerGui.TransitionsApp:FindFirstChild("Whiteout").Visible then 
+    game:GetService("Players").LocalPlayer.PlayerGui.TransitionsApp:FindFirstChild("Whiteout").Visible = false 
+end
+--------------------   GUI   ---------------
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Roleck11/TaskScripts/main/LibSource')))()
+
+local Window = OrionLib:MakeWindow({
+    Name = "RoloxBot - Adopt Me",
+    HidePremium = false, 
+    SaveConfig = false, 
+    ConfigFolder = "RoloxBotConfig",
+    IntroEnabled = true,
+    IntroText = "RoloxBot - Adopt Me",
+    IntroIcon = "rbxassetid://887521804",
+    Icon = "rbxassetid://887521804",
+})
+
+local MainTab = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+MainTab:AddButton({
+	Name = "Check Age Potions",
+	Callback = function()
+        PotionTable = {}
+        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food) do
+            if v.id == "pet_age_potion" then        
+                table.insert(PotionTable, i)
+            end
+        end
+        if PotionTable == nil then
+            PotionsCheckCounter = 0
+        else
+            PotionsCheckCounter = #PotionTable
+        end
+
+        OrionLib:MakeNotification({
+            Name = "Aging Potions :",
+            Content = "Number of Potions : " .. tostring(PotionsCheckCounter),
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+  	end    
+})
+
+MainTab:AddButton({
+	Name = "Check Yakgwa Currency",
+	Callback = function()
+        YakgwaAmt = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].yakgwa_2024
+
+        OrionLib:MakeNotification({
+            Name = "Yakgwa :",
+            Content = "Number of New Currency : " .. tostring(YakgwaAmt),
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+  	end    
+})
+------------ MAIN MINIGAME SCRIPT -------------
 local get_thread_identity = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
 local set_thread_identity = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
 local Location = nil
@@ -20,6 +229,7 @@ function CollectDropOff()
         end
         wait(0.25)
     end
+    _G.BowlCounter = 0
 end
 
 function GameStatus()
