@@ -216,8 +216,10 @@ for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").
 end
 
 _G.BowlCounter = 0
+_G.AlreadyExecuted = false
 
 function CollectDropOff()
+    _G.AlreadyExecuted = true
     bowls = workspace.Interiors.Lunar2024Shop.Arena.Throwables:GetChildren()
     for i, v in pairs(bowls) do
         Player.Character.HumanoidRootPart.CFrame = CFrame.new(v.WorldPivot.Position)
@@ -230,6 +232,8 @@ function CollectDropOff()
         wait(0.25)
     end
     _G.BowlCounter = 0
+    wait(90)
+    _G.AlreadyExecuted = false
 end
 
 function GameStatus()
@@ -275,7 +279,9 @@ while _G.LLLaffan == true do
             print("Inside Join Zone")
         elseif GameStatus() == true then
             print("Inside Minigame")
-            CollectDropOff()
+            if _G.AlreadyExecuted == false then
+                CollectDropOff()
+            end
         else
             if GetLobby() == true then
                 print("In Lobby, But Not in Join Zone / Minigame")
