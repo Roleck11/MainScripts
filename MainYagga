@@ -153,7 +153,7 @@ end
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Roleck11/TaskScripts/main/LibSource')))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "RoloxBot - Adopt Me",
+    Name = tostring(game.Players.LocalPlayer.Name) .. " - RoloxBot",
     HidePremium = false, 
     SaveConfig = false, 
     ConfigFolder = "RoloxBotConfig",
