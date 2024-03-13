@@ -212,7 +212,7 @@ if Pets then
 end
 
 dropdown = PotionSection:NewDropdown("Select Pet:", "DropdownInf", PetsWithNames, function(PetName)
-    A, B = PetName:match("(.-)%s-%-%s-(.+)")
+    A = PetName:match("(.-)%s-%-%s-[^%-]+$")
     PetNameA = findPetID(A)
 end)
 RefreshDropdown()
