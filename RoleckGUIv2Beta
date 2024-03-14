@@ -95,7 +95,7 @@ function CheckPetRarity(PetName)
             elseif entry.rarity == "rare" then 
                 return "Rare"
             elseif entry.rarity == "ultra_rare" then 
-                return "Ultra-Rare"
+                return "Ultra Rare"
             elseif entry.rarity == "legendary" then 
                 return "Legendary"
             end
@@ -675,7 +675,7 @@ TradeFeatureSection:NewButton("Add [ALL] Mahi Mahi", "ButtonInfo", function()
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("mahi") and not v.id:match("egg") and CheckPetRaritywID(v.id) == "Ultra-Rare" then        
+        if v.id:match("mahi") and not v.id:match("egg") and CheckPetRaritywID(v.id) == "Ultra Rare" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
