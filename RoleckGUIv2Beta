@@ -113,7 +113,7 @@ function CheckPetRaritywID(PetName)
             elseif entry.rarity == "rare" then 
                 return "Rare"
             elseif entry.rarity == "ultra_rare" then 
-                return "Ultra-Rare"
+                return "Ultra Rare"
             elseif entry.rarity == "legendary" then 
                 return "Legendary"
             end
