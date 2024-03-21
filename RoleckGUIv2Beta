@@ -103,6 +103,17 @@ function CheckPetRarity(PetName)
     end
 end
 
+function CheckEgg(PetID)
+    for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB).pets) do
+        if entry.id == PetID then
+            if entry.is_egg == true then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 function CheckPetRaritywID(PetName)
     for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB).pets) do
         if type(entry) == "table" and string.lower(entry.id) == string.lower(PetName) then
@@ -140,7 +151,7 @@ end
 local function RemoveUselessPets(tbl)
     local result = {}
     for _, value in ipairs(tbl) do
-        if not (string.match(value, "egg") or value == "practice_dog") then
+        if not (CheckEgg(value.id) or value == "practice_dog") then
             table.insert(result, value)
         end
     end
