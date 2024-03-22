@@ -56,8 +56,7 @@ local BuyItemTab = Window:NewTab("Buy Tab")
 local BuyItemSection = BuyItemTab:NewSection("Buy Items")
 
 local EventItemTab = Window:NewTab("Event Tab")
-local EventMainSection = EventItemTab:NewSection("Mahi Mahi Event")
-local EventAutoSection = EventItemTab:NewSection("Auto Mahi Mahi")
+local EventMainSection = EventItemTab:NewSection("Easter 2024 Event")
 
 local UtilsTab = Window:NewTab("Utils Tab")
 local UtilsSection = UtilsTab:NewSection("Utilities")
@@ -679,24 +678,50 @@ TradeSection:NewButton("Accept/Confirm Trade", "ButtonInfo", function()
     end
 end)
 
-TradeFeatureSection:NewButton("Add [ALL] Mahi Mahi", "ButtonInfo", function()
+TradeSection:NewToggle("Auto Accept ALL", "ToggleInfo", function(stateA)
+    _G.stateA = stateA
+    spawn(function()
+        while _G.stateA do
+            for i, v in pairs(game.Players:GetChildren()) do
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptOrDeclineTradeRequest"):InvokeServer(v, true)
+            end
+            wait()
+        end
+    end)
+    game.Players.LocalPlayer.PlayerGui.DialogApp.Enabled = not _G.stateA
+    while _G.stateA do
+        wait()
+        while not game:GetService("Players").LocalPlayer.PlayerGui.TradeApp.Frame.Visible and _G.stateA do
+            wait()
+        end
+        wait()
+        while game:GetService("Players").LocalPlayer.PlayerGui.TradeApp.Frame.Visible and _G.stateA do
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/AcceptNegotiation"):FireServer()
+            wait(0.1)
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("TradeAPI/ConfirmTrade"):FireServer()
+            wait(0.1)
+        end
+    end
+end)
+
+TradeFeatureSection:NewButton("Add [ALL] Eggy Pets", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("mahi") and not v.id:match("egg") and CheckPetRaritywID(v.id) == "Legendary" then        
+        if v.id:match("easter_2024") and CheckPetRaritywID(v.id) == "Legendary" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("mahi") and not v.id:match("egg") and CheckPetRaritywID(v.id) == "Ultra Rare" then        
+        if v.id:match("easter_2024") and CheckPetRaritywID(v.id) == "Ultra Rare" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("mahi") and not v.id:match("egg") and CheckPetRaritywID(v.id) == "Rare" then        
+        if v.id:match("easter_2024") and CheckPetRaritywID(v.id) == "Rare" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("mahi") and not v.id:match("egg") then        
+        if v.id:match("easter_2024") then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
@@ -760,29 +785,16 @@ EventMainSection:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100",
     QuantityN = tonumber(Quantity)
 end)
 
-EventMainSection:NewButton("Submit", "ButtonInfo", function()
+EventMainSection:NewButton("Buy Egg Boxes", "ButtonInfo", function()
     for i = 1, QuantityN do
-        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("food", "beach_2024_mahi_spinning_rod", {})
+        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("gifts", "easter_2024_eggy_box", {})
     end
 end)
 
-EventMainSection:NewButton("Convert ALL Fishing Rods", "ButtonInfo", function()
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food) do
-        if v.id == "beach_2024_mahi_spinning_rod" then
-            game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("beach_2024_mahi_spinning_rod", i)
-        end
-    end
-end)
-
-EventAutoSection:NewButton("Automatic Mahi Mahi", "ButtonInfo", function()
-    Bucks = tonumber(require(game:service'ReplicatedStorage'.Fsys).load("ClientData").get("money"))
-    NumberOfRods = Bucks / 600
-    for i = 1, NumberOfRods do
-        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("food", "beach_2024_mahi_spinning_rod", {})
-        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.food) do
-            if v.id == "beach_2024_mahi_spinning_rod" then
-                game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("beach_2024_mahi_spinning_rod", i)
-            end
+EventMainSection:NewButton("Open ALL Egg Boxes", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+        if v.id == "easter_2024_eggy_box" then
+            game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("easter_2024_eggy_box", i)
         end
     end
 end)
