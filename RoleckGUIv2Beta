@@ -1,14 +1,11 @@
 DisableGUI = false
 
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/RoleckGUIv1.3"))();
-
 -- Code For GitHub
 if not game:IsLoaded() then
     while not game:IsLoaded() do task.wait(1) end
 end
 repeat task.wait() until game:IsLoaded() and game:GetService("ReplicatedStorage"):FindFirstChild("ClientModules") and game:GetService("ReplicatedStorage").ClientModules:FindFirstChild("Core") and game:GetService("ReplicatedStorage").ClientModules.Core:FindFirstChild("UIManager") and game:GetService("ReplicatedStorage").ClientModules.Core:FindFirstChild("UIManager").Apps:FindFirstChild("TransitionsApp") and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("TransitionsApp") and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("TransitionsApp"):FindFirstChild("Whiteout")
 
---loadstring(game:HttpGet("https://raw.githubusercontent.com/Roleck11/MainScripts/main/AdoptMeIntroCheck"))();
 
 for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
     v.Name = i
@@ -784,6 +781,12 @@ end)
 -------------------- Event ---------------
 EventMainSection:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100", "1000"}, function(Quantity)
     QuantityN = tonumber(Quantity)
+end)
+
+EventMainSection:NewButton("Buy Candy Cane Snail", "ButtonInfo", function()
+    for i = 1, QuantityN do
+        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("pets", "easter_2024_candy_cane_snail", {})
+    end
 end)
 
 EventMainSection:NewButton("Buy Egg Boxes", "ButtonInfo", function()
