@@ -54,7 +54,7 @@ local BuyItemTab = Window:NewTab("Buy Tab")
 local BuyItemSection = BuyItemTab:NewSection("Buy Items")
 
 local EventItemTab = Window:NewTab("Event Tab")
-local EventMainSection = EventItemTab:NewSection("Easter 2024 Event")
+local EventMainSection = EventItemTab:NewSection("Capuchin 2024 Event")
 
 local UtilsTab = Window:NewTab("Utils Tab")
 local UtilsSection = UtilsTab:NewSection("Utilities")
@@ -783,22 +783,16 @@ EventMainSection:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100",
     QuantityN = tonumber(Quantity)
 end)
 
-EventMainSection:NewButton("Buy Candy Cane Snail", "ButtonInfo", function()
+EventMainSection:NewButton("Buy Capuchin Boxes", "ButtonInfo", function()
     for i = 1, QuantityN do
-        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("pets", "easter_2024_candy_cane_snail", {})
+        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("gifts", "capuchin_2024_standard_box", {})
     end
 end)
 
-EventMainSection:NewButton("Buy Egg Boxes", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("gifts", "easter_2024_eggy_box", {})
-    end
-end)
-
-EventMainSection:NewButton("Open ALL Egg Boxes", "ButtonInfo", function()
+EventMainSection:NewButton("Open ALL Capuchin Boxes", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-        if v.id == "easter_2024_eggy_box" then
-            game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("easter_2024_eggy_box", i)
+        if v.id == "capuchin_2024_standard_box" then
+            game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("capuchin_2024_standard_box", i)
         end
     end
 end)
