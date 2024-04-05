@@ -800,7 +800,9 @@ EventSection2:NewButton("Transform Inmate Capuchin Monkey", "ButtonInfo", functi
     for i = 1, QuantityN do
         for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
             if v.id == "capuchin_2024_capuchin_monkey" then
+                pcall(function()
                 game:GetService("ReplicatedStorage").API["EventAPI/TransformCapuchin"]:InvokeServer(i, "capuchin_2024_inmate_capuchin_monkey")
+                end)
                 break
             end
         end
@@ -812,7 +814,9 @@ EventSection2:NewButton("Transform Preppy Capuchin Monkey", "ButtonInfo", functi
     for i = 1, QuantityN do
         for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
             if v.id == "capuchin_2024_capuchin_monkey" then
+                pcall(function()
                 game:GetService("ReplicatedStorage").API["EventAPI/TransformCapuchin"]:InvokeServer(i, "capuchin_2024_preppy_capuchin_monkey")
+                end)
                 break
             end
         end
@@ -824,7 +828,9 @@ EventSection2:NewButton("Transform Princess Capuchin Monkey", "ButtonInfo", func
     for i = 1, QuantityN do
         for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
             if v.id == "capuchin_2024_capuchin_monkey" then
+                pcall(function()
                 game:GetService("ReplicatedStorage").API["EventAPI/TransformCapuchin"]:InvokeServer(i, "capuchin_2024_princess_capuchin_monkey")
+                end)
                 break
             end
         end
@@ -836,7 +842,9 @@ EventSection2:NewButton("Transform Pirate Ghost Capuchin Monkey", "ButtonInfo", 
     for i = 1, QuantityN do
         for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
             if v.id == "capuchin_2024_capuchin_monkey" then
+                pcall(function()
                 game:GetService("ReplicatedStorage").API["EventAPI/TransformCapuchin"]:InvokeServer(i, "capuchin_2024_pirate_ghost_capuchin_monkey")
+                end)
                 break
             end
         end
