@@ -705,6 +705,16 @@ end)
 
 TradeFeatureSection:NewButton("Add [ALL] Capuchin Monkeys", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if v.id:match("capuchin_2024") and CheckPetRaritywID(v.id) == "Legendary" and v.id:match("pirate") then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if v.id:match("capuchin_2024") and CheckPetRaritywID(v.id) == "Legendary" and v.id:match("royal") then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
         if v.id:match("capuchin_2024") and CheckPetRaritywID(v.id) == "Legendary" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
@@ -806,7 +816,7 @@ EventSection2:NewButton("Transform Inmate Capuchin Monkey", "ButtonInfo", functi
                 break
             end
         end
-        task.wait()
+        task.wait(1)
     end 
 end)
 
@@ -820,7 +830,7 @@ EventSection2:NewButton("Transform Preppy Capuchin Monkey", "ButtonInfo", functi
                 break
             end
         end
-        task.wait()
+        task.wait(1)
     end 
 end)
 
@@ -834,7 +844,7 @@ EventSection2:NewButton("Transform Princess Capuchin Monkey", "ButtonInfo", func
                 break
             end
         end
-        task.wait()
+        task.wait(1)
     end 
 end)
 
@@ -848,7 +858,7 @@ EventSection2:NewButton("Transform Pirate Ghost Capuchin Monkey", "ButtonInfo", 
                 break
             end
         end
-        task.wait()
+        task.wait(1)
     end 
 end)
 ------------      Utilities Tab          ------------------
