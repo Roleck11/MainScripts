@@ -736,9 +736,25 @@ TradeFeatureSection:NewButton("Add [ALL] Capuchin Monkeys", "ButtonInfo", functi
     end
 end)
 
+TradeFeatureSection:NewButton("Add [ALL] Capuchin Boxes", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+        if v.id:match("capuchin_2024") then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+end)
+
 TradeFeatureSection:NewButton("Add [ALL] Compass", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.toys) do
         if v.id:match("capuchin_2024") and v.id:match("compass") then        
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+end)
+
+TradeFeatureSection:NewButton("Add [ALL] Ship Wheel Necklace", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pet_accessories) do
+        if v.id:match("capuchin_2024") and v.id:match("necklace") then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
