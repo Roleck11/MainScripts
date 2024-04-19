@@ -53,6 +53,9 @@ local TradeFeatureSection = TradeTab:NewSection("Trade Features")
 local BuyItemTab = Window:NewTab("Buy Tab")
 local BuyItemSection = BuyItemTab:NewSection("Buy Items")
 
+local EventItemTab1 = Window:NewTab("Sticker Event")
+local EventMainSection1 = EventItemTab1:NewSection("Sticker Event")
+
 local EventItemTab = Window:NewTab("Event Tab")
 local EventMainSection = EventItemTab:NewSection("Capuchin 2024 Event")
 local EventSection2 = EventItemTab:NewSection("Transform Capuchin Monkey")
@@ -792,6 +795,39 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
         for i = 1, QuantityN do
             game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", "chiprac_2023_raccoon", {})
             wait(0.1)            
+        end
+    end
+end)
+
+------------ Sticker Event ---------
+EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"4", "16", "100", "1000"}, function(Quantity)
+    QuantityNStickerAmt = tonumber(Quantity)
+end)
+
+
+
+EventMainSection1:NewButton("Buy Sticker Packs", "ButtonInfo", function()
+    for i = 1, QuantityNStickerAmt do
+        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("gifts", "stickers_2024_standard_pack", {})
+        if _G.AutoOpenSticker then
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.stickers) do
+                if v.id == "stickers_2024_standard_pack" then
+                    game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("stickers_2024_standard_pack", i)
+                    break
+                end
+                task.wait()
+            end
+        end
+    end 
+end)
+
+EventMainSection1:NewButton("Open [ALL] Sticker Packs", "ButtonInfo", function()
+    for i = 1, 3 do
+        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+            if v.id == "stickers_2024_standard_pack" then
+                game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("stickers_2024_standard_pack", i)
+            end
+            task.wait()
         end
     end
 end)
