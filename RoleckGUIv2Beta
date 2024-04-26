@@ -288,6 +288,9 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                                     print("Stage Passed")
                                     _G.StagePassed = true
                                 end
+                                if game.Players.LocalPlayer.PlayerGui:FindFirstChild("friendship_progression") then
+                                    _G.StagePassed = true
+                                end
                             end)
                         end
                         
