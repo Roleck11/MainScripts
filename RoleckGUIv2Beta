@@ -278,11 +278,17 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                             break
                         end
                         task.wait(0.5)
-                        repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("friendship_progression")
-                        if game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") then
-                            repeat wait() until game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size ~= _G.oldAge
-                            _G.oldAge = game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size
-                            print("Stage Passed")
+                        _G.StagePassed = false
+                        while not _G.StagePassed do
+                            pcall(function()
+                                repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("friendship_progression")
+                                if game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") then
+                                    repeat wait() until game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size ~= _G.oldAge
+                                    _G.oldAge = game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size
+                                    print("Stage Passed")
+                                    _G.StagePassed = true
+                                end
+                            end)
                         end
                         
                     elseif i == randomPet and v.properties.age == 6 then
