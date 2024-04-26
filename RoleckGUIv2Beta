@@ -53,8 +53,8 @@ local TradeFeatureSection = TradeTab:NewSection("Trade Features")
 local BuyItemTab = Window:NewTab("Buy Tab")
 local BuyItemSection = BuyItemTab:NewSection("Buy Items")
 
-local EventItemTab1 = Window:NewTab("Sticker Event")
-local EventMainSection1 = EventItemTab1:NewSection("Sticker Event")
+local EventItemTab1 = Window:NewTab("Event")
+local EventMainSection1 = EventItemTab1:NewSection("Event")
 
 local UtilsTab = Window:NewTab("Utils Tab")
 local UtilsSection = UtilsTab:NewSection("Utilities")
@@ -786,15 +786,14 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
 end)
 
 ------------ Event ---------
-EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"fossil_2024_dimorphodon_fossil", "fossil_2024_elasmosaurus_fossil", "fossil_2024_ankylosaurus_fossil", "fossil_2024_velociraptor_fossil", "fossil_2024_brachiosaurus_fossil"}, function(Quantity)
+EventMainSection1:NewDropdown("Pet:", "DropdownInf", {"fossil_2024_dimorphodon_fossil", "fossil_2024_elasmosaurus_fossil", "fossil_2024_ankylosaurus_fossil", "fossil_2024_velociraptor_fossil", "fossil_2024_brachiosaurus_fossil"}, function(Quantity)
     PetNameABC = tostring(Quantity)
 end)
 
 
-
-EventMainSection1:NewButton("Buy Sticker Packs", "ButtonInfo", function()
+EventMainSection1:NewButton("Infinite Get", "ButtonInfo", function()
     while true do
-        task.wait(.1)
+        task.wait()
         -- Start 
         game:GetService("ReplicatedStorage").API["MiningAPI/StartMachineAction"]:FireServer("Pet", PetNameABC)
       
