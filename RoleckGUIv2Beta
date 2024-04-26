@@ -56,10 +56,6 @@ local BuyItemSection = BuyItemTab:NewSection("Buy Items")
 local EventItemTab1 = Window:NewTab("Sticker Event")
 local EventMainSection1 = EventItemTab1:NewSection("Sticker Event")
 
-local EventItemTab = Window:NewTab("Event Tab")
-local EventMainSection = EventItemTab:NewSection("Capuchin 2024 Event")
-local EventSection2 = EventItemTab:NewSection("Transform Capuchin Monkey")
-
 local UtilsTab = Window:NewTab("Utils Tab")
 local UtilsSection = UtilsTab:NewSection("Utilities")
 
@@ -262,7 +258,9 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                 [1] = randomPet
             }
             game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ToolAPI/Equip"):InvokeServer(unpack(args))
-        
+            repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression")
+            _G.oldAge = game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size
+
             BreakKing = true
             while BreakKing and wait() do
                 for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
@@ -273,12 +271,20 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                                 table.insert(Foods, i)
                             end
                         end
+                        
                         if CheckPetEquip() and CheckPetEquipID(i) and not CheckFG(i) then
                             game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(RoT(Foods))
                         else
                             break
                         end
                         task.wait(0.5)
+                        repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("friendship_progression")
+                        if game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") then
+                            repeat wait() until game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size ~= _G.oldAge
+                            _G.oldAge = game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size
+                            print("Stage Passed")
+                        end
+                        
                     elseif i == randomPet and v.properties.age == 6 then
                         BreakKing = false
                         break
@@ -706,34 +712,29 @@ TradeSection:NewToggle("Auto Accept ALL", "ToggleInfo", function(stateA)
     end
 end)
 
-TradeFeatureSection:NewButton("Add [ALL] Capuchin Monkeys", "ButtonInfo", function()
+TradeFeatureSection:NewButton("Add [ALL] Fossil Pets", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("capuchin_2024") and CheckPetRaritywID(v.id) == "Legendary" and v.id:match("pirate") then        
+        if v.id:match("fossil_2024") and CheckPetRaritywID(v.id) == "Legendary" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("capuchin_2024") and CheckPetRaritywID(v.id) == "Legendary" and v.id:match("royal") then        
+        if v.id:match("fossil_2024") and CheckPetRaritywID(v.id) == "Ultra Rare" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("capuchin_2024") and CheckPetRaritywID(v.id) == "Legendary" then        
+        if v.id:match("fossil_2024") and CheckPetRaritywID(v.id) == "Rare" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("capuchin_2024") and CheckPetRaritywID(v.id) == "Ultra Rare" then        
+        if v.id:match("fossil_2024") and CheckPetRaritywID(v.id) == "Uncommon" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("capuchin_2024") and CheckPetRaritywID(v.id) == "Rare" then        
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
-        end
-    end
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("capuchin_2024") then        
+        if v.id:match("fossil_2024") then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
@@ -747,21 +748,6 @@ TradeFeatureSection:NewButton("Add [ALL] Capuchin Boxes", "ButtonInfo", function
     end
 end)
 
-TradeFeatureSection:NewButton("Add [ALL] Compass", "ButtonInfo", function()
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.toys) do
-        if v.id:match("capuchin_2024") and v.id:match("compass") then        
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
-        end
-    end
-end)
-
-TradeFeatureSection:NewButton("Add [ALL] Ship Wheel Necklace", "ButtonInfo", function()
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pet_accessories) do
-        if v.id:match("capuchin_2024") and v.id:match("necklace") then        
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
-        end
-    end
-end)
 
 game.Players.PlayerAdded:Connect(function(player)
     RefreshDropdownForPlayersInServer()
@@ -799,128 +785,25 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
     end
 end)
 
------------- Sticker Event ---------
-EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"4", "16", "100", "1000"}, function(Quantity)
-    QuantityNStickerAmt = tonumber(Quantity)
+------------ Event ---------
+EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"fossil_2024_dimorphodon_fossil", "fossil_2024_elasmosaurus_fossil", "fossil_2024_ankylosaurus_fossil", "fossil_2024_velociraptor_fossil", "fossil_2024_brachiosaurus_fossil"}, function(Quantity)
+    PetNameABC = tostring(Quantity)
 end)
 
 
 
 EventMainSection1:NewButton("Buy Sticker Packs", "ButtonInfo", function()
-    for i = 1, QuantityNStickerAmt do
-        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("gifts", "stickers_2024_standard_pack", {})
-        if _G.AutoOpenSticker then
-            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.stickers) do
-                if v.id == "stickers_2024_standard_pack" then
-                    game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("stickers_2024_standard_pack", i)
-                    break
-                end
-                task.wait()
-            end
-        end
-    end 
-end)
-
-EventMainSection1:NewButton("Open [ALL] Sticker Packs", "ButtonInfo", function()
-    for i = 1, 3 do
-        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-            if v.id == "stickers_2024_standard_pack" then
-                game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("stickers_2024_standard_pack", i)
-            end
-            task.wait()
-        end
+    while true do
+        task.wait(.1)
+        -- Start 
+        game:GetService("ReplicatedStorage").API["MiningAPI/StartMachineAction"]:FireServer("Pet", PetNameABC)
+      
+        -- Claim
+        game:GetService("ReplicatedStorage").API["MiningAPI/ClaimMachineAction"]:FireServer("Pet")
     end
 end)
 
 
--------------------- Event ---------------
-EventMainSection:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100", "1000", "9999"}, function(Quantity)
-    QuantityN = tonumber(Quantity)
-end)
-
-EventMainSection:NewButton("Buy Capuchin Monkeys", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("pets", "capuchin_2024_capuchin_monkey", {})
-        task.wait()
-    end
-end)
-
-EventMainSection:NewButton("Buy Capuchin Boxes", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        game:GetService("ReplicatedStorage").API["ShopAPI/BuyItem"]:InvokeServer("gifts", "capuchin_2024_standard_box", {})
-        task.wait()
-    end
-end)
-
-EventMainSection:NewButton("Open ALL Capuchin Boxes", "ButtonInfo", function()
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-        if v.id == "capuchin_2024_standard_box" then
-            game:GetService("ReplicatedStorage").API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("capuchin_2024_standard_box", i)
-        end
-        task.wait()
-    end
-end)
-
------- Event Section 2
-EventSection2:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100", "1000"}, function(Quantity)
-    QuantityN = tonumber(Quantity)
-end)
-
-EventSection2:NewButton("Transform Inmate Capuchin Monkey", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-            if v.id == "capuchin_2024_capuchin_monkey" then
-                pcall(function()
-                game:GetService("ReplicatedStorage").API["EventAPI/TransformCapuchin"]:InvokeServer(i, "capuchin_2024_inmate_capuchin_monkey")
-                end)
-                break
-            end
-        end
-        task.wait(1)
-    end 
-end)
-
-EventSection2:NewButton("Transform Preppy Capuchin Monkey", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-            if v.id == "capuchin_2024_capuchin_monkey" then
-                pcall(function()
-                game:GetService("ReplicatedStorage").API["EventAPI/TransformCapuchin"]:InvokeServer(i, "capuchin_2024_preppy_capuchin_monkey")
-                end)
-                break
-            end
-        end
-        task.wait(1)
-    end 
-end)
-
-EventSection2:NewButton("Transform Princess Capuchin Monkey", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-            if v.id == "capuchin_2024_capuchin_monkey" then
-                pcall(function()
-                game:GetService("ReplicatedStorage").API["EventAPI/TransformCapuchin"]:InvokeServer(i, "capuchin_2024_princess_capuchin_monkey")
-                end)
-                break
-            end
-        end
-        task.wait(1)
-    end 
-end)
-
-EventSection2:NewButton("Transform Pirate Ghost Capuchin Monkey", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-            if v.id == "capuchin_2024_capuchin_monkey" then
-                pcall(function()
-                game:GetService("ReplicatedStorage").API["EventAPI/TransformCapuchin"]:InvokeServer(i, "capuchin_2024_pirate_ghost_capuchin_monkey")
-                end)
-                break
-            end
-        end
-        task.wait(1)
-    end 
-end)
 ------------      Utilities Tab          ------------------
 
 UtilsSection:NewButton("Hydroxide (Remotes)", "ButtonInfo", function()
