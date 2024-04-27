@@ -277,7 +277,7 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                         else
                             break
                         end
-                        task.wait(0.5)
+                        task.wait(0.1)
                         _G.StagePassed = false
                         while not _G.StagePassed do
                             pcall(function()
@@ -293,6 +293,7 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                                 end
                             end)
                         end
+                        task.wait(0.5)
                         
                     elseif i == randomPet and v.properties.age == 6 then
                         BreakKing = false
@@ -348,6 +349,21 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                             break
                         end
                         task.wait(0.5)
+                        _G.StagePassed = false
+                        while not _G.StagePassed do
+                            pcall(function()
+                                repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("friendship_progression")
+                                if game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") then
+                                    repeat wait() until game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size ~= _G.oldAge
+                                    _G.oldAge = game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size
+                                    print("Stage Passed")
+                                    _G.StagePassed = true
+                                end
+                                if game.Players.LocalPlayer.PlayerGui:FindFirstChild("friendship_progression") then
+                                    _G.StagePassed = true
+                                end
+                            end)
+                        end
                     elseif i == randomPet and v.properties.age == 6 then
                         BreakKing = false
                         break
@@ -396,6 +412,21 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                             break
                         end
                         task.wait(0.5)
+                        _G.StagePassed = false
+                        while not _G.StagePassed do
+                            pcall(function()
+                                repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("friendship_progression")
+                                if game.Players.LocalPlayer.PlayerGui:FindFirstChild("pet_progression") then
+                                    repeat wait() until game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size ~= _G.oldAge
+                                    _G.oldAge = game.Players.LocalPlayer.PlayerGui.pet_progression.SurfaceGui.PetProgression.Frame.Size
+                                    print("Stage Passed")
+                                    _G.StagePassed = true
+                                end
+                                if game.Players.LocalPlayer.PlayerGui:FindFirstChild("friendship_progression") then
+                                    _G.StagePassed = true
+                                end
+                            end)
+                        end
                     elseif i == randomPet and v.properties.age == 6 then
                         BreakKing = false
                         break
