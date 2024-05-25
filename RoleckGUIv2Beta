@@ -752,29 +752,29 @@ TradeSection:NewToggle("Auto Accept ALL", "ToggleInfo", function(stateA)
     end
 end)
 
-TradeFeatureSection:NewButton("Add [ALL] Fossil Pets", "ButtonInfo", function()
+TradeFeatureSection:NewButton("Add [ALL] Garden Pets", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("fossil_2024") and CheckPetRaritywID(v.id) == "Legendary" then        
+        if v.id:match("garden_2024") and CheckPetRaritywID(v.id) == "Legendary" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("fossil_2024") and CheckPetRaritywID(v.id) == "Ultra Rare" then        
+        if v.id:match("garden_2024") and CheckPetRaritywID(v.id) == "Ultra Rare" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("fossil_2024") and CheckPetRaritywID(v.id) == "Rare" then        
+        if v.id:match("garden_2024") and CheckPetRaritywID(v.id) == "Rare" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("fossil_2024") and CheckPetRaritywID(v.id) == "Uncommon" then        
+        if v.id:match("garden_2024") and CheckPetRaritywID(v.id) == "Uncommon" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("fossil_2024") then        
+        if v.id:match("garden_2024") then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
