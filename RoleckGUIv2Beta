@@ -780,9 +780,9 @@ TradeFeatureSection:NewButton("Add [ALL] Garden Pets", "ButtonInfo", function()
     end
 end)
 
-TradeFeatureSection:NewButton("Add [ALL] Capuchin Boxes", "ButtonInfo", function()
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-        if v.id:match("capuchin_2024") then        
+TradeFeatureSection:NewButton("Add [ALL] Summer Pets", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if v.id:match("summerfest_2024") then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
@@ -826,22 +826,20 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
 end)
 
 ------------ Event ---------
-EventMainSection1:NewDropdown("Pet:", "DropdownInf", {"fossil_2024_dimorphodon_fossil", "fossil_2024_elasmosaurus_fossil", "fossil_2024_ankylosaurus_fossil", "fossil_2024_velociraptor_fossil", "fossil_2024_brachiosaurus_fossil"}, function(Quantity)
-    PetNameABC = tostring(Quantity)
+EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Kid Goat", "Cow Calf"}, function(PetName)
+    PetCalled = string.lower(PetName)
 end)
 
+EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100", "1000"}, function(Quantity)
+    QuantityN = tonumber(Quantity)
+end)
 
-EventMainSection1:NewButton("Infinite Get", "ButtonInfo", function()
-    while true do
-        task.wait()
-        -- Start 
-        game:GetService("ReplicatedStorage").API["MiningAPI/StartMachineAction"]:FireServer("Pet", PetNameABC)
-      
-        -- Claim
-        game:GetService("ReplicatedStorage").API["MiningAPI/ClaimMachineAction"]:FireServer("Pet")
+EventMainSection1:NewButton("Submit", "ButtonInfo", function()
+    for i = 1, QuantityN do
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {})
+        wait(0.1)
     end
 end)
-
 
 ------------      Utilities Tab          ------------------
 
