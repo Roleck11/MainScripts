@@ -834,9 +834,16 @@ EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100"
     QuantityN = tonumber(Quantity)
 end)
 
-EventMainSection1:NewButton("Submit", "ButtonInfo", function()
+EventMainSection1:NewButton("Submit [Buy Pets]", "ButtonInfo", function()
     for i = 1, QuantityN do
         game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {})
+        wait(0.1)
+    end
+end)
+
+EventMainSection1:NewButton("Submit [Buy Betta Fish]", "ButtonInfo", function()
+    for i = 1, QuantityN do
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer("summer_2024_betta_fish_game")
         wait(0.1)
     end
 end)
