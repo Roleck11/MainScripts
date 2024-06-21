@@ -782,7 +782,7 @@ end)
 
 TradeFeatureSection:NewButton("Add [ALL] Summer Pets", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("summerfest_2024") then        
+        if v.id:match("summer") then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
