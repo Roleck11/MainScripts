@@ -846,7 +846,7 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
 end)
 
 ------------ Event ---------
-EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Kid Goat", "Cow Calf", "Corn Doggo"}, function(PetName)
+EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Kid Goat", "Cow Calf", "Corn Doggo", "Rodeo Bull"}, function(PetName)
     PetCalled = string.lower(PetName)
 end)
 
