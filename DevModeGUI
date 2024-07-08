@@ -527,7 +527,14 @@ end)
 
 SmartPotionSection:NewButton("FG Recent Trade Pets", "ButtonInfo", function()
     a = game:GetService("ReplicatedStorage").API["TradeAPI/GetTradeHistory"]:InvokeServer()
-    for i, v in pairs(a[#a]["recipient_items"]) do
+    for i, v in pairs(a[#a]) do
+        if type(v) == "string" then
+            if v:match(game.Players.LocalPlayer.Name) then
+                typeOfUser = i
+            end
+        end
+    end
+    for i, v in pairs(a[#a][typeOfUser]) do
         FGPet(v["unique_id"])
     end
     
