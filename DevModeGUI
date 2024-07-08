@@ -328,6 +328,7 @@ function FGPet(petID)
     while not breakLoop and task.wait() do
         for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
             if i == petID and v.properties.age < 6 then
+                print("Waiting till oldAge & oldPercentage is updated")
                 repeat task.wait(0.05) 
                     _G.oldAge = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrapper.pet_progression["age"]
                     _G.oldPercentage = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrapper.pet_progression["percentage"]
@@ -350,7 +351,7 @@ function FGPet(petID)
                 repeat task.wait() until
                 require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrapper.pet_progression.age == 6 
                 or require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrapper.pet_progression.age ~= _G.oldAge
-                or require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrapper.pet_progression.percentage ~= _G.oldPercentage or (StartTick - tick() >= 5)
+                or require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrapper.pet_progression.percentage ~= _G.oldPercentage or (tick() - StartTick >= 5)
                 print("Completed Wait till next progression")
             elseif i == petID and v.properties.age == 6 then
                 breakLoop = true
@@ -433,6 +434,7 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
             while BreakKing and task.wait() do
                 for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
                     if i == randomPet and v.properties.age < 6 then
+                        print("Waiting till oldAge & oldPercentage is updated")
                         repeat task.wait(0.05) 
                             _G.oldAge = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrapper.pet_progression["age"]
                             _G.oldPercentage = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrapper.pet_progression["percentage"]
