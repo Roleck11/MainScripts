@@ -534,7 +534,8 @@ SmartPotionSection:NewButton("FG Recent Trade Pets", "ButtonInfo", function()
             end
         end
     end
-    for i, v in pairs(a[#a][typeOfUser]) do
+    if typeOfUser == "recipient_name" then typeOfItem = "sender_items" else typeOfItem = "recipient_items" end
+    for i, v in pairs(a[#a][typeOfItem]) do
         FGPet(v["unique_id"])
     end
     
