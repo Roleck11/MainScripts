@@ -474,9 +474,9 @@ NewPotionSection:NewButton("One-Click Potion", "ButtonInfo", function()
             table.insert(Foods, i)
         end
     end
-    if CheckPetEquip() then
-        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(RoT(Foods))
-    end
+    --if CheckPetEquip() then
+    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(RoT(Foods))
+    --end
 end)
 
 ---------------------- NEW POTION TAB
