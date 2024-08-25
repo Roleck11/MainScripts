@@ -656,29 +656,19 @@ TradeSection:NewToggle("Auto Accept ALL", "ToggleInfo", function(stateA)
     end
 end)
 
-TradeFeatureSection:NewButton("Add [ALL] Garden Pets", "ButtonInfo", function()
+TradeFeatureSection:NewButton("Add [ALL] Celestial Pets", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("garden_2024") and CheckPetRaritywID(v.id) == "Legendary" then        
+        if v.id:match("celestial_2024") and CheckPetRaritywID(v.id) == "Legendary" then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("garden_2024") and CheckPetRaritywID(v.id) == "Ultra Rare" then        
+        if v.id:match("celestial_2024") and v.id:match("starhopper") then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("garden_2024") and CheckPetRaritywID(v.id) == "Rare" then        
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
-        end
-    end
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("garden_2024") and CheckPetRaritywID(v.id) == "Uncommon" then        
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
-        end
-    end
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.id:match("garden_2024") then        
+        if v.id:match("celestial_2024") then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
@@ -750,7 +740,7 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
 end)
 
 ------------ Event ---------
-EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Kid Goat", "Cow Calf", "Corn Doggo"}, function(PetName)
+EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Glormy Hound"}, function(PetName)
     PetCalled = string.lower(PetName)
 end)
 
@@ -758,39 +748,10 @@ EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100"
     QuantityN = tonumber(Quantity)
 end)
 
-EventMainSection1:NewButton("Submit [Buy Pets]", "ButtonInfo", function()
+EventMainSection1:NewButton("Submit", "ButtonInfo", function()
     for i = 1, QuantityN do
         game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {})
         wait(0.1)
-    end
-end)
-
-EventMainSection1:NewButton("Submit [Buy Betta Fish]", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer("summer_2024_betta_fish_game")
-        wait(0.1)
-    end
-end)
-
-EventMainSection1:NewButton("Submit [Buy StateFair Stickers]", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        local args = {
-            [1] = "gifts",
-            [2] = "summerfest_2024_state_fair_sticker_pack",
-            [3] = {}
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer(unpack(args))        
-        wait(0.1)
-    end
-end)
-
-EventMainSection1:NewButton("Open ALL StateFair Stickers", "ButtonInfo", function()
-    while task.wait() do
-        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-            if v.id == "summerfest_2024_state_fair_sticker_pack" then
-                game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer("summerfest_2024_state_fair_sticker_pack", i)
-            end
-        end
     end
 end)
 
