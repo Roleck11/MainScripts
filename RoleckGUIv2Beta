@@ -751,9 +751,9 @@ end)
 EventMainSection1:NewButton("Submit", "ButtonInfo", function()
     for i = 1, QuantityN do
         if PetCalled == "small wish" then
-            ReplicatedStorage.API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("ocean_2024_small_wish")
+            RS.API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("ocean_2024_small_wish")
         elseif PetCalled == "big wish" then
-            ReplicatedStorage.API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("ocean_2024_big_wish")
+            RS.API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("ocean_2024_big_wish")
         end
         wait(0.1)
     end
