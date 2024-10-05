@@ -740,7 +740,7 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
 end)
 
 ------------ Event ---------
-EventMainSection1:NewDropdown("Wish Type:", "DropdownInf", {"Small Wish", "Big Wish"}, function(PetName)
+EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Frankenfeline", "Indian Flying Fox", "Pumpkin Friend"}, function(PetName)
     PetCalled = string.lower(PetName)
 end)
 
@@ -749,14 +749,14 @@ EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100"
 end)
 
 EventMainSection1:NewButton("Submit", "ButtonInfo", function()
-    for i = 1, QuantityN do
-        if PetCalled == "small wish" then
-            RS.API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("ocean_2024_small_wish")
-        elseif PetCalled == "big wish" then
-            RS.API["LootBoxAPI/ExchangeItemForReward"]:InvokeServer("ocean_2024_big_wish")
+    --for i = 1, QuantityN do
+        if PetCalled ~= "Pumpkin Friend" then    
+            RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {["buy_count"] = QuantityN})
+        else 
+            RS.API:FindFirstChild("HalloweenAPI/VendingMachinePurchase"):FireServer(findPetID(PetCalled), {["buy_count"] = QuantityN})
         end
-        wait(0.1)
-    end
+        task.wait(0.1)
+    --end
 end)
 
 ------------      Utilities Tab          ------------------
