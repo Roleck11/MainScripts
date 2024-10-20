@@ -740,8 +740,27 @@ BuyItemSection:NewButton("Submit", "ButtonInfo", function()
 end)
 
 ------------ Event ---------
-EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Frankenfeline", "Indian Flying Fox", "Pumpkin Friend", "Marabou Stork"}, function(PetName)
-    PetCalled = string.lower(PetName)
+function getHalloweenPets()
+    xList = {}
+    for i,v in pairs(game.ReplicatedStorage.SharedModules.ContentPacks:GetChildren()) do 
+        if v:IsA("Folder") and v:FindFirstChild("InventorySubDB") then 
+            local Folder = v:FindFirstChild("InventorySubDB")
+            if Folder:FindFirstChild("Pets") then 
+                for i,v in pairs(require(Folder.Pets)) do 
+                    if v.id then
+                        if v.id:match("halloween_2024") and v.cost then
+                            table.insert(xList, v.name)
+                        end
+                    end          
+                end
+            end
+        end
+    end
+    return xList
+end
+
+EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Halloween Chick Box", "Pumpkin Friend", table.unpack(getHalloweenPets())}, function(PetName)
+    PetCalled = PetName
 end)
 
 EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100", "1000"}, function(Quantity)
@@ -750,13 +769,23 @@ end)
 
 EventMainSection1:NewButton("Submit", "ButtonInfo", function()
     --for i = 1, QuantityN do
-        if PetCalled ~= "Pumpkin Friend" then    
-            RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {["buy_count"] = QuantityN})
-        else 
+        if PetCalled == "Pumpkin Friend" then    
             RS.API:FindFirstChild("HalloweenAPI/VendingMachinePurchase"):FireServer(findPetID(PetCalled), {["buy_count"] = QuantityN})
+        elseif PetCalled == "Halloween Chick Box" then
+            RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("gifts", "halloween_2024_chick_box", {["buy_count"] = QuantityN})
+        else 
+            RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {["buy_count"] = QuantityN})
         end
         task.wait(0.1)
     --end
+end)
+
+EventMainSection1:NewButton("Open ALL Halloween Chick Box", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+        if v.id == "halloween_2024_chick_box" then        
+            RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer("halloween_2024_chick_box", i)
+        end
+    end
 end)
 
 ------------      Utilities Tab          ------------------
