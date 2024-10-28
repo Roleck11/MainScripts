@@ -800,7 +800,7 @@ function getHalloweenPets()
     return xList
 end
 
-EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Halloween Chick Box", "Pumpkin Friend", table.unpack(getHalloweenPets())}, function(PetName)
+EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Halloween 2024 Sticker Pack", "Halloween Chick Box", "Pumpkin Friend", table.unpack(getHalloweenPets())}, function(PetName)
     PetCalled = PetName
 end)
 
@@ -814,11 +814,23 @@ EventMainSection1:NewButton("Submit", "ButtonInfo", function()
             RS.API:FindFirstChild("HalloweenAPI/VendingMachinePurchase"):FireServer(findPetID(PetCalled), {["buy_count"] = QuantityN})
         elseif PetCalled == "Halloween Chick Box" then
             RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("gifts", "halloween_2024_chick_box", {["buy_count"] = QuantityN})
+        elseif PetCalled == "Halloween 2024 Sticker Pack" then
+            RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("gifts", "halloween_2024_sticker_pack", {["buy_count"] = QuantityN})   
         else 
             RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {["buy_count"] = QuantityN})
         end
         task.wait(0.1)
     --end
+end)
+
+EventMainSection1:NewButton("Open ALL Halloween Sticker Pack", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+        if v.id == "halloween_2024_sticker_pack" then
+            RS.API:WaitForChild("ToolAPI/ServerUseTool"):FireServer(i, "START")            
+            RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer("halloween_2024_sticker_pack", i)
+            RS.API:WaitForChild("ToolAPI/ServerUseTool"):FireServer(i, "END")
+        end
+    end
 end)
 
 EventMainSection1:NewButton("Open ALL Halloween Chick Box", "ButtonInfo", function()
