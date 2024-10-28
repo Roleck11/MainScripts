@@ -656,6 +656,22 @@ TradeSection:NewToggle("Auto Accept ALL", "ToggleInfo", function(stateA)
     end
 end)
 
+TradeFeatureSection:NewButton("Add [ALL] Stickers", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.stickers) do
+        if CheckPetRaritywID(v.id) == "Legendary" then        
+            RS.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.stickers) do
+        if CheckPetRaritywID(v.id) == "Ultra Rare" then        
+            RS.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.stickers) do  
+        RS.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+    end
+end)
+
 TradeFeatureSection:NewButton("Add [ALL] Pets", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
         if CheckPetRaritywID(v.id) == "Legendary" then        
