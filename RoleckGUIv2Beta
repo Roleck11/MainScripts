@@ -1,14 +1,10 @@
 DisableGUI = false
 
 -- Code For GitHub
-if not game:IsLoaded() then
-    while not game:IsLoaded() do task.wait(1) end
-end
 repeat task.wait() until game:IsLoaded() and game:GetService("ReplicatedStorage"):FindFirstChild("ClientModules") and game:GetService("ReplicatedStorage").ClientModules:FindFirstChild("Core") and game:GetService("ReplicatedStorage").ClientModules.Core:FindFirstChild("UIManager") and game:GetService("ReplicatedStorage").ClientModules.Core:FindFirstChild("UIManager").Apps:FindFirstChild("TransitionsApp") and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("TransitionsApp") and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("TransitionsApp"):FindFirstChild("Whiteout")
 
-
-for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").Fsys).load("RouterClient").init, 4)) do
-    v.Name = i
+for i, v in pairs(getupvalues(require(game.ReplicatedStorage.Fsys).load("RouterClient").init)[7]) do 
+    v.Name = i 
 end
 
 for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
