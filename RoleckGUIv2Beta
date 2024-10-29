@@ -3,7 +3,7 @@ DisableGUI = false
 -- Code For GitHub
 repeat task.wait() until game:IsLoaded() and game:GetService("ReplicatedStorage"):FindFirstChild("ClientModules") and game:GetService("ReplicatedStorage").ClientModules:FindFirstChild("Core") and game:GetService("ReplicatedStorage").ClientModules.Core:FindFirstChild("UIManager") and game:GetService("ReplicatedStorage").ClientModules.Core:FindFirstChild("UIManager").Apps:FindFirstChild("TransitionsApp") and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("TransitionsApp") and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("TransitionsApp"):FindFirstChild("Whiteout")
 
-for i, v in pairs(debug.getupvalue(require(game.ReplicatedStorage.Fsys).load("RouterClient").init, 7)) do 
+for i, v in pairs(debug.getupvalue(require(game:GetService("ReplicatedStorage").ClientModules.Core.RouterClient.RouterClient).init, 7)) do
     v.Name = i 
 end
 
@@ -60,7 +60,6 @@ local UtilsTab = Window:NewTab("Utils Tab")
 local UtilsSection = UtilsTab:NewSection("Utilities")
 
 local RS = game:GetService("ReplicatedStorage")
-local Fsys = require(RS:WaitForChild("Fsys")).load
 local Main_Menu = require(RS.ClientModules.Core.UIManager.Apps.MainMenuApp)
 
 local Player = game:GetService("Players").LocalPlayer
@@ -195,7 +194,7 @@ local function RefreshDropdown()
 end
 
 function CheckPetEquip()
-    if require(game:GetService("ReplicatedStorage").Fsys).load("ClientData").get("pet_char_wrappers")[1] then
+    if require(game.ReplicatedStorage.ClientModules.Core.ClientData).get("pet_char_wrappers")[1] then
         return true
     else
         return false
@@ -203,8 +202,8 @@ function CheckPetEquip()
 end
 
 function CheckPetEquipID(id)
-    if require(game:GetService("ReplicatedStorage").Fsys).load("ClientData").get("pet_char_wrappers")[1] then
-        if id == require(game:GetService("ReplicatedStorage").Fsys).load("ClientData").get("pet_char_wrappers")[1].pet_unique then
+    if require(game.ReplicatedStorage.ClientModules.Core.ClientData).get("pet_char_wrappers")[1] then
+        if id == require(game.ReplicatedStorage.ClientModules.Core.ClientData).get("pet_char_wrappers")[1].pet_unique then
             return true
         else
             return false
@@ -338,7 +337,7 @@ function FGPet(petID)
                 end
                 
                 if CheckPetEquip() and CheckPetEquipID(i) and not CheckFG(i) then
-                    petID = require(game:GetService("ReplicatedStorage").Fsys).load("ClientData").get("pet_char_wrappers")[1]["pet_unique"]
+                    petID = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get("pet_char_wrappers")[1]["pet_unique"]
                     game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(RoT(Foods), petID)
                 else
                     break
@@ -445,7 +444,7 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                         end
                         
                         if CheckPetEquip() and CheckPetEquipID(i) and not CheckFG(i) then
-                            petID = require(game:GetService("ReplicatedStorage").Fsys).load("ClientData").get("pet_char_wrappers")[1]["pet_unique"]
+                            petID = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get("pet_char_wrappers")[1]["pet_unique"]
                             game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(RoT(Foods), petID)
                         else
                             break
@@ -511,7 +510,7 @@ NewPotionSection:NewButton("One-Click Potion", "ButtonInfo", function()
             table.insert(Foods, i)
         end
     end
-    petID = require(game:GetService("ReplicatedStorage").Fsys).load("ClientData").get("pet_char_wrappers")[1]["pet_unique"]
+    petID = require(game.ReplicatedStorage.ClientModules.Core.ClientData).get("pet_char_wrappers")[1]["pet_unique"]
     if CheckPetEquip() and not CheckFG(petID) then
         game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("PetAPI/ConsumeFoodItem"):FireServer(RoT(Foods), petID)
     end
