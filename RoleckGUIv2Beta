@@ -669,27 +669,27 @@ end)
 
 TradeFeatureSection:NewButton("Add [ALL] Pets", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if CheckPetRaritywID(v.id) == "Legendary" then        
+        if CheckPetRaritywID(v.id) == "Legendary" and not CheckEgg(v.id) then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if CheckPetRaritywID(v.id) == "Ultra Rare" then        
+        if CheckPetRaritywID(v.id) == "Ultra Rare" and not CheckEgg(v.id)then
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if CheckPetRaritywID(v.id) == "Rare" then        
+        if CheckPetRaritywID(v.id) == "Rare" and not CheckEgg(v.id) then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if CheckPetRaritywID(v.id) == "Uncommon" then        
+        if CheckPetRaritywID(v.id) == "Uncommon" and not CheckEgg(v.id) then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if CheckPetRaritywID(v.id) == "Common" then        
+        if CheckPetRaritywID(v.id) == "Common" and not CheckEgg(v.id) then        
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
     end
