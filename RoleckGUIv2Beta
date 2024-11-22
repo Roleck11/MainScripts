@@ -84,6 +84,15 @@ function findPetName(PetID)
     return nil
 end
 
+function findItemID(itemName, itemType)
+    for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB)[itemType]) do
+        if type(entry) == "table" and string.lower(entry.name) == string.lower(itemName) then
+            return entry.id
+        end
+    end
+    return nil
+end
+
 function CheckPetRarity(PetName)
     for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB).pets) do
         if type(entry) == "table" and string.lower(entry.name) == string.lower(PetName) then
@@ -752,34 +761,37 @@ game.Players.PlayerRemoving:Connect(function(player)
 end)
 
 -- Buy Pets Tab Script
-BuyItemSection:NewDropdown("Pet Name:", "DropdownInf", {"Eel", "Raccoon", "Chipmunk"}, function(PetName)
-    PetCalled = string.lower(PetName)
+BuyItemSection:NewDropdown("Item Name:", "DropdownInf", {"Regal Chest"}, function(PetName)
+    PetCalled = PetName
 end)
 
-BuyItemSection:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100", "1000"}, function(Quantity)
+BuyItemSection:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "99"}, function(Quantity)
     QuantityN = tonumber(Quantity)
 end)
 
 BuyItemSection:NewButton("Submit", "ButtonInfo", function()
-    if PetCalled == "eel" then
-        for i = 1, QuantityN do
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", "random_pets_sept_2023_eel", {})
-            wait(0.1)
-        end
-    elseif PetCalled == "chipmunk" then
-        for i = 1, QuantityN do      
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", "chiprac_2023_chipmunk", {})           
-            wait(0.1)            
-        end
-    elseif PetCalled == "raccoon" then
-        for i = 1, QuantityN do
-            game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", "chiprac_2023_raccoon", {})
-            wait(0.1)            
+    if PetCalled == "Regal Chest" then
+        RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("gifts", findItemID(PetCalled, "gifts"), {["buy_count"] = QuantityN})
+    else
+        RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {["buy_count"] = QuantityN})
+    end
+    
+end)
+
+BuyItemSection:NewButton("Open [ALL] Regal Chest", "ButtonInfo", function()
+    for i = 1, 3 do
+        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+            if v.id == findItemID("Regal Chest", "gifts") then
+                RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(findItemID("Regal Chest", "gifts"), i)
+                task.wait()
+            end
         end
     end
 end)
 
+
 ------------ Event ---------
+--[[
 function getHalloweenPets()
     xList = {}
     for i,v in pairs(game.ReplicatedStorage.SharedModules.ContentPacks:GetChildren()) do 
@@ -812,24 +824,7 @@ EventMainSection1:NewButton("Submit", "ButtonInfo", function()
         RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {["buy_count"] = QuantityN})
     --end
 end)
-
-EventMainSection1:NewButton("Open ALL Halloween Sticker Pack", "ButtonInfo", function()
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-        if v.id == "halloween_2024_sticker_pack" then
-            RS.API:WaitForChild("ToolAPI/ServerUseTool"):FireServer(i, "START")            
-            RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer("halloween_2024_sticker_pack", i)
-            RS.API:WaitForChild("ToolAPI/ServerUseTool"):FireServer(i, "END")
-        end
-    end
-end)
-
-EventMainSection1:NewButton("Open ALL Halloween Chick Box", "ButtonInfo", function()
-    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-        if v.id == "halloween_2024_chick_box" then        
-            RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer("halloween_2024_chick_box", i)
-        end
-    end
-end)
+]]
 
 ------------      Utilities Tab          ------------------
 
