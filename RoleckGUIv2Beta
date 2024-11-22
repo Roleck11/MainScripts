@@ -656,10 +656,10 @@ TradeSection:NewToggle("Auto Accept ALL", "ToggleInfo", function(stateA)
 end)
 
 if CustomPets then
-    for i, v in pairs(CustomPets) do
+    for l, o in pairs(CustomPets) do
         TradeFeatureSection:NewButton("Add " .. v, "ButtonInfo", function()
             for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-                if v.id == findPetName(v) and not v.properties.mega_neon then        
+                if v.id == findPetName(o) and not v.properties.mega_neon then        
                     game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
                 end
             end
