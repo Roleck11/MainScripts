@@ -657,7 +657,7 @@ end)
 
 if CustomPets then
     for l, o in pairs(CustomPets) do
-        TradeFeatureSection:NewButton("Add " .. v, "ButtonInfo", function()
+        TradeFeatureSection:NewButton("Add " .. o, "ButtonInfo", function()
             for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
                 if v.id == findPetName(o) and not v.properties.mega_neon then        
                     game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
