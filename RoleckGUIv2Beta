@@ -1,3 +1,6 @@
+--getgenv().CustomPets = {"Golden Jaguar", "Scarebear"}
+
+--
 DisableGUI = false
 
 -- Code For GitHub
@@ -347,7 +350,7 @@ function FGPet(petID)
                 repeat task.wait() until
                 require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.age == 6 
                 or require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.age ~= _G.oldAge
-                or require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.percentage ~= _G.oldPercentage or (tick() - StartTick >= 5)
+                or require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.percentage ~= _G.oldPercentage or (tick() - StartTick >= 10)
                 print("Completed Wait till next progression")
             elseif i == petID and v.properties.age == 6 then
                 breakLoop = true
@@ -463,6 +466,7 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
                     end
                 end
             end
+            print("Pet FGed")
             task.wait(1)
             _G.NumberOfPets = {}
             if TypeOfPet == "Normal" then
@@ -650,6 +654,16 @@ TradeSection:NewToggle("Auto Accept ALL", "ToggleInfo", function(stateA)
         end
     end
 end)
+
+for i, v in pairs(CustomPets) do
+    TradeFeatureSection:NewButton("Add " .. v, "ButtonInfo", function()
+        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+            if v.id == findPetName(v) and not v.properties.mega_neon then        
+                game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+            end
+        end
+    end)
+end
 
 TradeFeatureSection:NewButton("Add [ALL] Stickers", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.stickers) do
