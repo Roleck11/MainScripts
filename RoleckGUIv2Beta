@@ -655,14 +655,16 @@ TradeSection:NewToggle("Auto Accept ALL", "ToggleInfo", function(stateA)
     end
 end)
 
-for i, v in pairs(CustomPets) do
-    TradeFeatureSection:NewButton("Add " .. v, "ButtonInfo", function()
-        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-            if v.id == findPetName(v) and not v.properties.mega_neon then        
-                game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+if CustomPets then
+    for i, v in pairs(CustomPets) do
+        TradeFeatureSection:NewButton("Add " .. v, "ButtonInfo", function()
+            for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                if v.id == findPetName(v) and not v.properties.mega_neon then        
+                    game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+                end
             end
-        end
-    end)
+        end)
+    end
 end
 
 TradeFeatureSection:NewButton("Add [ALL] Stickers", "ButtonInfo", function()
