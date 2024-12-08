@@ -93,6 +93,15 @@ function findItemID(itemName, itemType)
     return nil
 end
 
+function findItemName(itemID, itemType)
+    for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB)[itemType]) do
+        if type(entry) == "table" and string.lower(entry.id) == string.lower(itemID) then
+            return entry.name
+        end
+    end
+    return nil
+end
+
 function CheckPetRarity(PetName)
     for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB).pets) do
         if type(entry) == "table" and string.lower(entry.name) == string.lower(PetName) then
@@ -791,8 +800,8 @@ end)
 
 
 ------------ Event ---------
---[[
-function getHalloweenPets()
+
+function getWinterPets()
     xList = {}
     for i,v in pairs(game.ReplicatedStorage.SharedModules.ContentPacks:GetChildren()) do 
         if v:IsA("Folder") and v:FindFirstChild("InventorySubDB") then 
@@ -800,7 +809,7 @@ function getHalloweenPets()
             if Folder:FindFirstChild("Pets") then 
                 for i,v in pairs(require(Folder.Pets)) do 
                     if v.id then
-                        if v.id:match("halloween_2024") and v.cost then
+                        if v.id:match("winter_2024") and v.cost then
                             table.insert(xList, v.name)
                         end
                     end          
@@ -811,11 +820,11 @@ function getHalloweenPets()
     return xList
 end
 
-EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {"Grave Owl"}, function(PetName)
+EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {unpack(getWinterPets())}, function(PetName)
     PetCalled = PetName
 end)
 
-EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "100", "1000"}, function(Quantity)
+EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "99"}, function(Quantity)
     QuantityN = tonumber(Quantity)
 end)
 
@@ -824,7 +833,7 @@ EventMainSection1:NewButton("Submit", "ButtonInfo", function()
         RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {["buy_count"] = QuantityN})
     --end
 end)
-]]
+
 
 ------------      Utilities Tab          ------------------
 
