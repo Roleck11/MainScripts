@@ -820,8 +820,8 @@ function getWinterPets()
     return xList
 end
 
-EventMainSection1:NewDropdown("Pet Name:", "DropdownInf", {unpack(getWinterPets())}, function(PetName)
-    PetCalled = PetName
+EventMainSection1:NewDropdown("Item Name:", "DropdownInf", {"Ice Tray", unpack(getWinterPets())}, function(ItemName)
+    ItemCalled = ItemName
 end)
 
 EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "99"}, function(Quantity)
@@ -829,10 +829,24 @@ EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "99"}
 end)
 
 EventMainSection1:NewButton("Submit", "ButtonInfo", function()
-    --for i = 1, QuantityN do
-        RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(PetCalled), {["buy_count"] = QuantityN})
-    --end
+    if ItemCalled == "Ice Tray" then
+        RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("gifts", findItemID(ItemCalled, "gifts"), {["buy_count"] = QuantityN})
+    else
+        RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(ItemCalled), {["buy_count"] = QuantityN})
+    end
 end)
+
+EventMainSection1:NewButton("Open [ALL] Ice Tray", "ButtonInfo", function()
+    for i = 1, 3 do
+        for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+            if v.id == findItemID("Ice Tray", "gifts") then
+                RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(findItemID("Ice Tray", "gifts"), i)
+                task.wait()
+            end
+        end
+    end
+end)
+
 
 
 ------------      Utilities Tab          ------------------
