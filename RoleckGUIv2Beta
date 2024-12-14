@@ -686,6 +686,14 @@ if CustomPets then
 end
 
 TradeFeatureSection:NewButton("Add [ALL] Winter Pets", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+        if v.id == findItemID("Ice Tray", "gifts") then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+end)
+
+TradeFeatureSection:NewButton("Add [ALL] Winter Pets", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
         if v.id:match("winter_2024") and CheckPetRaritywID(v.id) == "Legendary" then
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
