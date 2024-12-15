@@ -685,6 +685,14 @@ if CustomPets then
     end
 end
 
+TradeFeatureSection:NewButton("Add Mistletroll", "ButtonInfo", function()
+    for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+        if v.id == findPetID("Mistletroll") then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+end)
+
 TradeFeatureSection:NewButton("Add [ALL] Ice Trays", "ButtonInfo", function()
     for i,v in pairs(require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
         if v.id == findItemID("Ice Tray", "gifts") then
