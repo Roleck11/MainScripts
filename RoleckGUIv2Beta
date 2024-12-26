@@ -69,6 +69,8 @@ local RouterClient = require(RS.ClientModules.Core:WaitForChild("RouterClient"):
 local Main_Menu = require(RS.ClientModules.Core.UIManager.Apps.MainMenuApp)
 local Player = game:GetService("Players").LocalPlayer
 
+useTinyAgePotion = false
+
 function findPetID(petName)
     for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB).pets) do
         if type(entry) == "table" and string.lower(entry.name) == string.lower(petName) then
@@ -350,14 +352,13 @@ function IsEatingOrDrinking()
     return false
 end
 
-function FGPet(petID)
-    game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ToolAPI/Equip"):InvokeServer(petID)
-    repeat task.wait() until ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1]
+function FGPet(petID, potionType)
+    if not CheckFG(petID) then
+        game:GetService("ReplicatedStorage"):WaitForChild("API"):WaitForChild("ToolAPI/Equip"):InvokeServer(petID)
+        repeat task.wait() until ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1]
 
-    breakLoop = false
-    while not breakLoop and task.wait() do
-        for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-            if i == petID and v.properties.age < 6 then
+        while task.wait() do
+            if ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression["age"] < 6 then
                 print("Waiting till oldAge & oldPercentage is updated")
                 repeat task.wait(0.05) 
                     _G.oldAge = ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression["age"]
@@ -366,35 +367,42 @@ function FGPet(petID)
                 
                 local Foods = {}
                 for l,o in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.food) do
-                    if o.id == "pet_age_potion" then        
+                    if o.id == potionType then --"pet_age_potion" then
                         table.insert(Foods, l)
                     end
                 end
-                
-                if CheckPetEquip() and CheckPetEquipID(i) and not CheckFG(i) then
-                    petID = ClientData.get("pet_char_wrappers")[1]["pet_unique"]
 
-                    RS.API:WaitForChild("PetObjectAPI/CreatePetObject"):InvokeServer("__Enum_PetObjectCreatorType_2", {["pet_unique"] = petID, ["unique_id"] = RoT(Foods)})
-                    local st = tick()
-                    repeat task.wait() until IsEatingOrDrinking() or (tick() - st >= 10)
+                if #Foods == 0 then 
+                    if potionType == "tiny_pet_age_potion" then useTinyAgePotion = false end
+                    break 
+                end
+                
+                if CheckPetEquipID(petID) and not CheckFG(petID) then
+                    while not (workspace.PetObjects:FindFirstChild("AgePotion") or workspace.PetObjects:FindFirstChild("TinyAgePotion")) do
+                        RS.API:WaitForChild("PetObjectAPI/CreatePetObject"):InvokeServer("__Enum_PetObjectCreatorType_2", {["pet_unique"] = petID, ["unique_id"] = RoT(Foods)})
+                        task.wait(0.1)
+                    end
+                    RS.API:WaitForChild("PetAPI/ConsumeFoodObject"):FireServer(workspace.PetObjects:FindFirstChildWhichIsA("Model"), petID)
+
+                    --task.wait(0.1)
+                    local StartTick = tick()
+                    repeat task.wait() until
+                    ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.age == 6 
+                    or ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.age ~= _G.oldAge
+                    or ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.percentage ~= _G.oldPercentage or (tick() - StartTick >= 10)
                 else
                     break
                 end
-                task.wait(0.1)
-                StartTick = tick()
-                repeat task.wait() until
-               (ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.age == 6 
-                or ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.age ~= _G.oldAge
-                or ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.percentage ~= _G.oldPercentage or (tick() - StartTick >= 10))
-                and not IsEatingOrDrinking()
-                print("Completed Wait till next progression, eating status:", IsEatingOrDrinking())
-            elseif i == petID and v.properties.age == 6 then
-                breakLoop = true
+
+                print("Completed Wait till next progression")
+            else
                 break
             end
         end
+        print("Pet Successfully FG : " .. petID)
+    else
+        print("Pet Not Found or Pet is Full Grown")
     end
-    print("Pet Successfully FG : " .. petID)
 end
 
 PetsWithNames = {}
@@ -407,6 +415,10 @@ RefreshDropdown()
 
 PotionSection:NewDropdown("Type:", "DropdownInf", {"Normal", "Neon", "Both"}, function(Type)
     TypeOfPet = Type
+end)
+
+PotionSection:NewToggle("Use Tiny Age Potion", "ToggleInfo", function(stateB)
+    useTinyAgePotion = stateB
 end)
 
 PotionSection:NewButton("Submit", "ButtonInfo", function()
@@ -459,7 +471,11 @@ PotionSection:NewButton("Submit", "ButtonInfo", function()
             end
         
             local randomPet = RoT(Pets)
-            FGPet(randomPet)
+            if useTinyAgePotion then
+                FGPet(randomPet, "tiny_pet_age_potion")
+            else
+                FGPet(randomPet, "pet_age_potion")
+            end
 
             print("Pet FGed")
             task.wait(1)
