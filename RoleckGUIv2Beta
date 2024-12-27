@@ -682,6 +682,14 @@ if CustomPets then
     end
 end
 
+TradeFeatureSection:NewButton("Add [ALL] Winter Deer Bait", "ButtonInfo", function()
+    for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+        if v.id == findItemID("Winter Deer Bait", "food") then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+end)
+
 TradeFeatureSection:NewButton("Add Mistletroll", "ButtonInfo", function()
     for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
         if v.id == findPetID("Mistletroll") then
@@ -838,7 +846,7 @@ function getWinterPets()
     return xList
 end
 
-EventMainSection1:NewDropdown("Item Name:", "DropdownInf", {"Ice Tray", unpack(getWinterPets())}, function(ItemName)
+EventMainSection1:NewDropdown("Item Name:", "DropdownInf", {"Winter Deer Bait", "Ice Tray", unpack(getWinterPets())}, function(ItemName)
     ItemCalled = ItemName
 end)
 
@@ -849,6 +857,8 @@ end)
 EventMainSection1:NewButton("Submit", "ButtonInfo", function()
     if ItemCalled == "Ice Tray" then
         RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("gifts", findItemID(ItemCalled, "gifts"), {["buy_count"] = QuantityN})
+    elseif ItemCalled == "Winter Deer Bait" then
+        RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("food", findItemID(ItemCalled, "food"), {["buy_count"] = QuantityN})
     else
         RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("pets", findPetID(ItemCalled), {["buy_count"] = QuantityN})
     end
