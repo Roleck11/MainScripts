@@ -683,7 +683,7 @@ if CustomPets then
 end
 
 TradeFeatureSection:NewButton("Add [ALL] Winter Deer Bait", "ButtonInfo", function()
-    for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+    for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.food) do
         if v.id == findItemID("Winter Deer Bait", "food") then
             game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
         end
