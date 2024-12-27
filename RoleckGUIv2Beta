@@ -73,12 +73,13 @@ useTinyAgePotion = false
 
 function findPetID(petName)
     for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB).pets) do
-        if type(entry) == "table" and string.lower(entry.name) == string.lower(petName) then
+        if type(entry) == "table" and string.lower(entry.name) == string.lower(petName) and not entry.id:match("minigame") then
             return entry.id
         end
     end
     return nil
 end
+
 function findPetName(PetID)
     for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB).pets) do
         if type(entry) == "table" and string.lower(entry.id) == string.lower(PetID) then
@@ -90,7 +91,7 @@ end
 
 function findItemID(itemName, itemType)
     for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB)[itemType]) do
-        if type(entry) == "table" and string.lower(entry.name) == string.lower(itemName) then
+        if type(entry) == "table" and string.lower(entry.name) == string.lower(itemName) and not entry.id:match("minigame") then
             return entry.id
         end
     end
@@ -185,7 +186,7 @@ local dropdown
 local function RefreshDropdown()
     local Pets = {}
     for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-        if v.properties.age < 6 then        
+        if v.properties.age < 6 and not v.id:match("minigame") then
             table.insert(Pets, v.id)
         end
     end
