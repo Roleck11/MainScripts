@@ -71,6 +71,14 @@ local Player = game:GetService("Players").LocalPlayer
 
 useTinyAgePotion = false
 
+function CheckInvisiblePet(petID)
+    for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB).pets) do
+        if type(entry) == "table" and string.lower(entry.id) == string.lower(petID) then
+            return entry.temporary
+        end
+    end
+end
+
 function findPetID(petName)
     for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB).pets) do
         if type(entry) == "table" and string.lower(entry.name) == string.lower(petName) and not entry.id:match("minigame") then
@@ -682,6 +690,14 @@ if CustomPets then
         end)
     end
 end
+
+TradeFeatureSection:NewButton("Add [ALL] Bait Pets", "ButtonInfo", function()
+    for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if findPetName(v.id):match("Winter") and not CheckInvisiblePet(v.id) then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+end)
 
 TradeFeatureSection:NewButton("Add [ALL] Winter Deer Bait", "ButtonInfo", function()
     for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.food) do
