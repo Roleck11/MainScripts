@@ -557,7 +557,11 @@ SmartPotionSection:NewButton("FG Recent Trade Pets", "ButtonInfo", function()
     end
     if typeOfUser == "recipient_name" then typeOfItem = "sender_items" else typeOfItem = "recipient_items" end
     for i, v in pairs(a[#a][typeOfItem]) do
-        FGPet(v["unique_id"])
+        if useTinyAgePotion then
+            FGPet(v["unique_id"], "tiny_pet_age_potion")
+        else
+            FGPet(v["unique_id"], "pet_age_potion")
+        end
     end
     
     if _G.MakeNeonMegaSMART then
@@ -863,7 +867,7 @@ function getWinterPets()
     return xList
 end
 
-EventMainSection1:NewDropdown("Item Name:", "DropdownInf", {"Winter Deer Bait", "Ice Tray", unpack(getWinterPets())}, function(ItemName)
+EventMainSection1:NewDropdown("Item Name:", "DropdownInf", {"Winter 2024 Sticker Pack", "Winter Deer Bait", "Ice Tray", unpack(getWinterPets())}, function(ItemName)
     ItemCalled = ItemName
 end)
 
@@ -872,7 +876,7 @@ EventMainSection1:NewDropdown("Quantity:", "DropdownInf", {"1", "4", "16", "99"}
 end)
 
 EventMainSection1:NewButton("Submit", "ButtonInfo", function()
-    if ItemCalled == "Ice Tray" then
+    if ItemCalled == "Ice Tray" or ItemCalled == "Winter 2024 Sticker Pack" then
         RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("gifts", findItemID(ItemCalled, "gifts"), {["buy_count"] = QuantityN})
     elseif ItemCalled == "Winter Deer Bait" then
         RS.API:WaitForChild("ShopAPI/BuyItem"):InvokeServer("food", findItemID(ItemCalled, "food"), {["buy_count"] = QuantityN})
@@ -886,6 +890,17 @@ EventMainSection1:NewButton("Open [ALL] Ice Tray", "ButtonInfo", function()
         for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
             if v.id == findItemID("Ice Tray", "gifts") then
                 RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(findItemID("Ice Tray", "gifts"), i)
+                task.wait()
+            end
+        end
+    end
+end)
+
+EventMainSection1:NewButton("Open [ALL] Winter 2024 Sticker Pack", "ButtonInfo", function()
+    for i = 1, 3 do
+        for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+            if v.id == findItemID("Winter 2024 Sticker Pack", "gifts") then
+                RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(findItemID("Winter 2024 Sticker Pack", "gifts"), i)
                 task.wait()
             end
         end
