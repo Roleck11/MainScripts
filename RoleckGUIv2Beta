@@ -695,6 +695,14 @@ if CustomPets then
     end
 end
 
+TradeFeatureSection:NewButton("Add [ALL] Frostbite Cub", "ButtonInfo", function()
+    for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if findPetName(v.id) == "Frostbite Cub" and not CheckInvisiblePet(v.id) then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+end)
+
 TradeFeatureSection:NewButton("Add [ALL] Bait Pets", "ButtonInfo", function()
     for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
         if findPetName(v.id):match("Winter") and not CheckInvisiblePet(v.id) then
