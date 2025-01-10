@@ -406,10 +406,11 @@ function FGPet(petID, potionType)
                     print("[5]")
 
                     if success and (workspace.PetObjects:FindFirstChild("AgePotion") or workspace.PetObjects:FindFirstChild("TinyAgePotion")) then
-                        local success, responseOrError = pcall(function()
-                            return RouterClient.get("PetAPI/ConsumeFoodObject"):FireServer(workspace.PetObjects:FindFirstChildWhichIsA("Model"), petID)
-                        end)
-                        repeat task.wait() until not (workspace.PetObjects:FindFirstChild("AgePotion") or workspace.PetObjects:FindFirstChild("TinyAgePotion"))
+                        repeat task.wait() 
+                            local success, responseOrError = pcall(function()
+                                return RouterClient.get("PetAPI/ConsumeFoodObject"):FireServer(workspace.PetObjects:FindFirstChildWhichIsA("Model"), petID)
+                            end)
+                        until not (workspace.PetObjects:FindFirstChild("AgePotion") or workspace.PetObjects:FindFirstChild("TinyAgePotion"))
                     else
                         continue
                     end
