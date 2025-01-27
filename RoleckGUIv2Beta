@@ -882,7 +882,7 @@ end)
 
 ------------ Event ---------
 
-function getWinterPets()
+function getEventPets()
     xList = {}
     for i,v in pairs(game.ReplicatedStorage.SharedModules.ContentPacks:GetChildren()) do 
         if v:IsA("Folder") and v:FindFirstChild("InventorySubDB") then 
@@ -890,7 +890,7 @@ function getWinterPets()
             if Folder:FindFirstChild("Pets") then 
                 for i,v in pairs(require(Folder.Pets)) do 
                     if v.id then
-                        if v.id:match("winter_2024") and v.cost then
+                        if v.id:match("lunar_2025") and v.cost then
                             table.insert(xList, v.name)
                         end
                     end          
@@ -901,7 +901,7 @@ function getWinterPets()
     return xList
 end
 
-EventMainSection1:NewDropdown("Item Name:", "DropdownInf", {"Winter 2024 Sticker Pack", "Winter Deer Bait", "Ice Tray", unpack(getWinterPets())}, function(ItemName)
+EventMainSection1:NewDropdown("Item Name:", "DropdownInf", {unpack(getEventPets())}, function(ItemName)
     ItemCalled = ItemName
 end)
 
@@ -919,27 +919,17 @@ EventMainSection1:NewButton("Submit", "ButtonInfo", function()
     end
 end)
 
-EventMainSection1:NewButton("Open [ALL] Ice Tray", "ButtonInfo", function()
-    for i = 1, 3 do
-        for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-            if v.id == findItemID("Ice Tray", "gifts") then
-                RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(findItemID("Ice Tray", "gifts"), i)
-                task.wait()
-            end
-        end
-    end
-end)
 
-EventMainSection1:NewButton("Open [ALL] Winter 2024 Sticker Pack", "ButtonInfo", function()
-    for i = 1, 3 do
-        for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
-            if v.id == findItemID("Winter 2024 Sticker Pack", "gifts") then
-                RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(findItemID("Winter 2024 Sticker Pack", "gifts"), i)
-                task.wait()
-            end
-        end
-    end
-end)
+-- EventMainSection1:NewButton("Open [ALL] Winter 2024 Sticker Pack", "ButtonInfo", function()
+--     for i = 1, 3 do
+--         for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.gifts) do
+--             if v.id == findItemID("Winter 2024 Sticker Pack", "gifts") then
+--                 RS.API:WaitForChild("LootBoxAPI/ExchangeItemForReward"):InvokeServer(findItemID("Winter 2024 Sticker Pack", "gifts"), i)
+--                 task.wait()
+--             end
+--         end
+--     end
+-- end)
 
 
 
