@@ -712,7 +712,6 @@ if CustomPets then
             for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
                 if v.id == findPetID(o) and not v.properties.mega_neon then        
                     game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
-                    task.wait()
                     count = count + 1
                     if count >= 18 then break end
                 end
@@ -720,6 +719,29 @@ if CustomPets then
         end)
     end
 end
+
+TradeFeatureSection:NewButton("Add [ALL] Moon Pets", "ButtonInfo", function()
+    for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if v.id:match("moon_2025") and CheckPetRaritywID(v.id) == "Legendary" then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if v.id:match("moon_2025") and CheckPetRaritywID(v.id) == "Ultra Rare" then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if v.id:match("moon_2025") and CheckPetRaritywID(v.id) == "Rare" then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+    for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+        if v.id:match("moon_2025") then
+            game:GetService("ReplicatedStorage"):WaitForChild("API"):FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+        end
+    end
+end)
 
 TradeFeatureSection:NewButton("Add [ALL] Frostbite Cub", "ButtonInfo", function()
     for i,v in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
@@ -901,7 +923,7 @@ function getEventPets()
     return xList
 end
 
-EventMainSection1:NewDropdown("Item Name:", "DropdownInf", {unpack(getEventPets())}, function(ItemName)
+EventMainSection1:NewDropdown("Item Name:", "DropdownInf", {"Sweetheart Rat"}, function(ItemName) --unpack(getEventPets())
     ItemCalled = ItemName
 end)
 
