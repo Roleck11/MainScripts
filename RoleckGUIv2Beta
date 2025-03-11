@@ -278,8 +278,8 @@ function GetPetData(pet_unique)
     end
 end
 
-function GetMultiPotCount(pet_unique)
-    return PetPotionEffectsDB.pet_age_potion.multi_use_count(GetPlayerData(), GetPetData(pet_unique))
+function GetMultiPotCount(pet_unique, potion_type)
+    return PetPotionEffectsDB[potion_type].multi_use_count(GetPlayerData(), GetPetData(pet_unique))
 end
 
 function AutoNeonPets()
@@ -396,7 +396,7 @@ function FGPet(petID, potionType)
 
                 potionId = nil
                 potionTable = {}
-                potionCount = GetMultiPotCount(petID)
+                potionCount = GetMultiPotCount(petID, potionType)
                 print("Potion Required :", potionCount)
                 for l,o in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.food) do
                     if o.id == potionType then
