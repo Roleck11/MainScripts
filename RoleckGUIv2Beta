@@ -68,6 +68,7 @@ local ClientData = require(RS.ClientModules.Core.ClientData)
 local RouterClient = require(RS.ClientModules.Core:WaitForChild("RouterClient"):WaitForChild("RouterClient"))
 local Main_Menu = require(RS.ClientModules.Core.UIManager.Apps.MainMenuApp)
 local Player = game:GetService("Players").LocalPlayer
+local PetPotionEffectsDB = require(game:GetService("ReplicatedStorage").ClientDB.PetPotionEffectsDB)
 
 useTinyAgePotion = false
 
@@ -99,7 +100,7 @@ end
 
 function findItemID(itemName, itemType)
     for _, entry in pairs(require(game:GetService("ReplicatedStorage").ClientDB.Inventory.InventoryDB)[itemType]) do
-        if type(entry) == "table" and string.lower(entry.name) == string.lower(itemName) and not entry.id:match("minigame") then
+        if type(entry) == "table" and string.lower(entry.name) == string.lower(itemName) then
             return entry.id
         end
     end
@@ -259,6 +260,28 @@ function CheckFG(PetID)
     end
 end
 
+function GetPlayerData()
+    for i,v in pairs(getgc(true)) do
+        if typeof(v) == "table" then
+            if rawget(v, "pet_id") and rawget(v, "player") == game:GetService("Players").LocalPlayer then
+                return v
+            end
+        end
+    end
+end
+
+function GetPetData(pet_unique)
+    for i, v in pairs(ClientData.get("inventory")["pets"]) do
+        if i == pet_unique then
+            return v
+        end
+    end
+end
+
+function GetMultiPotCount(pet_unique)
+    return PetPotionEffectsDB.pet_age_potion.multi_use_count(GetPlayerData(), GetPetData(pet_unique))
+end
+
 function AutoNeonPets()
     while true and wait() do
         local petNames = {}    
@@ -349,17 +372,17 @@ function AutoMegaPets()
     end
 end
 
-function IsEatingOrDrinking()
-    a = require(game:GetService("ReplicatedStorage").ClientModules.Game.PetEntities.PetEntityManager)
-    a = a.get_local_owned_pet_entities()[1]["active_reactions"]
+-- function IsEatingOrDrinking()
+--     a = require(game:GetService("ReplicatedStorage").ClientModules.Game.PetEntities.PetEntityManager)
+--     a = a.get_local_owned_pet_entities()[1]["active_reactions"]
 
-    if a.EatReaction then
-        -- a.EatReaction.is_potion
-        -- .is_drink
-        return true
-    end
-    return false
-end
+--     if a.EatReaction then
+--         -- a.EatReaction.is_potion
+--         -- .is_drink
+--         return true
+--     end
+--     return false
+-- end
 
 function FGPet(petID, potionType)
     if not CheckFG(petID) then
@@ -370,19 +393,21 @@ function FGPet(petID, potionType)
             print("[1]")
             if ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression["age"] < 6 then
                 print("[2]")
-                --[[
-                print("Waiting till oldAge & oldPercentage is updated")
-                repeat task.wait(0.05) 
-                    _G.oldAge = ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression["age"]
-                    _G.oldPercentage = ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression["percentage"]
-                until _G.oldAge == ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression["age"] and _G.oldPercentage == ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression["percentage"]
-                ]]
 
                 potionId = nil
+                potionTable = {}
+                potionCount = GetMultiPotCount(petID)
+                print("Potion Required :", potionCount)
                 for l,o in pairs(ClientData.get_data()[game.Players.LocalPlayer.Name].inventory.food) do
                     if o.id == potionType then
-                        potionId = l
-                        break
+                        if not potionId then
+                            potionId = l
+                            print("Main Potion", l)
+                        else
+                            if #potionTable + 1 == potionCount then break end
+                            table.insert(potionTable, l)
+                            print("Inserted:", l)
+                        end
                     end
                 end
                 print("[3]")
@@ -392,14 +417,16 @@ function FGPet(petID, potionType)
                     break 
                 end
                 
-                if CheckPetEquipID(petID) then --and not CheckFG(petID) then
+                if CheckPetEquipID(petID) then
                     print("[4]")
+                    task.wait(1)
                     local success, responseOrError = pcall(function()
                         return RouterClient.get("PetObjectAPI/CreatePetObject"):InvokeServer(
                             "__Enum_PetObjectCreatorType_2",
                             {
                                 ["pet_unique"] = petID,
-                                ["unique_id"] = potionId
+                                ["unique_id"] = potionId,
+                                ["additional_consume_uniques"] = potionTable,
                             }
                         )
                     end)
@@ -416,18 +443,10 @@ function FGPet(petID, potionType)
                     end
                     print("[6]")
 
-                    --[[
-                    local StartTick = tick()
-                    repeat task.wait() until
-                    ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.age == 6 
-                    or ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.age ~= _G.oldAge
-                    or ClientData.get_data()[game.Players.LocalPlayer.Name].pet_char_wrappers[1].pet_progression.percentage ~= _G.oldPercentage or (tick() - StartTick >= 5)
-                    ]]
                 else
                     break
                 end
 
-                --print("Completed Wait till next progression")
                 print("Applied a potion..")
 
             else
@@ -441,7 +460,6 @@ function FGPet(petID, potionType)
 end
 
 PetsWithNames = {}
-
 dropdown = PotionSection:NewDropdown("Select Pet:", "DropdownInf", PetsWithNames, function(PetName)
     A = PetName:match("(.-)%s-%-%s-[^%-]+$")
     PetNameA = findPetID(A)
